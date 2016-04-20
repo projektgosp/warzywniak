@@ -1,0 +1,90 @@
+﻿@model projekt_gosp.Models.Produkt
+
+@{
+    ViewBag.Title = "edit";
+}
+
+
+@using (Html.BeginForm("editItem", "adminpanel", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Edit item</legend>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nazwa)
+            @Html.TextBoxFor(model => model.Nazwa, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Nazwa)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Opis)
+            @Html.TextAreaFor(model => model.Opis, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Opis)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cena)
+            @Html.TextBoxFor(model => model.Cena, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Cena)
+        </div>
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.ID_RodzajuCeny, new SelectList(@ViewBag.priceTypes, "id", "opis"), "-- Wybierz typ ceny --")
+            @Html.ValidationMessageFor(model => model.ID_RodzajuCeny)
+        </div>
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.ID_kategorii, new SelectList(@ViewBag.categories, "ID_kategorii", "NameToDisplay"), "-- Wybierz kategorie produktu --")
+            @Html.ValidationMessageFor(model => model.ID_kategorii)
+        </div>
+
+        @if (@Model.attachedImage == true)
+        {
+            <img src="@Model.thumbPath" id="itemPhoto">
+            <div class="checkbox" onchange="disableAddPhotoButton()">
+                @Html.CheckBox("removeFile") Remove
+            </div>
+        }
+
+        <div class="form-group">
+            <label>Add some extra image (optional)</label>
+            <button class="btn btn-default" type="button" id="itemAddFile">Add file</button>
+
+            <!--
+                <div class="row fileUpload fileUploadFix">
+                    <input type="file" name="file"/>
+                    imgthumb + name + removebutton
+                </div>
+            -->
+        </div>
+
+        <div class="form-group">
+            <input class="btn btn-default" id="editSave" type="submit" value="save changes">
+            <a class="btn btn-default" href="/adminpanel/">Cancel</a>
+        </div>
+
+    </fieldset>
+}
+
+<!-- sorry for that section -->
+<script src="/Scripts/uploader.js"></script>
+<link href="/Content/styles.css" rel="stylesheet">
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<!-- end of sorry for that section -->
+
+<script>
+
+    $(document).ready(function () {
+
+        var uploader = new fileUpload();
+
+        $("#itemAddFile").on('click', function () {
+            var fileDiv = $(this).parent();
+            $(fileDiv).find(".fileUpload").empty();
+            uploader.createFileInput(fileDiv);
+        });
+
+    });
+</script>

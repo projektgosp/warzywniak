@@ -1,0 +1,6 @@
+﻿@model List<projekt_gosp.Models.Kategoria>
+
+@foreach (var cat in @Model)
+{
+    <a href="/items/category/@cat.NameToLink" class="list-group-item">@cat.NameToDisplay</a>
+}

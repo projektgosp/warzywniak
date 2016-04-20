@@ -1,0 +1,27 @@
+﻿/* file upload section */
+
+.fileUploadFix {
+    margin: 5px 15px;
+}
+
+.fileUpload > input[type='file'] {
+    display: none;
+}
+
+.uploadThumbnail {
+    width: auto;
+    height: auto;
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+}
+
+.icon:hover {
+    background: yellow;
+}
+
+/* end of file upload section */

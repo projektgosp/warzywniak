@@ -1,0 +1,78 @@
+﻿@model projekt_gosp.Models.Produkt
+
+
+@using (Html.BeginForm("addItem", "adminpanel", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Add item</legend>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nazwa)
+            @Html.TextBoxFor(model => model.Nazwa, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Nazwa)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Opis)
+            @Html.TextAreaFor(model => model.Opis, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Opis)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cena)
+            @Html.TextBoxFor(model => model.Cena, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Cena)
+        </div>
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.ID_RodzajuCeny, new SelectList(@ViewBag.priceTypes, "id", "opis"), "-- Wybierz typ ceny --")
+            @Html.ValidationMessageFor(model => model.ID_RodzajuCeny)
+        </div>
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.ID_kategorii, new SelectList(@ViewBag.categories, "ID_kategorii", "NameToDisplay"), "-- Wybierz kategorie produktu --")
+            @Html.ValidationMessageFor(model => model.ID_kategorii)
+        </div>
+
+
+        <div class="form-group">
+            <label>Add some extra images (optional)</label>
+            <button class="btn btn-default" type="button" id="itemAddFile">Add file</button>
+
+            <!--
+                <div class="row fileUpload fileUploadFix">
+                    <input type="file" name="file"/>
+                    imgthumb + name + removebutton
+                </div>
+            -->
+        </div>
+
+        <div class="form-group">
+            <input class="btn btn-default" id="addItem" type="submit" value="Add new item">
+            <a class="btn btn-default" href="/adminpanel/">Cancel</a>
+        </div>
+
+    </fieldset>
+}
+
+<!-- sorry for that section -->
+<script src="/Scripts/uploader.js"></script>
+<link href="/Content/styles.css" rel="stylesheet">
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<!-- end of sorry for that section -->
+
+<script>
+
+    $(document).ready(function () {
+
+        var uploader = new fileUpload();
+
+        $("#itemAddFile").on('click', function () {
+            var fileDiv = $(this).parent();
+            $(fileDiv).find(".fileUpload").empty();
+            uploader.createFileInput(fileDiv);
+        });
+
+    });
+</script>

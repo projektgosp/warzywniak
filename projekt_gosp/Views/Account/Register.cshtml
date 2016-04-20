@@ -1,0 +1,46 @@
+﻿@model projekt_gosp.Models.additionalModels.registerModel
+
+<div class="col-sm-6">
+    <form id="registerForm" method="post" action="/account/register/">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="username">Login:</label>
+            @Html.TextBoxFor(model => model.username, new { @class = "form-control input-lg", @placeholder = "nazwa użytkownika" })
+            @Html.ValidationMessageFor(model => model.username)
+        </div>
+
+        <div class="form-group">
+            <label for="email">Adres e-mail:</label>
+            @Html.TextBoxFor(model => model.email, new { @class = "form-control input-lg", @placeholder = "e-mail" })
+            @Html.ValidationMessageFor(model => model.email)
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <label for="password">Hasło:</label>
+                    @Html.PasswordFor(model => model.password, new { @class = "form-control input-lg", @placeholder = "hasło" })
+                    @Html.ValidationMessageFor(model => model.password)
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <label for="confrimpassword">Powtórz hasło:</label>
+                    @Html.PasswordFor(model => model.confirmPassword, new { @class = "form-control input-lg", @placeholder = "powtórz hasło" })
+                    @Html.ValidationMessageFor(model => model.confirmPassword)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <button id="registerBtn" type="submit" class="btn btn-warning">Stwórz konto</button>
+                    <a href="/account/login/" class="btn btn-warning ">Wróć do logowania</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <h2>@Html.Raw(ViewBag.error)</h2>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")

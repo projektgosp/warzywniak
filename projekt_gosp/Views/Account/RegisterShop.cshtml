@@ -1,0 +1,121 @@
+﻿<!-- this view is supposed to be in /admin folder -->
+@model projekt_gosp.Models.additionalModels.registerShopModel
+
+<div class="panel panel-default boxShadow">
+    <div class="panel-heading">
+        <b>Rejestracja sklepu</b>
+    </div>
+        <div class="panel-body">
+            <div class="panel-heading">
+                <h3><b>Dane sklepu:</b></h3>
+            </div>
+                                 <div class="col-md-12">
+                                     <form id="registerForm" method="post" action="/account/registerShop/">
+                                         @Html.AntiForgeryToken()
+                                         <div class="form-group">
+                                             <label for="username">Login:</label>
+                                             @Html.TextBoxFor(model => model.username, new { @class = "form-control input-lg", @placeholder = "nazwa konta" })
+                                             @Html.ValidationMessageFor(model => model.username)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="name">Imię:</label>
+                                             @Html.TextBoxFor(model => model.name, new { @class = "form-control input-lg", @placeholder = "imię" })
+                                             @Html.ValidationMessageFor(model => model.name)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="surname">Nazwisko:</label>
+                                             @Html.TextBoxFor(model => model.surname, new { @class = "form-control input-lg", @placeholder = "nazwisko" })
+                                             @Html.ValidationMessageFor(model => model.surname)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="email">Adres e-mail:</label>
+                                             @Html.TextBoxFor(model => model.email, new { @class = "form-control input-lg", @placeholder = "e-mail sklepu" })
+                                             @Html.ValidationMessageFor(model => model.email)
+                                         </div>
+
+                                         <div class="row">
+                                             <div class="col-xs-12 col-sm-6 col-md-6">
+                                                 <div class="form-group">
+                                                     <label for="password">Hasło:</label>
+                                                     @Html.PasswordFor(model => model.password, new { @class = "form-control input-lg", @placeholder = "hasło" })
+                                                     @Html.ValidationMessageFor(model => model.password)
+                                                 </div>
+                                             </div>
+                                             <div class="col-xs-12 col-sm-6 col-md-6">
+                                                 <div class="form-group">
+                                                     <label for="confirmpassword">Powtórz hasło:</label>
+                                                     @Html.PasswordFor(model => model.confirmPassword, new { @class = "form-control input-lg", @placeholder = "powtórz hasło" })
+                                                     @Html.ValidationMessageFor(model => model.confirmPassword)
+                                                 </div>
+                                             </div>
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="privatephonenumber">Telefon prywatny:</label>
+                                             @Html.TextBoxFor(model => model.privatePhoneNumber, new { @class = "form-control input-lg", @placeholder = "nr telefonu - prywatny" })
+                                             @Html.ValidationMessageFor(model => model.privatePhoneNumber)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="shopphonenumber">Telefon firmowy:</label>
+                                             @Html.TextBoxFor(model => model.shopPhoneNumber, new { @class = "form-control input-lg", @placeholder = "nr telefonu - sklep" })
+                                             @Html.ValidationMessageFor(model => model.shopPhoneNumber)
+                                         </div>
+                                  
+                                         
+                                         <div class="panel-heading">
+                                             <h3><b>Adres sklepu:</b></h3>
+                                         </div>
+                                       
+
+                                         <div class="form-group">
+                                             <label for="city">Miasto:</label>
+                                             @Html.TextBoxFor(model => model.city, new { @class = "form-control input-lg", @placeholder = "miasto" })
+                                             @Html.ValidationMessageFor(model => model.city)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="street">Ulica:</label>
+                                             @Html.TextBoxFor(model => model.street, new { @class = "form-control input-lg", @placeholder = "ulica" })
+                                             @Html.ValidationMessageFor(model => model.street)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="streetnumber">Numer budynku:</label>
+                                             @Html.TextBoxFor(model => model.streetNumber, new { @class = "form-control input-lg", @placeholder = "nr budynku" })
+                                             @Html.ValidationMessageFor(model => model.streetNumber)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="flatnumber">Numer lokalu:</label>
+                                             @Html.TextBoxFor(model => model.flatNumber, new { @class = "form-control input-lg", @placeholder = "nr lokalu" })
+                                             @Html.ValidationMessageFor(model => model.flatNumber)
+                                         </div>
+
+                                         <div class="form-group">
+                                             <label for="postalcode">Kod pocztowy:</label>
+                                             @Html.TextBoxFor(model => model.postalCode, new { @class = "form-control input-lg", @placeholder = "kod pocztowy" })
+                                             @Html.ValidationMessageFor(model => model.postalCode)
+                                         </div>
+
+                                         <div class="row">
+                                             <div class="col-xs-12 col-sm-12 col-md-12">
+                                                 <div class="form-group">
+                                                     <button id="registerBtn" type="submit" class="btn btn-danger">Utwórz konto sklepu</button>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </form>
+                                     <h2>@Html.Raw(ViewBag.error)</h2>
+                                 </div>
+                             </div>
+                             </div>
+                    
+                         </div>
+                     </div>
+                 </div>
+    </div>
+        @Scripts.Render("~/bundles/jqueryval")

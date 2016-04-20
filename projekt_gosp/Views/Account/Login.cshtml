@@ -1,0 +1,29 @@
+﻿@model projekt_gosp.Models.additionalModels.loginModel
+
+<div class="col-sm-6">
+    <form action="/account/login/" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+
+        <div class="form-group">
+            <label for="username">Login:</label>
+            @Html.TextBoxFor(model => model.username, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.username)
+        </div>
+
+        <div class="form-group">
+            <label for="password">Hasło:</label>
+            @Html.PasswordFor(model => model.password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.password)
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-warning ">Zaloguj</button>
+            <a href="/account/register/" class="btn btn-warning ">Zarejestruj</a>
+            <a href="/account/forgotpassword/"> Zapomniałeś hasła?</a>
+        </div>
+    </form>
+    <h2>@Html.Raw(@ViewBag.error)</h2>
+</div>
+
+@Scripts.Render("~/bundles/jqueryval")
