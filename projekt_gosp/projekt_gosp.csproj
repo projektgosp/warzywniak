@@ -198,7 +198,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminPanelController.cs" />
     <Compile Include="Controllers\CartController.cs" />
-    <Compile Include="Controllers\gittestController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
