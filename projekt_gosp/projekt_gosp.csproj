@@ -211,6 +211,10 @@
     <Compile Include="Helpers\extensionMethods.cs" />
     <Compile Include="Helpers\fileHelper.cs" />
     <Compile Include="Helpers\pagination.cs" />
+    <Compile Include="Migrations\201604270728495_newdb.cs" />
+    <Compile Include="Migrations\201604270728495_newdb.Designer.cs">
+      <DependentUpon>201604270728495_newdb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\additionalModels.cs" />
     <Compile Include="Models\db.cs" />
@@ -408,6 +412,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604270728495_newdb.resx">
+      <DependentUpon>201604270728495_newdb.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

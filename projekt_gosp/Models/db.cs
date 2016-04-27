@@ -25,6 +25,7 @@ namespace projekt_gosp.Models
         public DbSet<Promocja> Promocje { get; set; }
         public DbSet<Sklep> Sklepy { get; set; }
         public DbSet<Zamowienie> Zamowienia { get; set; }
+        public DbSet<Towar> Towary { get; set; }
     }
 
     public class Cartdb : DbContext
@@ -76,6 +77,9 @@ namespace projekt_gosp.Models
 
         //new
         public string accountName { get; set; }
+
+        //new v.2
+        public int Punkty { get; set; }
 
         public Nullable<int> ID_adresu { get; set; }
 
@@ -147,6 +151,30 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
         public virtual ICollection<Promocja> Promocje { get; set; }
+        public virtual ICollection<Towar> Towary { get; set; }
+    }
+
+    //new v.2
+    [Table("Towary")]
+    public class Towar
+    {
+        [Key]
+        public int ID_Towaru { get; set; }
+        [Required]
+        public int ID_produktu { get; set; }
+        [Required]
+        public int ID_sklepu { get; set; }
+        [Required]
+        public DateTime Data_waznosci { get; set; }
+        [Required]
+        public int Ilosc { get; set; }
+
+        [ForeignKey("ID_produktu")]
+        public virtual Produkt Produkt { get; set; }
+
+        [ForeignKey("ID_sklepu")]
+        public virtual Sklep Sklep { get; set; }
+
     }
 
     //new
@@ -198,6 +226,7 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Promocja> Promocje { get; set; }
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
+        public virtual ICollection<Towar> Towary { get; set; }
     }
 
     [Table("Zamowienia")]
