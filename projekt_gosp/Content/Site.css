@@ -87,3 +87,7 @@ input[type="checkbox"].input-validation-error {
     color:                  #444;
     overflow:               auto;
 }
+
+.whiteText {
+    color: white;
+}

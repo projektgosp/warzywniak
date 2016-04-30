@@ -1,17 +1,5 @@
 ﻿@model List<projekt_gosp.Models.Towar>
 
-<div class="row">
-    <div class="row btn-group">
-        <button class="btn btn-success" onclick="addItem()">Dodaj nowy produkt do sklepu</button>
-        <button class="btn btn-success" onclick="settings()">Ustawienia sklepu</button>
-    </div>
-</div>
-
-<div class="row">
-    <span class="lead">Produkty:</span>
-    <hr>
-</div>
-
 @if (@Model != null && @Model.Count > 0)
 {
     foreach (var item in Model)
@@ -50,7 +38,7 @@
         <ul class="pagination">
             @for (int i = ViewBag.startPage; i <= ViewBag.endPage; i++)
             {
-                <li @{if (i == ViewBag.activePage) { <text> class="active" </text>    }}><a href="/sellerpanel/page/@i">@i</a></li>
+                <li @{if (i == ViewBag.activePage) { <text> class="active" </text>   }}><a href="/sellerpanel/shopproducts/@i">@i</a></li>
             }
         </ul>
     </div>
@@ -63,21 +51,12 @@ else
 
 <script>
 
-    function settings() {
-        window.location = '/sellerpanel/settings';
-    }
-
-    function addItem() {
-        window.location = '/sellerpanel/addItemToShop';
-    }
-
     function editItem(id) {
         window.location = '/sellerpanel/editItem/' + id;
     }
 
-    function removeItem(id) {
-        window.location = '/sellerpanel/removeItem/' + id;
+    function removeItem() {
+        window.location = '/sellerpanel/removeItem';
     }
-
 
 </script>

@@ -90,6 +90,7 @@ namespace projekt_gosp.Models
             public string street { get; set; }
             public string streetNumber { get; set; }
             public Nullable<int> flatNumber { get; set; }
+            public Boolean isSelected { get; set; }
         }
 
         public class CartModel

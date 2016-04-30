@@ -1,26 +1,26 @@
-﻿@model projekt_gosp.Models.Towar
+﻿@model projekt_gosp.Models.Produkt
 
 @{
     ViewBag.Title = "Szczegóły";
 
-    if (Model.Produkt.attachedImage == false)
+    if (Model.attachedImage == false)
     {
-        Model.Produkt.thumbPath = "/Media/no-image.jpg";
-        Model.Produkt.fullSizePath = "/Media/no-image.jpg";
+        Model.thumbPath = "/Media/no-image.jpg";
+        Model.fullSizePath = "/Media/no-image.jpg";
     }
 }
 
-<center><div><h2>@Model.Produkt.Nazwa</h2></div></center>
+<center><div><h2>@Model.Nazwa</h2></div></center>
 <a href="#" id="pop">
     <center>
-        <img id="imageresource" src="@Model.Produkt.thumbPath" style="width: 250px; height: 164px;">
+        <img id="imageresource" src="@Model.thumbPath" style="width: 250px; height: 164px;">
     </center>
 </a>
 
 <div>
     <h4>Szczegóły</h4>
-    <h6>@Model.Produkt.Opis</h6>
-    <b>@Model.Cena zł/@Model.Produkt.RodzajCeny.opis</b>
+    <h6>@Model.Opis</h6>
+    <b>@Model.Cena zł/@Model.RodzajCeny.opis</b>
 
     <!-- Creates the bootstrap modal where the image will appear -->
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -28,11 +28,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="@Model.Produkt.Nazwa">@Model.Produkt.Nazwa</h4>
+                    <h4 class="modal-title" id="@Model.Nazwa">@Model.Nazwa</h4>
                 </div>
                 <div class="modal-body">
                     <center>
-                        <img src="@Model.Produkt.fullSizePath" id="imagepreview" style="width: 400px; height: 264px;">
+                        <img src="@Model.fullSizePath" id="imagepreview" style="width: 400px; height: 264px;">
                     </center>
                 </div>
                 <div class="modal-footer">
@@ -42,20 +42,6 @@
         </div>
     </div>
 
-    <br /><br />
-    <p>
-
-        <center>
-            <div>
-                <label>Wprowadź ilość: <input type="text" name="ilosc" maxlength="5" /></label>
-
-
-                <button type="button" class="btn btn-success">Dodaj do koszyka</button>
-                <button type="button" class="btn btn-danger">Zamknij</button>
-            </div>
-        </center>
-
-    </p>
 </div>
 <script>
     $("#pop").on("click", function () {

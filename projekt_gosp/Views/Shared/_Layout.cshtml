@@ -24,8 +24,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- jQuery -->
     <script src="/Scripts/jquery.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="/Scripts/bootstrap.min.js"></script>
     <!-- side shopping cart - free library -->
@@ -66,6 +68,9 @@
                         <input type="text" name="pattern" class="form-control">
                         <input type="submit" value="Szukaj">
                     </form>
+                </div>
+
+                <div class="navbar-left btn-group" id="selectedShop">
                 </div>
 
                     @if (Request.IsAuthenticated)
@@ -152,8 +157,7 @@
     <script src="/LightBox/js/lightbox.js"></script>
 
     <script>
-        $(document).ready(function () {
-
+    $(document).ready(function () {
             $.ajax({
                 type: "POST",
                 url: "/shop/categories/",
@@ -164,11 +168,21 @@
                 }
             });
 
+            $.ajax({
+                type: "POST",
+                url: "/shop/getSelectedShop/",
+                error: function () {
+                },
+                success: function (data) {
+                    $("#selectedShop").append(data);
+                }
+            });
+
+
             $('#searchBtn').on('click', function (e) {
                 var link = $(this).attr('href');
                 $(this).attr('href', link + '?pattern=' + $('#searchInput').val());
             })
-
 
         });
 

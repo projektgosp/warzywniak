@@ -78,6 +78,9 @@ namespace projekt_gosp.Models
         //new
         public string accountName { get; set; }
 
+        //new v.3
+        public int selectedShopId { get; set; }
+
         //new v.2
         public int Punkty { get; set; }
 
@@ -168,6 +171,8 @@ namespace projekt_gosp.Models
         public DateTime Data_waznosci { get; set; }
         [Required]
         public int Ilosc { get; set; }
+        [Required]
+        public double Cena { get; set; }
 
         [ForeignKey("ID_produktu")]
         public virtual Produkt Produkt { get; set; }

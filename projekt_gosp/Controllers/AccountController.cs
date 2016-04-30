@@ -157,13 +157,17 @@ namespace shop_online.Controllers
 
                         context.Adresy.Add(address);
 
-                        context.Sklepy.Add(new Sklep
+                        Sklep newShop = new Sklep
                         {
                             Email = shop.email,
                             Nr_tel = shop.shopPhoneNumber,
                             ownerID = userID,
                             Adres = address
-                        });
+                        };
+
+                        context.Sklepy.Add(newShop);
+
+                        context.SaveChanges();
 
                         Uzytkownik createdUser = (from p in context.Uzytkownicy
                                                   where p.ID_klienta == userID
@@ -171,6 +175,8 @@ namespace shop_online.Controllers
 
                         createdUser.Adres = address;
 
+                        createdUser.selectedShopId = newShop.ID_sklepu;
+ 
                         context.SaveChanges();
 
                         ViewBag.error = "Konto sklepu zostało pomyślnie utworzone";

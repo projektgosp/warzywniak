@@ -210,10 +210,19 @@
     </Compile>
     <Compile Include="Helpers\extensionMethods.cs" />
     <Compile Include="Helpers\fileHelper.cs" />
+    <Compile Include="Helpers\GlobalMethods.cs" />
     <Compile Include="Helpers\pagination.cs" />
     <Compile Include="Migrations\201604270728495_newdb.cs" />
     <Compile Include="Migrations\201604270728495_newdb.Designer.cs">
       <DependentUpon>201604270728495_newdb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604301407096_3232232.cs" />
+    <Compile Include="Migrations\201604301407096_3232232.Designer.cs">
+      <DependentUpon>201604301407096_3232232.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604301936093_12312213123.cs" />
+    <Compile Include="Migrations\201604301936093_12312213123.Designer.cs">
+      <DependentUpon>201604301936093_12312213123.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\additionalModels.cs" />
@@ -390,7 +399,7 @@
     <Content Include="Views\SellerPanel\index.cshtml" />
     <Content Include="Views\AdminPanel\index.cshtml" />
     <Content Include="Views\Shop\selectShop.cshtml" />
-    <Content Include="Views\Items\Id.cshtml" />
+    <Content Include="Views\Items\globalid.cshtml" />
     <Content Include="Views\Items\SearchItem.cshtml" />
     <Content Include="Views\AdminPanel\addCategory.cshtml" />
     <Content Include="Views\Shop\Categories.cshtml" />
@@ -405,6 +414,15 @@
     <Content Include="side-shopping-cart\readme.pdf" />
     <Content Include="side-shopping-cart\scss\style.scss" />
     <Content Include="Views\ShoppingCart\_cartItem.cshtml" />
+    <Content Include="Views\SellerPanel\globalProductList.cshtml" />
+    <Content Include="Views\SellerPanel\addItem.cshtml" />
+    <Content Include="Views\SellerPanel\shopproducts.cshtml" />
+    <Content Include="Views\SellerPanel\settings.cshtml" />
+    <Content Include="Views\SellerPanel\editItem.cshtml" />
+    <Content Include="Views\Items\id.cshtml" />
+    <Content Include="Views\Items\globalitemsList.cshtml" />
+    <Content Include="Views\Items\globalsearchitem.cshtml" />
+    <Content Include="Views\Shop\getSelectedShop.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -416,6 +434,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604270728495_newdb.resx">
       <DependentUpon>201604270728495_newdb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604301407096_3232232.resx">
+      <DependentUpon>201604301407096_3232232.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604301936093_12312213123.resx">
+      <DependentUpon>201604301936093_12312213123.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

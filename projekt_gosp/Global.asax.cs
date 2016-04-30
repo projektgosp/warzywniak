@@ -33,6 +33,9 @@ namespace projekt_gosp
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
+            //zeby session id sie nie zmienialo az do momentu zamkniecia przegladarki
+            //HttpContext.Current.Session.Add("__MyAppSession", string.Empty);
+
             LazyInitializer.EnsureInitialized(ref _initializer, ref _isInitialized, ref _initializerLock);
         }
 

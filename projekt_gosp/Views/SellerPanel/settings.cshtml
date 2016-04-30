@@ -1,0 +1,305 @@
+﻿<div class="panel panel-default boxShadow">
+    <div class="panel-heading">
+        <b>Ustawienia sklepu</b>
+    </div>
+    <div class="panel-body">
+        <div class="panel-group" id="accordion">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="">Zmień dane kontaktowe</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" style="height: auto;">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="changePhoneForm" action="/sellerpanel/changephonenumbers" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        <label for="currentphone1">Telefon prywatny:</label>
+                                        <input class="form-control" id="privatePhoneNumber" name="privatePhoneNumber" value="@ViewBag.privatePhoneNumber" placeholder="nr telefonu - prywatny">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="currentphone2">Telefon firmowy:</label>
+                                        <input class="form-control" id="shopPhoneNumber" name="shopPhoneNumber" value="@ViewBag.shopPhoneNumber" placeholder="nr telefonu - sklepu">
+                                    </div>
+
+                                    <div class="form-group bottom0">
+                                        <input class="btn btn-success" id="changePhoneBtn" type="submit" value="Zapisz zmiany">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="">Zmień hasło</a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in" style="height: auto;">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form id="changePasswordForm" action="/userpanel/changepassword" method="post">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-group">
+                                        <label for="currentpw">Aktualne hasło:</label>
+                                        <input type="password" class="form-control passwordSettings" id="currentpw" name="currentpw" placeholder="wprowadź aktualne hasło">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="newpw">Nowe hasło:</label>
+                                        <input type="password" class="form-control passwordSettings" id="newpw" name="newpw" placeholder="wprowadź nowe hasło">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="newpwagain">Powtórz nowe hasło:</label>
+                                        <input type="password" class="form-control passwordSettings" id="newpwagain" name="newpwagain" placeholder="wprowadź nowe hasło ponownie">
+                                    </div>
+
+                                    <div class="form-group bottom0">
+                                        <input class="btn btn-success" id="changePasswordBtn" type="submit" value="Zapisz zmiany">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" class="collapsed">Zmień adres e-mail</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" style="height: 0px;">
+                    <div class="panel-body">
+                        <form id="changeEmailForm" action="/sellerpanel/changeemail" method="post">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <label for="currentemail">Aktualny adres e-mail:</label>
+                                <input type="email" class="form-control passwordSettings" id="currentemail" name="currentemail" value="@ViewBag.email" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newemail">Nowy adres e-mail:</label>
+                                <input type="email" class="form-control passwordSettings" id="newemail" name="newemail" placeholder="wprowadź nowy adres e-mail">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newemailagain">Powtórz nowy adres e-mail:</label>
+                                <input type="email" class="form-control passwordSettings" id="newemailagain" name="newemailagain" placeholder="ponownie wprowadź nowy adres e-mail">
+                            </div>
+
+                            <div class="form-group bottom0">
+                                <input class="btn btn-success" id="changeEmailBtn" type="submit" value="Zapisz zmiany">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" class="collapsed">Zmień adres sklepu</a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" style="height: 0px;">
+
+                    <div class="panel-body">
+                        <form id="changeAddressForm" action="/userpanel/changeaddress" method="post">
+                            @Html.AntiForgeryToken()
+
+                            <!-- no tutej dodejmy ulice xD -->
+                            <div class="form-group">
+                                <label for="currentstreet">Ulica</label>
+                                <input class="form-control" id="street" name="Ulica" value="@ViewBag.address.Ulica" placeholder="ulica">
+                            </div>
+
+                            <!-- a tutej nr domu xD -->
+                            <div class="form-group">
+                                <label for="currentnumber">Nr domu</label>
+                                <input class="form-control" id="streetnumber" name="Nr_budynku" value="@ViewBag.address.Nr_budynku" placeholder="numer domu">
+                            </div>
+
+                            <!-- a tutej nr lokalu xD -->
+                            <div class="form-group">
+                                <label for="currentflatnumber">Nr lokalu</label>
+                                <input class="form-control" id="flatnumber" name="Nr_lokalu" value="@ViewBag.address.Nr_lokalu" placeholder="numer domu">
+                                <p class="help-block">pole opcjonalne</p>
+                            </div>
+
+                            <!-- tutej miejscowość xD -->
+                            <div class="form-group">
+                                <label for="currentcity">Miejscowość</label>
+                                <input class="form-control" id="city" name="Miasto" value="@ViewBag.address.Miasto" placeholder="miejscowość">
+                            </div>
+
+                            <!-- oo a tutej kod ^^ -->
+                            <div class="form-group">
+                                <label for="currentpostalcode">Kod pocztowy</label>
+                                <input class="form-control" id="postalcode" name="Kod_pocztowy" value="@ViewBag.address.Kod_pocztowy" placeholder="kod pocztowy">
+                            </div>
+                            <div class="form-group bottom0">
+                                <input class="btn btn-success" id="changeAddressBtn" type="submit" value="Zapisz zmiany">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    //change it to global validator functions
+
+    $(document).ready(function () {
+        var settings = new Settings();
+        $('#changePasswordBtn').on('click', settings.validatePassword);
+        $('#changeEmailBtn').on('click', settings.validateEmail);
+
+
+        $('#changePasswordForm').on('submit', function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            settings.ajaxCall($(this).attr('method'), $(this).attr('action'), data, passwordChangeCallback);
+        })
+
+
+        $('#changeEmailForm').on('submit', function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            settings.ajaxCall($(this).attr('method'), $(this).attr('action'), data, emailChangeCallback);
+        })
+
+        $('#changeAddressForm').on('submit', function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            settings.ajaxCall($(this).attr('method'), $(this).attr('action'), data, addressChangeCallback);
+        })
+
+        $('#changePhoneForm').on('submit', function (e) {
+            e.preventDefault();
+            var data = new FormData(this);
+            settings.ajaxCall($(this).attr('method'), $(this).attr('action'), data, phoneChangeCallback);
+        })
+    });
+
+    function passwordChangeCallback(data) {
+        if (data["success"] == "1") {
+            $("#currentpw").val("");
+            $("#newpw").val("");
+            $("#newpwagain").val("");
+            alert("password has been changed");
+        } else {
+            alert(data["error"]);
+        }
+    }
+
+    function emailChangeCallback(data) {
+        if (data["success"] == "1") {
+            $("#currentemail").val(data["content"]);
+            $("#newemail").val("");
+            $("#newemailagain").val("");
+            alert("email has been changed");
+        } else {
+            alert(data["error"]);
+        }
+    }
+
+    function addressChangeCallback(data) {
+        if (data["success"] == "1") {
+            alert("address has been changed");
+        } else {
+            alert(data["error"]);
+        }
+    }
+
+    function phoneChangeCallback(data) {
+        if (data["success"] == "1") {
+            alert("phone number has been changed");
+        } else {
+            alert(data["error"]);
+        }
+    }
+
+    function Settings() {
+
+    }
+
+    Settings.prototype.ajaxCall = function (type, url, data, callback) {
+        $.ajax({
+            type: type,
+            url: url,
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            error: function () {
+            },
+            success: function (data) {
+                callback(data);
+            }
+        });
+    }
+
+    Settings.prototype.validatePassword = function () {
+        var current = $('#currentpw').val();
+        //var new1 = $('#email').val();
+        var new1 = $('#newpw').val();
+        var new2 = $('#newpwagain').val();
+
+        if (current == null || current == "" || typeof current == 'undefined') {
+            alert('Current password field is required');
+            return false;
+        }
+
+        if (new1 == null || new1 == "" || typeof new1 == 'undefined') {
+            alert('New password field is required');
+            return false;
+        }
+
+        if (new2 == null || new2 == "" || typeof new2 == 'undefined') {
+            alert('New password again field is required');
+            return false;
+        }
+
+        if (new1 != new2) {
+            alert('New passwords don\'t match');
+            return false;
+        }
+        return true;
+    };
+
+    Settings.prototype.validateEmail = function () {
+        var email = $('#newemail').val();
+        var email2 = $('#newemailagain').val();
+
+        if (email == null || email == "" || typeof email == 'undefined') {
+            alert('New email field is required');
+            return false;
+        }
+
+        if (email2 == null || email2 == "" || typeof email2 == 'undefined') {
+            alert('New email again field is required');
+            return false;
+        }
+
+        if (email != email2) {
+            alert('New emails don\'t match');
+            return false;
+        }
+        return true;
+    };
+</script>

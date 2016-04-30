@@ -1,4 +1,5 @@
 ﻿using projekt_gosp.Models;
+using projekt_gosp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,182 @@ namespace projekt_gosp.Controllers
         //
         // GET: /ShopPanel/
 
-        public ActionResult Index()
+        public ActionResult page(int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            var items = (from p in context.Towary
+                         where p.ID_sklepu == shopid
+                         select p).ToList();
+
+            int itemsCount = items.Count();
+
+            List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
+
+            ViewBag.pagesCount = calculatedPagination[0];
+            ViewBag.startPage = calculatedPagination[1];
+            ViewBag.activePage = calculatedPagination[2];
+            ViewBag.endPage = calculatedPagination[3];
+
+            return View("index",items);
+        }
+
+        [HttpGet]
+        public ActionResult addItemToShop(int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            int itemsCount = context.Produkty.Count();
+
+            List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
+
+            ViewBag.pagesCount = calculatedPagination[0];
+            ViewBag.startPage = calculatedPagination[1];
+            ViewBag.activePage = calculatedPagination[2];
+            ViewBag.endPage = calculatedPagination[3];
+
+            var products = (from p in context.Produkty
+                            select p).ToList();
+
+            return View("globalProductList", products);
+        }
+
+        [HttpGet]
+        public ActionResult addItem(int id = 0)
+        {
+            if (id != 0)
+            {
+                var item = (from p in context.Produkty
+                            where p.ID_produktu == id
+                            select p).FirstOrDefault();
+
+                if (item != null)
+                {
+                    return View(item);
+                }
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        public ActionResult addItem(Produkt product, DateTime expiryDate = default(DateTime), int count = -1, int id = 0)
+        {
+            if (ModelState.IsValid && expiryDate != default(DateTime) && count > 0 && id > 0) 
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                if(shopid < 0)
+                {
+                    return View("Error");
+                }
+
+                var prod = (from p in context.Produkty
+                               where p.ID_produktu == id
+                               select p).FirstOrDefault();
+                if (prod == null)
+                {
+                    return View("Error");
+                }
+
+                Towar t = new Towar
+                {
+                    Data_waznosci = expiryDate,
+                    ID_produktu = id,
+                    ID_sklepu = shopid,
+                    Ilosc = count,
+                    Cena = product.Cena
+                };
+
+                context.Towary.Add(t);
+                context.SaveChanges();
+
+                return RedirectToAction("addItemToShop", "sellerpanel");
+            }
+
+            ViewBag.error = "Wszystkie pola sa wymagane";
+            var item = (from p in context.Produkty
+                        where p.ID_produktu == product.ID_produktu
+                        select p).FirstOrDefault();
+
+            return View(item);
+        }
+
+        //edit towaru, nie produktu!!
+        [HttpGet]
+        public ActionResult editItem(int id = 0)
+        {
+            if (id != 0)
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                var item = (from p in context.Towary
+                            where p.ID_Towaru == id && p.ID_sklepu == shopid
+                            select p).FirstOrDefault();
+
+                if (item != null)
+                {
+                    return View(item);
+                }
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editItem(Towar item, int id = 0)
+        {
+            if (id <= 0)
+            {
+                return Json(new { error = "item doesn't exist" });
+            }
+
+            if (ModelState.IsValid)
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                var itemToEdit = (from p in context.Towary
+                                  where p.ID_Towaru == id && p.ID_sklepu == shopid
+                                  select p).FirstOrDefault();
+                if (itemToEdit == null)
+                {
+                    return Json(new { error = "item doesn't exist" });
+                }
+
+                itemToEdit.Ilosc = item.Ilosc;
+                itemToEdit.Cena = item.Cena;
+                itemToEdit.Data_waznosci = item.Data_waznosci;
+
+
+                context.SaveChanges();
+                return RedirectToAction("page", "sellerpanel");
+            }
+
+            return Json(new { error = "all fields are required" });
+        }
+
+        [HttpGet]
+        public ActionResult removeItem(int id = 0)
+        {
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            var item = (from p in context.Towary
+                        where p.ID_Towaru == id && p.ID_sklepu == shopid
+                        select p).FirstOrDefault();
+
+            if (item != null)
+            {
+                context.Towary.Remove(item);
+                context.SaveChanges();
+            }
+            return RedirectToAction("page");
+        }
+
+        public ActionResult settings()
         {
             var user = (from p in context.Uzytkownicy
                         where p.ID_klienta == WebSecurity.CurrentUserId
@@ -86,8 +262,6 @@ namespace projekt_gosp.Controllers
 
             return Json(new { success = "1", content = newemail }, JsonRequestBehavior.AllowGet);
         }
-
-
 
         protected override void Dispose(bool disposing)
         {

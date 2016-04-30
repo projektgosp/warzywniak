@@ -38,10 +38,9 @@
         </div>
     </div>
 }
-
+<span class="lead">Najnowsze produkty:</span>
 @if (@ViewBag.newItems != null && @ViewBag.newItems.Count > 0)
 {
-    <span class="lead">Najnowsze produkty:</span>
     <hr>
     <div class="row">
         @foreach (var itm in @ViewBag.newItems)
@@ -50,9 +49,9 @@
             <div class="col-sm-4 col-lg-4 col-md-4">
                 <div class="thumbnail">
                     <div style="height:150px;width:320px">
-                        @if (@itm.attachedImage)
+                        @if (@itm.Produkt.attachedImage)
                         {
-                            <img src="@itm.thumbPath" style="max-height:150px;max-width:260px">
+                            <img src="@itm.Produkt.thumbPath" style="max-height:150px;max-width:260px">
                         }
                         else
                         {
@@ -60,14 +59,18 @@
                         }
                     </div>
                     <div class="caption">
-                        <h4 class="pull-right">@itm.Cena zł/@itm.RodzajCeny.opis</h4>
+                        <h4 class="pull-right">@itm.Cena zł/@itm.Produkt.RodzajCeny.opis</h4>
                         <h4>
-                            <a href="/items/id/@itm.ID_produktu">@itm.Nazwa</a>
+                            <a href="/items/id/@itm.ID_Towaru">@itm.Produkt.Nazwa</a>
                         </h4>
-                        <p>@itm.Opis</p>
+                        <p>@itm.Produkt.Opis</p>
                     </div>
                 </div>
             </div>
         }
     </div>
+}
+else
+{
+    @Html.Raw("Brak produktow")
 }

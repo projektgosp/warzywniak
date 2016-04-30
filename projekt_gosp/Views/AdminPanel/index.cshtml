@@ -24,18 +24,18 @@
         <div class="row">
             <div class="container-fluid shop-item itemDiv" data-id="@item.ID_produktu">
                 <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">
-                    <a href="/items/id/@item.ID_produktu">
+                    <a href="/items/globalid/@item.ID_produktu">
                         @if (@item.attachedImage)
                         {
-                            <img src="@item.thumbPath" alt="beer" width="100%" height="100%">
+                            <img src="@item.thumbPath" width="100%" height="100%">
                         }
                         else
                         {
-                            <img src="/Media/no-image.jpg" alt="beer" width="100%" height="100%">
+                            <img src="/Media/no-image.jpg" width="100%" height="100%">
                         }
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 shop-item-cell"><span><a href="/items/id/@item.ID_produktu">@item.Nazwa</a></span></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 shop-item-cell"><span><a href="/items/globalid/@item.ID_produktu">@item.Nazwa</a></span></div>
                 <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Price: @item.Cena zł</div>
                 <div class="col-lg-3 col-md-3 col-sm-3 shop-item-cell btn-group-vertical" role="group">
                     <button class="btn btn-success" onclick="editItem(@item.ID_produktu)" style="width:100%"><span class="glyphicon glyphicon-edit">Edit</span></button>
@@ -51,7 +51,7 @@
         <ul class="pagination">
             @for (int i = ViewBag.startPage; i <= ViewBag.endPage; i++)
             {
-                <li @{if (i == ViewBag.activePage) { <text> class="active" </text>  }}><a href="/panel/page/@i">@i</a></li>
+                <li @{if (i == ViewBag.activePage) { <text> class="active" </text>  }}><a href="/adminpanel/page/@i">@i</a></li>
             }
         </ul>
     </div>

@@ -1,4 +1,4 @@
-﻿@model List<projekt_gosp.Models.Towar>
+﻿@model List<projekt_gosp.Models.Produkt>
 
 @if (@Model.Count == 0)
 {
@@ -6,14 +6,14 @@
 }
 else
 {
-    foreach(var product in @Model)
+    foreach (var product in @Model)
     {
         <div class="col-sm-4 col-lg-4 col-md-4">
             <div class="thumbnail">
                 <div style="height:150px;width:320px">
-                    @if (@product.Produkt.attachedImage)
+                    @if (@product.attachedImage)
                     {
-                        <img src="@product.Produkt.thumbPath" style="max-height:150px;max-width:260px">
+                        <img src="@product.thumbPath" style="max-height:150px;max-width:260px">
                     }
                     else
                     {
@@ -21,11 +21,11 @@ else
                     }
                 </div>
                 <div class="caption">
-                    <h4 class="pull-right">@product.Cena zł/@product.Produkt.RodzajCeny.opis</h4>
+                    <h4 class="pull-right">@product.Cena zł/@product.RodzajCeny.opis</h4>
                     <h4>
-                        <a href="/items/id/@product.ID_Towaru">@product.Produkt.Nazwa</a>
+                        <a href="/items/globalid/@product.ID_produktu">@product.Nazwa</a>
                     </h4>
-                    <p>@product.Produkt.Opis</p>
+                    <p>@product.Opis</p>
                 </div>
             </div>
         </div>
