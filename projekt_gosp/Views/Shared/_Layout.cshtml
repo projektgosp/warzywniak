@@ -71,6 +71,7 @@
                 </div>
 
                 <div class="navbar-left btn-group" id="selectedShop">
+                    @{ Html.RenderAction("getSelectedShop", "Shop"); }
                 </div>
 
                     @if (Request.IsAuthenticated)
@@ -122,6 +123,7 @@
             <div class="col-md-3">
                 <p class="lead">Kategorie</p>
                 <div class="list-group categories">
+                    @{ Html.RenderAction("categories", "Shop"); }
                 </div>
             </div>
             <div class="col-md-9" id="shopContent">
@@ -157,7 +159,8 @@
     <script src="/LightBox/js/lightbox.js"></script>
 
     <script>
-    $(document).ready(function () {
+        $(document).ready(function () {
+            /*
             $.ajax({
                 type: "POST",
                 url: "/shop/categories/",
@@ -167,7 +170,7 @@
                     $(".categories").append(data);
                 }
             });
-
+            
             $.ajax({
                 type: "POST",
                 url: "/shop/getSelectedShop/",
@@ -177,7 +180,7 @@
                     $("#selectedShop").append(data);
                 }
             });
-
+            */
 
             $('#searchBtn').on('click', function (e) {
                 var link = $(this).attr('href');
