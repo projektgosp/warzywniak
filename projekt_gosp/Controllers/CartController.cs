@@ -62,7 +62,7 @@ namespace projekt_gosp.Controllers
 
             foreach (var cart in cartItems)
             {
-                Towar towar = context.Towary.Find(cart.ID_Towaru);
+                Towar towar = context.Towary.Find(cart.ID_towaru);
                 int ItemQty = cart.Ilosc;
                 double cena = towar.Cena * ItemQty;
                 string nazwa = towar.Produkt.Nazwa;
