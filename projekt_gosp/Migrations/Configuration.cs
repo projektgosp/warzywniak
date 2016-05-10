@@ -4,16 +4,15 @@ namespace projekt_gosp.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using WebMatrix.WebData;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<projekt_gosp.Models.db>
+    internal sealed class Configuration : DbMigrationsConfiguration<projekt_gosp.Models.Cartdb>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(projekt_gosp.Models.db context)
+        protected override void Seed(projekt_gosp.Models.Cartdb context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -27,7 +26,6 @@ namespace projekt_gosp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            WebSecurity.InitializeDatabaseConnection("ShopDB", "Klienci", "ID_klienta", "accountName", true);
         }
     }
 }

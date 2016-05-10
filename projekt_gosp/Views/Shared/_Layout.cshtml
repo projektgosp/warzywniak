@@ -152,7 +152,7 @@
         <div class="cd-cart-total">
         </div>
         <!-- cd-cart-total -->
-        <a href="#0" class="checkout-btn">Checkout</a>
+        <a href="/cart/checkout" class="checkout-btn">Checkout</a>
 
     </div> <!-- cd-cart -->
 
@@ -160,28 +160,6 @@
 
     <script>
         $(document).ready(function () {
-            /*
-            $.ajax({
-                type: "POST",
-                url: "/shop/categories/",
-                error: function () {
-                },
-                success: function (data) {
-                    $(".categories").append(data);
-                }
-            });
-            
-            $.ajax({
-                type: "POST",
-                url: "/shop/getSelectedShop/",
-                error: function () {
-                },
-                success: function (data) {
-                    $("#selectedShop").append(data);
-                }
-            });
-            */
-
             $('#searchBtn').on('click', function (e) {
                 var link = $(this).attr('href');
                 $(this).attr('href', link + '?pattern=' + $('#searchInput').val());

@@ -92,14 +92,5 @@ namespace projekt_gosp.Models
             public Nullable<int> flatNumber { get; set; }
             public Boolean isSelected { get; set; }
         }
-
-        public class CartModel
-        {
-            [Key]
-            public int Id { get; set; }
-            public string UserName { get; set; }
-            public int ID_produktu { get; set; }
-            public int Ilosc { get; set; }
-        }
     }
 }

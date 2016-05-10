@@ -20,7 +20,7 @@
 <div>
     <h4>Szczegóły</h4>
     <h6>@Model.Produkt.Opis</h6>
-    <b>@Model.Cena zł/@Model.Produkt.RodzajCeny.opis</b>
+    <b id="price">@Model.Cena zł/@Model.Produkt.RodzajCeny.opis</b> 
 
     <!-- Creates the bootstrap modal where the image will appear -->
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -47,10 +47,9 @@
 
         <center>
             <div>
-                <label>Wprowadź ilość: <input type="text" name="ilosc" maxlength="5" /></label>
+                <label>Wprowadź ilość: <input type="number" name="ilosc" id='count' maxlength="5" /></label>
 
-
-                <button type="button" class="btn btn-success">Dodaj do koszyka</button>
+                <button type="button" class="btn btn-success" id="addToCartBtn" onclick="addToCart()">Dodaj do koszyka</button>
                 <button type="button" class="btn btn-danger">Zamknij</button>
             </div>
         </center>
@@ -61,5 +60,6 @@
     $("#pop").on("click", function () {
         $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
     });
+
 </script>
 

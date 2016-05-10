@@ -30,7 +30,12 @@ namespace projekt_gosp.Models
 
     public class Cartdb : DbContext
     {
-        public DbSet<additionalModels.CartModel> Koszyk { get; set; }
+        public Cartdb()
+            : base("ShopDB")
+        {
+
+        }
+        public DbSet<CartModel> Koszyk { get; set; }
     }
 
     [Table("Kategorie")]
@@ -257,5 +262,15 @@ namespace projekt_gosp.Models
 
         [ForeignKey("ID_sklepu")]
         public virtual Sklep Sklep { get; set; }
+    }
+
+    public class CartModel
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ShopId { get; set; }
+        public string UserName { get; set; }
+        public int ID_towaru { get; set; }
+        public int Ilosc { get; set; }
     }
 }

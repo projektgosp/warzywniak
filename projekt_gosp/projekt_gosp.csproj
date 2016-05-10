@@ -224,6 +224,18 @@
     <Compile Include="Migrations\201604301936093_12312213123.Designer.cs">
       <DependentUpon>201604301936093_12312213123.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605101804437_AddCartModel.cs" />
+    <Compile Include="Migrations\201605101804437_AddCartModel.Designer.cs">
+      <DependentUpon>201605101804437_AddCartModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605102039532_AddCartModel1.cs" />
+    <Compile Include="Migrations\201605102039532_AddCartModel1.Designer.cs">
+      <DependentUpon>201605102039532_AddCartModel1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605102209457_AddCartModel2.cs" />
+    <Compile Include="Migrations\201605102209457_AddCartModel2.Designer.cs">
+      <DependentUpon>201605102209457_AddCartModel2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\additionalModels.cs" />
     <Compile Include="Models\db.cs" />
@@ -423,6 +435,7 @@
     <Content Include="Views\Items\globalitemsList.cshtml" />
     <Content Include="Views\Items\globalsearchitem.cshtml" />
     <Content Include="Views\Shop\getSelectedShop.cshtml" />
+    <Content Include="Views\Cart\checkout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -440,6 +453,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604301936093_12312213123.resx">
       <DependentUpon>201604301936093_12312213123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605101804437_AddCartModel.resx">
+      <DependentUpon>201605101804437_AddCartModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605102039532_AddCartModel1.resx">
+      <DependentUpon>201605102039532_AddCartModel1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605102209457_AddCartModel2.resx">
+      <DependentUpon>201605102209457_AddCartModel2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
