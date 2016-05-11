@@ -21,7 +21,6 @@ namespace projekt_gosp.Controllers
         }
 
         //id towaru
-        [Authorize(Roles = "shop, customer")]
         [HttpGet]
         public ActionResult id(int id = 0)
         {
