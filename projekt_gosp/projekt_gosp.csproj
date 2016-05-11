@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminPanelController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
@@ -296,6 +297,7 @@
     <Content Include="Lightbox\js\lightbox-plus-jquery.min.js" />
     <Content Include="Lightbox\js\lightbox.js" />
     <Content Include="Lightbox\js\lightbox.min.js" />
+    <Content Include="mail\mailconfig.txt" />
     <Content Include="Media\no-image.jpg" />
     <Content Include="Media\remove.png" />
     <Content Include="Promotions\test.jpg" />
@@ -408,7 +410,10 @@
     <Content Include="Views\Items\globalitemsList.cshtml" />
     <Content Include="Views\Items\globalsearchitem.cshtml" />
     <Content Include="Views\Shop\getSelectedShop.cshtml" />
-    <Content Include="Views\Order\index.cshtml" />
+    <Content Include="Views\Order\CreateOrder.cshtml" />
+    <Content Include="Views\Order\ConfirmOrder.cshtml" />
+    <Content Include="Views\Account\Confirm.cshtml" />
+    <Content Include="Views\Order\ordererror.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
