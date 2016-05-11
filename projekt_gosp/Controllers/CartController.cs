@@ -14,7 +14,6 @@ namespace projekt_gosp.Controllers
     public class CartController : Controller
     {
         private db context = new db();
-        private Cartdb Cartcontext = new Cartdb();
 
         //
         // GET: /ShoppingCart/
@@ -58,7 +57,9 @@ namespace projekt_gosp.Controllers
             string username = User.Identity.Name;
             int shopId = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
      
-            var cartItems = from b in Cartcontext.Koszyk where b.UserName=="torbiar" && b.ShopId==shopId select b;
+            var cartItems = (from b in context.Koszyk where b.UserName==WebSecurity.CurrentUserName && b.ShopId==shopId select b).ToList();
+            // w petli jest Towar towar = context.Towary.Find(cart.ID_towaru); ktore otwiera readera do bazy
+            // przez co walnie bledem, gdyz reader byl juz otwarty przy cartItems, majac .ToList() pobieramy natychmiastowo dane i reader sie zamyka
 
             foreach (var cart in cartItems)
             {
@@ -75,30 +76,33 @@ namespace projekt_gosp.Controllers
             return Json(cartInfo, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public ActionResult Checkout()
-        {
-            return View();
-        }
-
         [HttpPost]
         public ActionResult Info(CartModel cartModel)
         {  
             string username = User.Identity.Name;
             cartModel.UserName = username;
             cartModel.ShopId = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
-            Cartcontext.Koszyk.Add(cartModel);
-            Cartcontext.SaveChanges();
+            context.Koszyk.Add(cartModel);
+            context.SaveChanges();
             return Json(new { success = true });
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            CartModel cartModel = Cartcontext.Koszyk.Find(id);
-            Cartcontext.Koszyk.Remove(cartModel);
-            Cartcontext.SaveChanges();
+            CartModel cartModel = context.Koszyk.Find(id);
+            context.Koszyk.Remove(cartModel);
+            context.SaveChanges();
             return Json(new { success = true });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                context.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
     }

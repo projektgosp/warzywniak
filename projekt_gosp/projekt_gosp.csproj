@@ -198,12 +198,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminPanelController.cs" />
     <Compile Include="Controllers\CartController.cs" />
-    <Compile Include="Controllers\devController.cs" />
-    <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\SellerPanelController.cs" />
-    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\UserPanelController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -212,30 +210,6 @@
     <Compile Include="Helpers\fileHelper.cs" />
     <Compile Include="Helpers\GlobalMethods.cs" />
     <Compile Include="Helpers\pagination.cs" />
-    <Compile Include="Migrations\201604270728495_newdb.cs" />
-    <Compile Include="Migrations\201604270728495_newdb.Designer.cs">
-      <DependentUpon>201604270728495_newdb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604301407096_3232232.cs" />
-    <Compile Include="Migrations\201604301407096_3232232.Designer.cs">
-      <DependentUpon>201604301407096_3232232.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604301936093_12312213123.cs" />
-    <Compile Include="Migrations\201604301936093_12312213123.Designer.cs">
-      <DependentUpon>201604301936093_12312213123.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605101804437_AddCartModel.cs" />
-    <Compile Include="Migrations\201605101804437_AddCartModel.Designer.cs">
-      <DependentUpon>201605101804437_AddCartModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605102039532_AddCartModel1.cs" />
-    <Compile Include="Migrations\201605102039532_AddCartModel1.Designer.cs">
-      <DependentUpon>201605102039532_AddCartModel1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605102209457_AddCartModel2.cs" />
-    <Compile Include="Migrations\201605102209457_AddCartModel2.Designer.cs">
-      <DependentUpon>201605102209457_AddCartModel2.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\additionalModels.cs" />
     <Compile Include="Models\db.cs" />
@@ -425,7 +399,6 @@
     <Content Include="side-shopping-cart\partials\_variables.scss" />
     <Content Include="side-shopping-cart\readme.pdf" />
     <Content Include="side-shopping-cart\scss\style.scss" />
-    <Content Include="Views\ShoppingCart\_cartItem.cshtml" />
     <Content Include="Views\SellerPanel\globalProductList.cshtml" />
     <Content Include="Views\SellerPanel\addItem.cshtml" />
     <Content Include="Views\SellerPanel\shopproducts.cshtml" />
@@ -435,7 +408,7 @@
     <Content Include="Views\Items\globalitemsList.cshtml" />
     <Content Include="Views\Items\globalsearchitem.cshtml" />
     <Content Include="Views\Shop\getSelectedShop.cshtml" />
-    <Content Include="Views\Cart\checkout.cshtml" />
+    <Content Include="Views\Order\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -443,26 +416,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604270728495_newdb.resx">
-      <DependentUpon>201604270728495_newdb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604301407096_3232232.resx">
-      <DependentUpon>201604301407096_3232232.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604301936093_12312213123.resx">
-      <DependentUpon>201604301936093_12312213123.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605101804437_AddCartModel.resx">
-      <DependentUpon>201605101804437_AddCartModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605102039532_AddCartModel1.resx">
-      <DependentUpon>201605102039532_AddCartModel1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605102209457_AddCartModel2.resx">
-      <DependentUpon>201605102209457_AddCartModel2.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

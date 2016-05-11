@@ -39,10 +39,13 @@
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 shop-item-cell"><span><a href="/items/id/@item.ID_Towaru">@item.Produkt.Nazwa</a></span></div>
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">Price: @item.Cena zł</div>
+                @if(WebSecurity.IsAuthenticated)
+                { 
                 <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="quantity" class="form-control" type="number"></div>
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">
                     <button class="btn btn-success addToCart">Add to cart</button>
                 </div>
+                }
             </div>
         </div>
         <hr>

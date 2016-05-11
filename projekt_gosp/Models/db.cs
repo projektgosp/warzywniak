@@ -26,17 +26,9 @@ namespace projekt_gosp.Models
         public DbSet<Sklep> Sklepy { get; set; }
         public DbSet<Zamowienie> Zamowienia { get; set; }
         public DbSet<Towar> Towary { get; set; }
-    }
-
-    public class Cartdb : DbContext
-    {
-        public Cartdb()
-            : base("ShopDB")
-        {
-
-        }
         public DbSet<CartModel> Koszyk { get; set; }
     }
+
 
     [Table("Kategorie")]
     public class Kategoria

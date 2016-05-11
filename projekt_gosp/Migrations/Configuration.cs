@@ -5,14 +5,14 @@ namespace projekt_gosp.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<projekt_gosp.Models.Cartdb>
+    internal sealed class Configuration : DbMigrationsConfiguration<projekt_gosp.Models.db>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(projekt_gosp.Models.Cartdb context)
+        protected override void Seed(projekt_gosp.Models.db context)
         {
             //  This method will be called after migrating to the latest version.
 

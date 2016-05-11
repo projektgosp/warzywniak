@@ -1,5 +1,5 @@
 ﻿function showCartData() {
-    var actionUrl = 'http://localhost:49612/cart/cart';
+    var actionUrl = '/cart/cart';
     $(".cd-cart-items").empty();
     $.getJSON(actionUrl, function displayData(respone) {
         var total = respone.total;

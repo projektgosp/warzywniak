@@ -145,16 +145,19 @@
     </div>
     <!-- /.container -->
 
-    <div id="cd-cart">
-        <h2><b>Cart</b></h2>
-        <ul class="cd-cart-items"></ul> <!-- cd-cart-items -->
+    @if(WebSecurity.IsAuthenticated)
+    { 
+        <div id="cd-cart">
+            <h2><b>Cart</b></h2>
+            <ul class="cd-cart-items"></ul> <!-- cd-cart-items -->
 
-        <div class="cd-cart-total">
-        </div>
-        <!-- cd-cart-total -->
-        <a href="/cart/checkout" class="checkout-btn">Checkout</a>
+            <div class="cd-cart-total">
+            </div>
+            <!-- cd-cart-total -->
+            <a href="/order/" class="checkout-btn">Checkout</a>
 
-    </div> <!-- cd-cart -->
+        </div> <!-- cd-cart -->
+    }
 
     <script src="/LightBox/js/lightbox.js"></script>
 
