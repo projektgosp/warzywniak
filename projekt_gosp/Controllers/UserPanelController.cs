@@ -79,6 +79,16 @@ namespace projekt_gosp.Controllers
             return Json(new { success = "1"}, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public int GetMyPoints()
+        {
+            var user = (from p in context.Uzytkownicy
+                        where p.ID_klienta == WebSecurity.CurrentUserId
+                        select p).FirstOrDefault();
+
+            return user.Punkty;
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
