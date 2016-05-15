@@ -23,6 +23,10 @@ namespace projekt_gosp.Controllers
             ViewBag.email = user.Email;
 
             ViewBag.address = user.Adres;
+            if (ViewBag.address == null)
+            {
+                ViewBag.address = new Adres();
+            }
 
             return View();
         }

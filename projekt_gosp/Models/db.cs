@@ -19,7 +19,7 @@ namespace projekt_gosp.Models
         public DbSet<RodzajCeny> RodzajeCeny { get; set; }
         public DbSet<Kategoria> Kategorie { get; set; }
         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
-        public DbSet<Metoda_platnosci> Metody_platnosci { get; set; }
+        //public DbSet<Metoda_platnosci> Metody_platnosci { get; set; }
         public DbSet<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
         public DbSet<Produkt> Produkty { get; set; }
         public DbSet<Promocja> Promocje { get; set; }
@@ -88,7 +88,7 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
     }
-
+    /*
     [Table("Metody_platnosci")]
     public class Metoda_platnosci
     {
@@ -99,18 +99,18 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
     }
-
+    */
     [Table("Pozycje_zamowienia")]
     public class Pozycja_zamowienia
     {
         [Key] 
         public int ID_pozycji { get; set; }
         public int ID_zamowienia { get; set; }
-        public int ID_produktu { get; set; }
+        public int ID_Towaru { get; set; }
         public decimal Ilosc { get; set; }
 
-        [ForeignKey("ID_produktu")]
-        public virtual Produkt Produkt { get; set; }
+        [ForeignKey("ID_Towaru")]
+        public virtual Towar Towar { get; set; }
 
         [ForeignKey("ID_zamowienia")]
         public virtual Zamowienie Zamowienie { get; set; }
@@ -149,7 +149,6 @@ namespace projekt_gosp.Models
         [ForeignKey("ID_kategorii")]
         public virtual Kategoria Kategoria { get; set; }
 
-        public virtual ICollection<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
         public virtual ICollection<Promocja> Promocje { get; set; }
         public virtual ICollection<Towar> Towary { get; set; }
     }
@@ -167,7 +166,7 @@ namespace projekt_gosp.Models
         [Required]
         public DateTime Data_waznosci { get; set; }
         [Required]
-        public int Ilosc { get; set; }
+        public decimal Ilosc { get; set; }
         [Required]
         public double Cena { get; set; }
 
@@ -238,17 +237,23 @@ namespace projekt_gosp.Models
         public int ID_zamowienia { get; set; }
         public int ID_klienta { get; set; }
         public int ID_sklepu { get; set; }
-        public int ID_platnosci { get; set; }
+        //public int ID_platnosci { get; set; }
+        [Column(TypeName = "datetime2")]
         public System.DateTime Data_zam { get; set; }
+        [Column(TypeName = "datetime2")]
         public System.DateTime Data_real_od { get; set; }
+        [Column(TypeName = "datetime2")]
         public System.DateTime Data_real_do { get; set; }
         public string Informacja { get; set; }
+
+        public bool czyPotwierdzonePrzezKlienta { get; set; }
+        public double kwotaZamowienia { get; set; }
 
         [ForeignKey("ID_klienta")]
         public virtual Uzytkownik Klient { get; set; }
 
-        [ForeignKey("ID_platnosci")]
-        public virtual Metoda_platnosci Metoda_platnosci { get; set; }
+        //[ForeignKey("ID_platnosci")]
+        //public virtual Metoda_platnosci Metoda_platnosci { get; set; }
 
         public virtual ICollection<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
 
@@ -263,6 +268,6 @@ namespace projekt_gosp.Models
         public int ShopId { get; set; }
         public string UserName { get; set; }
         public int ID_towaru { get; set; }
-        public int Ilosc { get; set; }
+        public decimal Ilosc { get; set; }
     }
 }

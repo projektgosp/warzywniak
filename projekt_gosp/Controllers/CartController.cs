@@ -36,11 +36,12 @@ namespace projekt_gosp.Controllers
         class ProductInfo
         {
             public string Nazwa { set; get; }
-            public int Ilosc { set; get; }
+            public decimal Ilosc { set; get; }
             public double Koszt { set; get; }
             public int ID_Towaru { set; get; }
 
-            public ProductInfo(string nazwa, double koszt, int ilosc, int id_towaru) {
+            public ProductInfo(string nazwa, double koszt, decimal ilosc, int id_towaru)
+            {
                 Nazwa = nazwa;
                 Koszt = koszt;
                 Ilosc = ilosc;
@@ -64,8 +65,8 @@ namespace projekt_gosp.Controllers
             foreach (var cart in cartItems)
             {
                 Towar towar = context.Towary.Find(cart.ID_towaru);
-                int ItemQty = cart.Ilosc;
-                double cena = towar.Cena * ItemQty;
+                decimal ItemQty = cart.Ilosc;
+                double cena = towar.Cena * (double)ItemQty;
                 string nazwa = towar.Produkt.Nazwa;
                 
                 productsList.Add(new ProductInfo(nazwa, cena, ItemQty, cart.Id));

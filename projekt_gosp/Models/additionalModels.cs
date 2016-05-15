@@ -92,5 +92,23 @@ namespace projekt_gosp.Models
             public Nullable<int> flatNumber { get; set; }
             public Boolean isSelected { get; set; }
         }
+
+        public class OrderModel
+        {
+            public int merchendiseId { get; set; }
+            public double price { get; set; }
+            public string itemName { get; set; }
+            public decimal quantity { get; set; }
+
+            //public Towar product { get; set; }
+            //public int quantity { get; set; }
+        }
+
+        public class emailContent
+        {
+            public string emailAddress { get; set; }
+            public string subject { get; set; }
+            public string body { get; set; }
+        }
     }
 }
