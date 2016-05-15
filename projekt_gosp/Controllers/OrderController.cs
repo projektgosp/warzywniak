@@ -195,6 +195,15 @@ namespace projekt_gosp.Controllers
         private void calculatePoints(double money)
         {
             //todo
+            var user = (from p in context.Uzytkownicy
+                        where p.ID_klienta == WebSecurity.CurrentUserId
+                        select p).FirstOrDefault();
+            int points = 0;
+            if (money > 10)
+            {
+                points = 2 * (Convert.ToInt32(money) / 10);
+            }
+            user.Punkty += points;
         }
 
         protected override void Dispose(bool disposing)
