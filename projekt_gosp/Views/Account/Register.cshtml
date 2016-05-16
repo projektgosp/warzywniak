@@ -1,20 +1,18 @@
 ﻿@model projekt_gosp.Models.additionalModels.registerModel
 
 <div class="col-sm-6">
-    <form id="registerForm" method="post" action="/account/register/">
+    <form id="registerForm" method="post" onsubmit="return checkCheckBoxes(this);" >
         @Html.AntiForgeryToken()
         <div class="form-group">
             <label for="username">Login:</label>
             @Html.TextBoxFor(model => model.username, new { @class = "form-control input-lg", @placeholder = "nazwa użytkownika" })
             @Html.ValidationMessageFor(model => model.username)
         </div>
-
         <div class="form-group">
             <label for="email">Adres e-mail:</label>
             @Html.TextBoxFor(model => model.email, new { @class = "form-control input-lg", @placeholder = "e-mail" })
             @Html.ValidationMessageFor(model => model.email)
         </div>
-
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6">
                 <div class="form-group">
@@ -31,6 +29,7 @@
                 </div>
             </div>
         </div>
+        <p><input type="checkbox" name="rules" value="/account/register/"> Akceptuję <a href="/Account/Rules">regulamin</a>.</p>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -42,5 +41,20 @@
     </form>
     <h2>@Html.Raw(ViewBag.error)</h2>
 </div>
+
+<script type="text/javascript" language="JavaScript">
+<!--
+function checkCheckBoxes(registerForm) {
+	if (
+	registerForm.rules.checked == false )
+	{
+		alert ('Musisz zaakceptować regulamin, aby kontynuować.');
+		return false;
+	} else {
+		return true;
+	}
+}
+//-->
+</script> 
 
 @Scripts.Render("~/bundles/jqueryval")

@@ -277,6 +277,8 @@ namespace shop_online.Controllers
             }
         }
 
+        public ActionResult Rules() { return View(); }
+
         [Authorize]
         public ActionResult logout()
         {
