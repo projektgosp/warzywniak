@@ -61,7 +61,7 @@ namespace projekt_gosp.Controllers
         }
 
         [HttpGet]
-        public ActionResult ConfirmOrder(int id = 0)
+        public ActionResult ConfirmOrder(int id = 0, string pay="money")
         {
             if(id < 1)
             {
@@ -87,8 +87,17 @@ namespace projekt_gosp.Controllers
 
             order.czyPotwierdzonePrzezKlienta = true;
 
-            calculatePoints(order.kwotaZamowienia);
-
+            if (pay == "money")
+            {
+                calculatePoints(order.kwotaZamowienia);
+            }
+            else if (pay == "points")
+            {
+                if(!PaymantByPoints(order.kwotaZamowienia))
+                {
+                    return View("notEnoughPoints");
+                }
+            }
             context.SaveChanges();
 
             try
@@ -110,6 +119,23 @@ namespace projekt_gosp.Controllers
 
             return View();
 
+        }
+
+        private bool PaymantByPoints(double cost)
+        {
+            var user = (from p in context.Uzytkownicy
+                        where p.ID_klienta == WebSecurity.CurrentUserId
+                        select p).FirstOrDefault();
+            int neededPoints = Convert.ToInt32(cost);
+            if (neededPoints <= user.Punkty)
+            {
+                user.Punkty -= neededPoints;
+            }
+            else
+            {
+                return false;
+            }
+            return true;
         }
 
         private bool RemoveItemsFromCart()

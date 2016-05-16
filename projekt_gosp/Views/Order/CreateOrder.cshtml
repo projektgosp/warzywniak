@@ -45,7 +45,10 @@
                 <br>
                 <div class="form-group">
                     <a href="/shop/" class="btn btn-success pull-left">Anuluj</a>
-                    <a href="/order/confirmorder/@ViewBag.orderID" class="btn btn-success pull-right">Zatwierdz zamowienie</a>
+                    <div class="btn-group btn pull-right">
+                        <a href="/order/confirmorder/?id=@ViewBag.orderID&pay=points" class="btn btn-success">Zapłać punktami</a>
+                        <a href="/order/confirmorder/?id=@ViewBag.orderID&pay=money" class="btn btn-success">Zatwierdz zamowienie</a>
+                    </div>
                 </div>
             </div>
         </div>
