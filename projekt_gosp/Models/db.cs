@@ -27,6 +27,7 @@ namespace projekt_gosp.Models
         public DbSet<Zamowienie> Zamowienia { get; set; }
         public DbSet<Towar> Towary { get; set; }
         public DbSet<CartModel> Koszyk { get; set; }
+        public DbSet<TowarTermin> TowarTerminy { get; set; }
     }
 
 
@@ -175,7 +176,6 @@ namespace projekt_gosp.Models
 
         [ForeignKey("ID_sklepu")]
         public virtual Sklep Sklep { get; set; }
-
     }
 
     //new
@@ -192,10 +192,11 @@ namespace projekt_gosp.Models
         [Key] 
         public int ID_promocji { get; set; }
         public int ID_sklepu { get; set; }
-        public Nullable<int> ID_produktu { get; set; }
+        public Nullable<int> ID_towaru { get; set; }		//v.3  zamiana z id produktu
         public Nullable<int> ID_kategorii { get; set; }
         public string Opis { get; set; }
         public decimal Obnizka { get; set; }
+        public decimal cena_promo { get; set; }	//v.3  dodana cena promocyjna
 
         //new
         public string imagePath { get; set; } 
@@ -203,12 +204,27 @@ namespace projekt_gosp.Models
         [ForeignKey("ID_kategorii")]
         public virtual Kategoria Kategoria { get; set; }
 
-        [ForeignKey("ID_produktu")]
-        public virtual Produkt Produkt { get; set; }
+        [ForeignKey("ID_towaru")] //v.3  zmiana z id_produktu
+        public virtual Towar Towar { get; set; }
 
         [ForeignKey("ID_sklepu")]
         public virtual Sklep Sklep { get; set; }
     }
+
+    //v.3 nowa tabela z terminami waznosci
+    [Table("TowarTermin")]
+    public class TowarTermin
+    {
+        [Key]
+        public int ID_TowarTermin { get; set; }
+        [Required]
+        public DateTime Data_waznosci { get; set; }
+
+        public int ID_Towaru { get; set; }
+        [ForeignKey("ID_Towaru")]
+        public virtual Towar Towar { get; set; }
+    }
+
 
     [Table("Sklepy")]
     public class Sklep

@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminPanelController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\ExpireDateController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PromotionsController.cs" />
@@ -414,6 +415,7 @@
     <Content Include="Views\Order\ConfirmOrder.cshtml" />
     <Content Include="Views\Account\Confirm.cshtml" />
     <Content Include="Views\Order\ordererror.cshtml" />
+    <Content Include="Views\ExpireDate\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
