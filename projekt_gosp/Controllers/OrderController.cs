@@ -69,7 +69,7 @@ namespace projekt_gosp.Controllers
             }
 
             var order = (from p in context.Zamowienia
-                         where p.ID_zamowienia == id
+                         where p.ID_zamowienia == id && p.ID_klienta == WebSecurity.CurrentUserId
                          select p).FirstOrDefault();
 
             foreach(var item in order.Pozycje_zamowienia)
