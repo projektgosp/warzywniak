@@ -100,7 +100,7 @@ namespace projekt_gosp.Controllers
 
                 var subject = "Grocery shop - zamowienie";
                 var body = String.Format("zamowienie zostalo zlozone blablabla");
-
+                RemoveItemsFromCart();
                 GlobalMethods.SendMailThread(user.Email, subject, body);
             }
             catch
@@ -110,6 +110,21 @@ namespace projekt_gosp.Controllers
 
             return View();
 
+        }
+
+        private bool RemoveItemsFromCart()
+        {
+            List<CartModel> itemsFromCart = (from p in context.Koszyk
+                                             where p.UserName == WebSecurity.CurrentUserName
+                                             select p).ToList();
+
+            foreach (var cartItem in itemsFromCart)
+            {
+                context.Koszyk.Remove(cartItem);
+            }
+            context.SaveChanges();
+            
+            return true;
         }
 
         private List<CartModel> GetItemsFromCart()
