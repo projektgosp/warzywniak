@@ -41,9 +41,9 @@
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">Price: @item.Cena zł</div>
                 @if(WebSecurity.IsAuthenticated)
                 { 
-                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="count" class="form-control" type="number"></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="count-@item.ID_Towaru" class="form-control" type="number"></div>
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">
-                    <button class="btn btn-success addToCart" onclick="addToCart()">Add to cart</button>
+                    <button class="btn btn-success addToCart" onclick="addProductToCart(@item.ID_Towaru)">Add to cart</button>
                 </div>
                 }
             </div>

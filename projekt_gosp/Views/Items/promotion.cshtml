@@ -9,7 +9,7 @@
     <div class="container">
         <input type="button" class="close" value="x" />
         <div class="content">
-            <span style="text-align:center;font-size:" 20px">Produkt dodano pomyślnie!</span>
+            <span style="text-align:center;font-size:20px">Produkt dodano pomyślnie!</span>
         </div>
     </div>
 </div>
@@ -41,9 +41,9 @@
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">Price: @item.cena_promo zł</div>
                 @if(WebSecurity.IsAuthenticated)
                 { 
-                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="count" class="form-control" type="number"></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="count-@item.ID_towaru" class="form-control" type="number"></div>
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">
-                    <button class="btn btn-success addToCart" onclick="addToCart()">Add to cart</button>
+                    <button class="btn btn-success addToCart" onclick="addPromotionToCart(@item.ID_towaru)">Add to cart</button>
                 </div>
                 }
             </div>

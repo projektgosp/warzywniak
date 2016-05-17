@@ -41,11 +41,16 @@ namespace projekt_gosp.Controllers
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
 
             Towar towar = context.Towary.Find(promo.id);
-            Promocja promocja = (from p in context.Promocje
-                                 where p.ID_sklepu == shopid && p.ID_towaru == promo.id
-                                 select p).First();
-            if (promocja == null)
+            towar.Cena = promo.new_price;
+            if(context.Promocje.Any(o => o.ID_towaru == promo.id && o.ID_sklepu == shopid)){
+                Promocja promocja = (from p in context.Promocje
+                    where p.ID_sklepu == shopid && p.ID_towaru == promo.id
+                    select p).First();
+                promocja.cena_promo = Convert.ToDecimal(promo.new_price);
+            }
+            else 
             {
+                Promocja promocja = new Promocja();
                 promocja.ID_towaru = promo.id;
                 promocja.ID_sklepu = towar.ID_sklepu;
                 promocja.Sklep = towar.Sklep;
@@ -55,10 +60,7 @@ namespace projekt_gosp.Controllers
                 promocja.Towar = towar;
                 context.Promocje.Add(promocja);
             }
-            else
-            {
-                promocja.cena_promo = Convert.ToDecimal(promo.new_price);
-            }
+
             context.SaveChanges();
             return Json(new { success = true });
         }
