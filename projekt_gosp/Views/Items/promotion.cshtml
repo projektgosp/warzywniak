@@ -1,7 +1,7 @@
-﻿@model List<projekt_gosp.Models.Produkt>
+﻿@model List<projekt_gosp.Models.Promocja>
 
 @{
-    ViewBag.Title = @ViewBag.categoryName;
+    ViewBag.Title = "Promocje";
 }
 
 <div class="popup">
@@ -24,12 +24,12 @@
     foreach (var item in Model)
     {
         <div class="row">
-            <div class="container-fluid shop-item itemDiv" data-id="@item.ID_produktu">
+            <div class="container-fluid shop-item itemDiv" data-id="@item.ID_towaru">
                 <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">
-                    <a href="/items/globalid/@item.ID_produktu">
-                        @if (@item.attachedImage)
+                    <a href="/items/id/@item.ID_towaru">
+                        @if (@item.Towar.Produkt.attachedImage)
                         {
-                            <img src="@item.thumbPath" width="100%" height="100%">
+                            <img src="@item.Towar.Produkt.thumbPath" width="100%" height="100%">
                         }
                         else
                         {
@@ -37,12 +37,15 @@
                         }
                     </a>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 shop-item-cell"><span><a href="/items/globalid/@item.ID_produktu">@item.Nazwa</a></span></div>
-                <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">Price: @item.Cena zł</div>
+                <div class="col-lg-5 col-md-5 col-sm-5 shop-item-cell"><span><a href="/items/id/@item.ID_towaru">@item.Towar.Produkt.Nazwa</a></span></div>
+                <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">Price: @item.cena_promo zł</div>
+                @if(WebSecurity.IsAuthenticated)
+                { 
                 <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="count" class="form-control" type="number"></div>
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">
                     <button class="btn btn-success addToCart" onclick="addToCart()">Add to cart</button>
                 </div>
+                }
             </div>
         </div>
         <hr>
@@ -51,7 +54,7 @@
         <ul class="pagination">
             @for (int i = ViewBag.startPage; i <= ViewBag.endPage; i++)
             {
-                <li @{if (i == ViewBag.activePage) { <text> class="active" </text>    }}><a href="/items/category?category=@ViewBag.categoryName&page=@i">@i</a></li>
+                <li @{if (i == ViewBag.activePage) { <text> class="active" </text>  }}><a href="/items/category?category=@ViewBag.categoryName&page=@i">@i</a></li>
             }
         </ul>
     </div>
@@ -60,3 +63,4 @@ else
 {
     <h2>There is nothing to display</h2>
 }
+

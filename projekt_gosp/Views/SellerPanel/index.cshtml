@@ -3,6 +3,7 @@
 <div class="row">
     <div class="row btn-group">
         <button class="btn btn-success" onclick="addItem()">Dodaj nowy produkt do sklepu</button>
+        <button class="btn btn-success" onclick="checkExpire()">Sprawdź date ważności </button>
         <button class="btn btn-success" onclick="settings()">Ustawienia sklepu</button>
     </div>
 </div>
@@ -79,5 +80,8 @@ else
         window.location = '/sellerpanel/removeItem/' + id;
     }
 
+    function checkExpire() {
+        window.location = '/expiredate/selectdaytoexpire';
+    }
 
 </script>

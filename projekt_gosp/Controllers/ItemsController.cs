@@ -117,6 +117,39 @@ namespace projekt_gosp.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult promotion()
+        {
+
+            var car = context.Promocje;
+
+
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+
+
+                if (shopid == 0)
+                {
+                    return View("error");
+                }
+
+                var catItems = (from p in context.Promocje
+                                where p.ID_sklepu == shopid
+                                select p).ToList();
+
+                int itemsCount = catItems.Count();
+                List<int> calculatedPagination = pagination.calculatePagination(1, itemsCount);
+
+                ViewBag.pagesCount = calculatedPagination[0];
+                ViewBag.startPage = calculatedPagination[1];
+                ViewBag.activePage = calculatedPagination[2];
+                ViewBag.endPage = calculatedPagination[3];
+                ViewBag.categoryName = "Promocje";
+
+                var items = catItems;
+                return View(items);
+           
+
+        }
 
         public ActionResult SearchItem(string pattern)
         {
