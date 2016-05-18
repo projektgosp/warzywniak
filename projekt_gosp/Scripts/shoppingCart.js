@@ -10,11 +10,11 @@
             var responeLength = respone.productsList.length;
             for (i; responeLength > i; i++) {
                 $(".cd-cart-items").append('<li><span class="cd-qty">' + respone.productsList[i].Ilosc + 'x </span> \n' + respone.productsList[i].Nazwa +
-                                            '<div class="cd-price"> $' + respone.productsList[i].Koszt.toFixed(2)  + '</div> ' +
-                                             '<a href="#0" onclick=(removeItem(' + respone.productsList[i].ID_Towaru + ')) class="cd-item-remove cd-img-replace">Usuń</a></li>')
+                                            '<div class="cd-price"> ' + respone.productsList[i].Koszt.toFixed(2)  + ' pln </div> ' +
+                                             '<a href="#0" onclick=(removeItem(' + respone.productsList[i].ID_Towaru + '))>Usuń</a></li><hr>')
             }
             $(".cd-cart-total").empty();
-            $(".cd-cart-total").append('<p>Total <span>$' + total.toFixed(2) + '</span></p>');
+            $(".cd-cart-total").append('<p>Łącznie do zapłaty <span>' + total.toFixed(2) + ' pln </span></p>');
         }
     });
 }
