@@ -301,6 +301,10 @@
     <Content Include="mail\mailconfig.txt" />
     <Content Include="Media\no-image.jpg" />
     <Content Include="Media\remove.png" />
+    <Content Include="Media\uploads\20160417-181948030.jpg" />
+    <Content Include="Media\uploads\20160417-181948030_thumb.jpg" />
+    <Content Include="Media\uploads\20160417-182115602.jpg" />
+    <Content Include="Media\uploads\20160417-182115602_thumb.jpg" />
     <Content Include="Promotions\test.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -417,6 +421,9 @@
     <Content Include="Views\Order\ordererror.cshtml" />
     <Content Include="Views\ExpireDate\index.cshtml" />
     <Content Include="Views\Account\Rules.cshtml" />
+    <Content Include="Views\Items\promotion.cshtml" />
+    <Content Include="Views\ExpireDate\products.cshtml" />
+    <Content Include="Views\ExpireDate\selectDayToExpire.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
