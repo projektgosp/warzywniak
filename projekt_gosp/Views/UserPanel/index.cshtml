@@ -125,6 +125,21 @@
                 </div>
             </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" class="collapsed">Historia zamówień</a>
+                    </h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse" style="height: 0px;">
+                    <div class="panel-body">
+                        <div class="btn-group">
+                            <button class="btn btn-success" onclick="showHistory()">Pokaż historie zamówień</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>
@@ -159,6 +174,10 @@
         })
 
     });
+
+    function showHistory() {
+        window.location = '/userpanel/orderhistory';
+    }
 
     function passwordChangeCallback(data) {
         if (data["success"] == "1") {

@@ -5,6 +5,7 @@
         <button class="btn btn-success" onclick="addItem()">Dodaj nowy produkt do sklepu</button>
         <button class="btn btn-success" onclick="checkExpire()">Sprawdź date ważności </button>
         <button class="btn btn-success" onclick="settings()">Ustawienia sklepu</button>
+        <button class="btn btn-success" onclick="orders()">Zamówienia</button>
     </div>
 </div>
 
@@ -82,6 +83,10 @@ else
 
     function checkExpire() {
         window.location = '/expiredate/selectdaytoexpire';
+    }
+
+    function orders() {
+        window.location = '/sellerpanel/shoporders';
     }
 
 </script>

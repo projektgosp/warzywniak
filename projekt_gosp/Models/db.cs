@@ -263,6 +263,7 @@ namespace projekt_gosp.Models
         public string Informacja { get; set; }
 
         public bool czyPotwierdzonePrzezKlienta { get; set; }
+        public bool statusZamowienia { get; set; }
         public double kwotaZamowienia { get; set; }
 
         [ForeignKey("ID_klienta")]

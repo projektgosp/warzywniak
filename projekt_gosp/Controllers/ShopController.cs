@@ -24,7 +24,7 @@ namespace projekt_gosp.Controllers
 
 
             var newItems = (from p in context.Towary
-                            where p.ID_sklepu == shopid
+                            where p.ID_sklepu == shopid && p.Ilosc > 0
                             orderby p.ID_Towaru descending
                             select p).Take(6).ToList();
 

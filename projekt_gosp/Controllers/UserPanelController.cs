@@ -93,6 +93,15 @@ namespace projekt_gosp.Controllers
             return user.Punkty;
         }
 
+        [HttpGet]
+        public ActionResult OrderHistory()
+        {
+            List<Zamowienie> orders = (from p in context.Zamowienia
+                          where p.ID_klienta == WebSecurity.CurrentUserId && p.czyPotwierdzonePrzezKlienta == true
+                          select p).ToList();
+            return View(orders);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

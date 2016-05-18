@@ -410,6 +410,9 @@
     <Content Include="Views\ExpireDate\products.cshtml" />
     <Content Include="Views\ExpireDate\selectDayToExpire.cshtml" />
     <Content Include="Views\Cart\Cart.cshtml" />
+    <Content Include="Views\Order\notEnoughPoints.cshtml" />
+    <Content Include="Views\UserPanel\OrderHistory.cshtml" />
+    <Content Include="Views\SellerPanel\shoporders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -99,7 +99,7 @@ namespace projekt_gosp.Controllers
 
                 var catItems = (from p in context.Towary
                                 orderby p.ID_Towaru descending
-                                where p.Produkt.Kategoria.NameToLink == category && p.ID_sklepu == shopid
+                                where p.Produkt.Kategoria.NameToLink == category && p.ID_sklepu == shopid && p.Ilosc > 0
                                 select p).ToList();
 
                 int itemsCount = catItems.Count();
@@ -133,7 +133,7 @@ namespace projekt_gosp.Controllers
                 }
 
                 var catItems = (from p in context.Promocje
-                                where p.ID_sklepu == shopid
+                                where p.ID_sklepu == shopid && p.Towar.Ilosc > 0
                                 select p).ToList();
 
                 int itemsCount = catItems.Count();

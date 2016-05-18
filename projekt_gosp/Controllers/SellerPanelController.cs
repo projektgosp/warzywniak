@@ -263,6 +263,49 @@ namespace projekt_gosp.Controllers
             return Json(new { success = "1", content = newemail }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult ShopOrders()
+        {
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            List<Zamowienie> orders = (from p in context.Zamowienia
+                                       where p.ID_sklepu == shopid && p.czyPotwierdzonePrzezKlienta == true
+                                       select p).ToList();
+            return View(orders);
+        }
+
+        public ActionResult ChangeOrderStatus(int id = 0)
+        {
+            if (id < 1)
+            {
+                return HttpNotFound();
+            }
+
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            var order = (from p in context.Zamowienia
+                         where p.ID_zamowienia == id && p.ID_sklepu == shopid
+                         select p).FirstOrDefault();
+            if (order.statusZamowienia == false)
+            {
+                order.statusZamowienia = true;
+                string clientPhoneNumber = order.Klient.Nr_tel;
+                string shopAddress = " ulica: " + order.Sklep.Adres.Ulica + " " + order.Sklep.Adres.Nr_budynku + ", " + order.Sklep.Adres.Miasto;
+                string orderValue = order.kwotaZamowienia.ToString();
+                SendSmsToClient(clientPhoneNumber, shopAddress, orderValue);
+            }
+
+            context.SaveChanges();
+
+            return Json(new { success = "1" });
+        }
+
+        private void SendSmsToClient(string phoneNumber, string shopAddress, string orderValue)
+        {
+            string message = "Witaj! Twoje zamówienie na kwote w wysokości " + orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe od odbioru. Zapraszamy po odbiór pod adresem: " + shopAddress;
+            /*
+             * todo
+             */
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
