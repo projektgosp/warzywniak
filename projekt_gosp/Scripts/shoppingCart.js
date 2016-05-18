@@ -94,6 +94,7 @@ var addPromotionToCart = function (id) {
         contentType: 'application/json; charset=utf-8',
         dataType: "json",
         success: function (data) {
+            alert("produkt został pomyślnie dodany do koszyka");
             showCartData();
         },
         error: function () {
@@ -114,6 +115,7 @@ var addProductToCart = function (id) {
         contentType: 'application/json; charset=utf-8',
         dataType: "json",
         success: function (data) {
+            alert("produkt został pomyślnie dodany do koszyka");
             showCartData();
         },
         error: function () {
