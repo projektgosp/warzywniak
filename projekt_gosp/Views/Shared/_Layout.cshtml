@@ -131,7 +131,10 @@
                 <p class="lead">Kategorie</p>
                 <div class="list-group categories">
                     @{ Html.RenderAction("categories", "Shop"); }
-                    <a href="/items/promotion"  class="list-group-item">Promocje</a>
+                    @if (!Roles.IsUserInRole("admin"))
+                    {
+                        <a href="/items/promotion"  class="list-group-item">Promocje</a>
+                    }
                 </div>
             </div>
             <div class="col-md-9" id="shopContent">
