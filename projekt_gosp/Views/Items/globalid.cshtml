@@ -11,41 +11,6 @@
 }
 
 <center><div><h2>@Model.Nazwa</h2></div></center>
-<a href="#" id="pop">
-    <center>
-        <img id="imageresource" src="@Model.thumbPath" style="width: 250px; height: 164px;">
-    </center>
-</a>
+<a class="product-image-link" href="@Model.fullSizePath" data-lightbox="product-set"><img class="product-image thumbFix" src="@Model.thumbPath" alt="@Model.Nazwa" style="max-width: 300px;max-height:300px" /></a>
 
-<div>
-    <h4>Szczegóły</h4>
-    <h6>@Model.Opis</h6>
-    <b>@Model.Cena zł/@Model.RodzajCeny.opis</b>
-
-    <!-- Creates the bootstrap modal where the image will appear -->
-    <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title" id="@Model.Nazwa">@Model.Nazwa</h4>
-                </div>
-                <div class="modal-body">
-                    <center>
-                        <img src="@Model.fullSizePath" id="imagepreview" style="width: 400px; height: 264px;">
-                    </center>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-<script>
-    $("#pop").on("click", function () {
-        $('#imagemodal').modal('show'); // imagemodal is the id attribute assigned to the bootstrap modal, then i use the show function
-    });
-</script>
 

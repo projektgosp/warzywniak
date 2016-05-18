@@ -17,6 +17,10 @@ namespace projekt_gosp.Controllers
 
         public ActionResult Index()
         {
+            if(User.IsInRole("admin"))
+            {
+                return RedirectToAction("page", "AdminPanel");
+            }
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             var promotions = (from p in context.Promocje
                               where p.ID_sklepu == shopid
