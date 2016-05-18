@@ -30,9 +30,6 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="/Scripts/bootstrap.min.js"></script>
-    <!-- side shopping cart - free library -->
-    <script src="/side-shopping-cart/js/main.js"></script>
-    <script src="/side-shopping-cart/js/modernizr.js"></script>
     <script src="/Scripts/shoppingCart.js"></script>
     <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
     <script type="text/javascript">
@@ -76,13 +73,14 @@
 
                 @if (Request.IsAuthenticated)
                 {
-                    <div class="navbar-btn navbar-right" onclick="showCartData()">
-                        <div id="cd-cart-trigger">
-                            <a class="cd-img-replace" href="#0">
-                                <input name="getCart" id="getCart" type="submit" value="Koszyk" />
-                            </a>
-                        </div>
+                    if (Roles.IsUserInRole("customer"))
+                    { 
+                    <div class="navbar-btn navbar-right">
+                        <a href="/cart/">
+                            <img class="navbarCartImg" src="/Media/cart.png">
+                        </a>
                     </div>
+                    }
                     <div class="navbar-btn navbar-right btn-group">
                         @if (Roles.IsUserInRole("admin"))
                         {
@@ -157,20 +155,6 @@
         </footer>
     </div>
     <!-- /.container -->
-
-    @if(WebSecurity.IsAuthenticated)
-    { 
-        <div id="cd-cart">
-            <h2><b>Cart</b></h2>
-            <ul class="cd-cart-items"></ul> <!-- cd-cart-items -->
-
-            <div class="cd-cart-total">
-            </div>
-            <!-- cd-cart-total -->
-            <a href="/order/CreateOrder" class="checkout-btn">Checkout</a>
-
-        </div> <!-- cd-cart -->
-    }
 
     <script src="/LightBox/js/lightbox.js"></script>
 

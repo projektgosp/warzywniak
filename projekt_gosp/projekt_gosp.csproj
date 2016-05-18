@@ -299,6 +299,8 @@
     <Content Include="Lightbox\js\lightbox.js" />
     <Content Include="Lightbox\js\lightbox.min.js" />
     <Content Include="mail\mailconfig.txt" />
+    <Content Include="Media\cart.png" />
+    <Content Include="Media\empty-cart-dark.png" />
     <Content Include="Media\no-image.jpg" />
     <Content Include="Media\remove.png" />
     <Content Include="Media\uploads\20160417-181948030.jpg" />
@@ -346,16 +348,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\shoppingCart.js" />
     <Content Include="Scripts\uploader.js" />
-    <Content Include="side-shopping-cart\css\reset.css" />
-    <Content Include="side-shopping-cart\css\style.css" />
-    <Content Include="side-shopping-cart\img\cd-cart.svg" />
-    <Content Include="side-shopping-cart\img\cd-hamburger-menu.svg" />
-    <Content Include="side-shopping-cart\img\cd-logo.svg" />
-    <Content Include="side-shopping-cart\img\cd-remove-item.svg" />
-    <Content Include="side-shopping-cart\img\thumb.jpg" />
-    <Content Include="side-shopping-cart\index.html" />
-    <Content Include="side-shopping-cart\js\main.js" />
-    <Content Include="side-shopping-cart\js\modernizr.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -399,13 +391,6 @@
     <Content Include="Views\AdminPanel\addItem.cshtml" />
     <Content Include="Views\Items\itemsList.cshtml" />
     <Content Include="Views\AdminPanel\editItem.cshtml" />
-    <Content Include="side-shopping-cart\.DS_Store" />
-    <Content Include="side-shopping-cart\js\.DS_Store" />
-    <Content Include="side-shopping-cart\partials\_layout.scss" />
-    <Content Include="side-shopping-cart\partials\_mixins.scss" />
-    <Content Include="side-shopping-cart\partials\_variables.scss" />
-    <Content Include="side-shopping-cart\readme.pdf" />
-    <Content Include="side-shopping-cart\scss\style.scss" />
     <Content Include="Views\SellerPanel\globalProductList.cshtml" />
     <Content Include="Views\SellerPanel\addItem.cshtml" />
     <Content Include="Views\SellerPanel\shopproducts.cshtml" />
@@ -424,6 +409,7 @@
     <Content Include="Views\Items\promotion.cshtml" />
     <Content Include="Views\ExpireDate\products.cshtml" />
     <Content Include="Views\ExpireDate\selectDayToExpire.cshtml" />
+    <Content Include="Views\Cart\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

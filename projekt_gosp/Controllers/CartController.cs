@@ -15,11 +15,10 @@ namespace projekt_gosp.Controllers
     {
         private db context = new db();
 
-        //
-        // GET: /ShoppingCart/
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            return View("cart");
         }
 
         class CartInfo
