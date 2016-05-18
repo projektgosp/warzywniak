@@ -25,6 +25,12 @@ namespace projekt_gosp
                 defaults: new { controller = "AdminPanel", action = "page" }
             );
 
+            routes.MapRoute(
+                name: "SellerPanel",
+                url: "sellerPanel",
+                defaults: new { controller = "SellerPanel", action = "page" }
+            );
+
 
             routes.MapRoute(
                 name: "Default",

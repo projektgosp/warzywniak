@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "selectDayToExpire";
+}
+
+<center>
+    <div>
+        <label>Wprowadź ilość do wygaśnięcia daty ważności : <input value=1 type="number" id='howManyDays' maxlength="5" /></label>
+
+        <button type="button" class="btn btn-success" id="" onclick="sendHowManyDays()">Sprawdź</button>
+        @*<button type="button" class="btn btn-danger">Zamknij</button>*@
+    </div>
+</center>
+
+<script>
+
+    var sendHowManyDays = function () {
+        var days = $("#howManyDays").val();
+        console.log(days);
+
+        window.location.href = '/expiredate/products/' + days.toString();
+
+
+    }
+
+</script>

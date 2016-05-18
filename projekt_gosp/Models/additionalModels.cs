@@ -23,26 +23,39 @@ namespace projekt_gosp.Models
 
         public class registerModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole nazwa uzytkownika jest wymagane")]
             [Display(Name = "User name")]
             public string username { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole haslo jest wymagane")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string password { get; set; }
 
+            [Required(ErrorMessage = "Pole haslo jest wymagane")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
             public string confirmPassword { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole adres email jest wymagane")]
             [DataType(DataType.EmailAddress)]
             [Display(Name = "Your email address")]
             //[EmailAddress]
             public string email { get; set; }
+
+            [Required(ErrorMessage = "Pole nr telefonu jest wymagane")]
+            [Display(Name = "Nr telefonu")]
+            [DataType(DataType.PhoneNumber)]
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Zły nr telefonu")]
+            public string phonenumber { get; set; }
+
+            [Required(ErrorMessage="Pole imie jest wymagane")]
+            public string name { get; set; }
+
+            [Required(ErrorMessage = "Pole nazwisko jest wymagane")]
+            public string surname { get; set; }
         }
 
         public class registerShopModel
@@ -90,15 +103,32 @@ namespace projekt_gosp.Models
             public string street { get; set; }
             public string streetNumber { get; set; }
             public Nullable<int> flatNumber { get; set; }
+            public Boolean isSelected { get; set; }
         }
 
-        public class CartModel
+        public class OrderModel
         {
-            [Key]
-            public int Id { get; set; }
-            public string UserName { get; set; }
-            public int ID_produktu { get; set; }
-            public int Ilosc { get; set; }
+            public int merchendiseId { get; set; }
+            public double price { get; set; }
+            public string itemName { get; set; }
+            public decimal quantity { get; set; }
+
+            //public Towar product { get; set; }
+            //public int quantity { get; set; }
+        }
+
+        public class emailContent
+        {
+            public string emailAddress { get; set; }
+            public string subject { get; set; }
+            public string body { get; set; }
+        }
+
+        public class smsOrderIsReady
+        {
+            public string phoneNumber { get; set; }
+            public string shopAddress { get; set; }
+            public string orderValue { get; set; }
         }
     }
 }

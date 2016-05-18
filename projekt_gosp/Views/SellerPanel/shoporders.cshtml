@@ -1,0 +1,76 @@
+﻿@model List<projekt_gosp.Models.Zamowienie>
+
+@if (@Model != null && @Model.Count > 0)
+{
+    foreach (var order in @Model)
+    {
+        <div class="well" style="background-color:white">
+            @if (@order.statusZamowienia == true)
+            {
+                <div><strong>Status zamówienia: </strong> Zamówienie gotowe do odbioru</div>
+            }
+            else
+            {
+                <div><strong>Status zamówienia: </strong> Zamówienie w trakcie realizacji</div>
+                <div><strong>Naciśnij poniższy przycisk, aby zmienić statu zamówienia na zrealizowane</strong></div>
+                <button class="btn btn-danger" onclick="changeStatus(@order.ID_zamowienia)">Zamówienie gotowe do odbioru</button>
+            }
+
+            <div><strong>Data zamówienia: </strong>@order.Data_zam</div>
+            <div><strong>Dane klienta:</strong></div>
+            <div class="well" style="background-color:white">
+                <div><strong>Imie:</strong> @order.Klient.Imie</div>
+                <div><strong>Nazwisko:</strong> @order.Klient.Nazwisko</div>
+                <div><strong>Nr telefonu:</strong> @order.Klient.Nr_tel</div>
+            </div>
+            <div><strong>Zamówione produkty:</strong></div>
+            <div class="well" style="background-color:white">
+                @foreach (var item in @order.Pozycje_zamowienia)
+                {
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <strong>Nazwa: </strong>@item.Towar.Produkt.Nazwa
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>Cena: </strong>@item.Towar.Cena zł
+                        </div>
+                        <div class="col-sm-2">
+                            <strong>Ilość: </strong>@item.Ilosc
+                        </div>
+                    </div>
+                }
+            </div>
+            <div><strong>Koszt zamówienia: </strong>@order.kwotaZamowienia zł</div>
+        </div>
+    }
+}
+else
+{
+    <h2>Historia zamówień jest pusta</h2>
+}
+
+<div class="btn-group">
+    <button class="btn btn-success" onclick="sp()">Powrót do panelu sprzedawcy</button>
+</div>
+
+<script>
+    function sp() {
+        window.location = '/sellerpanel/';
+    }
+
+    function changeStatus(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/sellerpanel/changeorderstatus/" + id,
+            error: function () {
+            },
+            success: function (data) {
+                if(data["success"] == 1) {
+                    location.reload();
+                }
+            }
+        });
+    }
+
+</script>

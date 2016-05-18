@@ -24,13 +24,12 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- jQuery -->
     <script src="/Scripts/jquery.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="/Scripts/bootstrap.min.js"></script>
-    <!-- side shopping cart - free library -->
-    <script src="/side-shopping-cart/js/main.js"></script>
-    <script src="/side-shopping-cart/js/modernizr.js"></script>
     <script src="/Scripts/shoppingCart.js"></script>
     <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
     <script type="text/javascript">
@@ -45,21 +44,21 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Shop name</a>
+                <a class="navbar-brand" href="/">e-Warzywko</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <div class="navbar-left btn-group">
                     <form class="navbar-form navbar-right" action="/items/searchitem/" method="get" accept-charset="UTF-8">
@@ -68,55 +67,71 @@
                     </form>
                 </div>
 
-                    @if (Request.IsAuthenticated)
-                    {
-                        <div class="navbar-btn navbar-right" onclick="showCartData()"> 
-                            <div id="cd-cart-trigger">
-                                <a class="cd-img-replace" href="#0">
-	                                <input name="getCart" id="getCart" type="submit" value="Koszyk"/>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="navbar-btn navbar-right btn-group">
-                            @if (Roles.IsUserInRole("admin"))
-                            {
-                                <a class="btn btn-default" href="/adminpanel/">Panel Admina</a>
-                                <a class="btn btn-info" href="/account/registershop">Załóż sklep</a>
-                            }
-                            else if (Roles.IsUserInRole("shop"))
-                            {
-                                <a class="btn btn-primary" href="/sellerpanel/">Panel Twojego sklepu</a>
-                            }
-                            else if (Roles.IsUserInRole("customer"))
-                            {
-                                <a class="btn btn-primary" href="/userpanel/">Ustawienia konta</a>
-                            }
-                            <a href="/account/logout" class="btn btn-default">Wyloguj</a>
-                        </div>
-                        <div class="navbar-btn navbar-right">
-                            <span style=" color:#808080; font-size:20px" class="pull-right">
-                                Jesteś zalogowany jako:&nbsp; <font color=#FF6600>@User.Identity.Name &nbsp;</font>
-                            </span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="navbar-btn navbar-right btn-group">
-                            <a class="btn btn-info" href="/account/login">Zaloguj</a>
-                            <a class="btn btn-info" href="/account/register">Zarejestruj</a>
-                        </div>
-                    }
+                <div class="navbar-left btn-group" id="selectedShop">
+                    @{ Html.RenderAction("getSelectedShop", "Shop"); }
                 </div>
+
+                @if (Request.IsAuthenticated)
+                {
+                    if (Roles.IsUserInRole("customer"))
+                    { 
+                    <div class="navbar-btn navbar-right">
+                        <a href="/cart/">
+                            <img class="navbarCartImg" src="/Media/cart.png">
+                        </a>
+                    </div>
+                    }
+                    <div class="navbar-btn navbar-right btn-group">
+                        @if (Roles.IsUserInRole("admin"))
+                        {
+                            <a class="btn btn-default" href="/adminpanel/">Panel Admina</a>
+                            <a class="btn btn-info" href="/account/registershop">Załóż sklep</a>
+                        }
+                        else if (Roles.IsUserInRole("shop"))
+                        {
+                            <a class="btn btn-primary" href="/sellerpanel/">Panel Twojego sklepu</a>
+                        }
+                        else if (Roles.IsUserInRole("customer"))
+                        {
+                            <a class="btn btn-primary" href="/userpanel/">Ustawienia konta</a>
+                        }
+                        <a href="/account/logout" class="btn btn-default">Wyloguj</a>
+                    </div>
+                    <div class="navbar-btn navbar-right">
+
+
+
+                        <span style=" color:#808080; font-size:20px" class="pull-right">
+                            Jesteś zalogowany jako:&nbsp; <font color=#FF6600>@User.Identity.Name &nbsp;</font>
+                            @if (Roles.IsUserInRole("customer"))
+                            {
+                                <span style=" color:#808080; font-size:20px" class="pull-right">@Html.Action("GetMyPoints", "UserPanel") pkt. &nbsp;</span>
+                            }
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="navbar-btn navbar-right btn-group">
+                        <a class="btn btn-info" href="/account/login">Zaloguj</a>
+                        <a class="btn btn-info" href="/account/register">Zarejestruj</a>
+                    </div>
+                }
+            </div>
+
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
+
     <!-- Page Content -->
     <div class="container">
         <div class="row">
             <div class="col-md-3">
                 <p class="lead">Kategorie</p>
                 <div class="list-group categories">
+                    @{ Html.RenderAction("categories", "Shop"); }
+                    <a href="/items/promotion"  class="list-group-item">Promocje</a>
                 </div>
             </div>
             <div class="col-md-9" id="shopContent">
@@ -130,45 +145,25 @@
         <!-- Footer -->
         <footer>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <p>jakas tam nazwa 2016</p>
+                </div>
+                <div class="col-lg-6">
+                    <p class="text-right"><a href="/Account/Rules">regulamin</a></p>
                 </div>
             </div>
         </footer>
     </div>
     <!-- /.container -->
 
-    <div id="cd-cart">
-        <h2><b>Cart</b></h2>
-        <ul class="cd-cart-items"></ul> <!-- cd-cart-items -->
-
-        <div class="cd-cart-total">
-        </div>
-        <!-- cd-cart-total -->
-        <a href="#0" class="checkout-btn">Checkout</a>
-
-    </div> <!-- cd-cart -->
-
     <script src="/LightBox/js/lightbox.js"></script>
 
     <script>
         $(document).ready(function () {
-
-            $.ajax({
-                type: "POST",
-                url: "/shop/categories/",
-                error: function () {
-                },
-                success: function (data) {
-                    $(".categories").append(data);
-                }
-            });
-
             $('#searchBtn').on('click', function (e) {
                 var link = $(this).attr('href');
                 $(this).attr('href', link + '?pattern=' + $('#searchInput').val());
             })
-
 
         });
 

@@ -4,7 +4,6 @@ namespace projekt_gosp.Migrations
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using WebMatrix.WebData;
 
     internal sealed class Configuration : DbMigrationsConfiguration<projekt_gosp.Models.db>
     {
@@ -27,7 +26,6 @@ namespace projekt_gosp.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            WebSecurity.InitializeDatabaseConnection("ShopDB", "Klienci", "ID_klienta", "accountName", true);
         }
     }
 }

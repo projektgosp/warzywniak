@@ -1,0 +1,51 @@
+﻿@model List<projekt_gosp.Models.additionalModels.shopDisplayModel>
+
+@if(!User.IsInRole("admin") && !User.IsInRole("shop"))
+{
+
+    @Html.Raw("<div class='whiteText'>Wybrany sklep:</div>")
+    if(@Model != null)
+    { 
+        if(@Model.Count > 1)
+        { 
+            <select id="selectedShopSelect" onchange="setShop()">
+                @foreach (var shop in @Model)
+                {
+                    if(@shop.isSelected)
+                    {
+                        @Html.Raw("<option value=\"" + @shop.shopID + "\" selected>" + @shop.street + " " + @shop.streetNumber)
+                    }
+                    else
+                    {
+                        @Html.Raw("<option value=\"" + @shop.shopID + "\">" + @shop.street + " " + @shop.streetNumber)
+                    }
+                }
+            </select>
+        }
+        else
+        {
+            @Html.Raw(@Model[0].shopID)
+        }
+    
+    }
+
+    <script>
+        function setShop() {
+            var shopid = $('#selectedShopSelect').val();
+            console.log(shopid);
+            $.ajax({
+                type: "POST",
+                url: "/shop/selectShop/"+ shopid,
+                error: function () {
+                },
+                success: function (data) {
+                    if (data["success"] == "1") {
+                        location.reload();
+                    }
+                }
+            });
+
+
+        }
+    </script>
+}

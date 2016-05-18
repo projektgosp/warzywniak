@@ -19,18 +19,17 @@ namespace projekt_gosp.Models
         public DbSet<RodzajCeny> RodzajeCeny { get; set; }
         public DbSet<Kategoria> Kategorie { get; set; }
         public DbSet<Uzytkownik> Uzytkownicy { get; set; }
-        public DbSet<Metoda_platnosci> Metody_platnosci { get; set; }
+        //public DbSet<Metoda_platnosci> Metody_platnosci { get; set; }
         public DbSet<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
         public DbSet<Produkt> Produkty { get; set; }
         public DbSet<Promocja> Promocje { get; set; }
         public DbSet<Sklep> Sklepy { get; set; }
         public DbSet<Zamowienie> Zamowienia { get; set; }
+        public DbSet<Towar> Towary { get; set; }
+        public DbSet<CartModel> Koszyk { get; set; }
+        public DbSet<TowarTermin> TowarTerminy { get; set; }
     }
 
-    public class Cartdb : DbContext
-    {
-        public DbSet<additionalModels.CartModel> Koszyk { get; set; }
-    }
 
     [Table("Kategorie")]
     public class Kategoria
@@ -77,6 +76,12 @@ namespace projekt_gosp.Models
         //new
         public string accountName { get; set; }
 
+        //new v.3
+        public int selectedShopId { get; set; }
+
+        //new v.2
+        public int Punkty { get; set; }
+
         public Nullable<int> ID_adresu { get; set; }
 
         [ForeignKey("ID_adresu")]
@@ -84,7 +89,7 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
     }
-
+    /*
     [Table("Metody_platnosci")]
     public class Metoda_platnosci
     {
@@ -95,18 +100,18 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
     }
-
+    */
     [Table("Pozycje_zamowienia")]
     public class Pozycja_zamowienia
     {
         [Key] 
         public int ID_pozycji { get; set; }
         public int ID_zamowienia { get; set; }
-        public int ID_produktu { get; set; }
+        public int ID_Towaru { get; set; }
         public decimal Ilosc { get; set; }
 
-        [ForeignKey("ID_produktu")]
-        public virtual Produkt Produkt { get; set; }
+        [ForeignKey("ID_Towaru")]
+        public virtual Towar Towar { get; set; }
 
         [ForeignKey("ID_zamowienia")]
         public virtual Zamowienie Zamowienie { get; set; }
@@ -145,8 +150,32 @@ namespace projekt_gosp.Models
         [ForeignKey("ID_kategorii")]
         public virtual Kategoria Kategoria { get; set; }
 
-        public virtual ICollection<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
         public virtual ICollection<Promocja> Promocje { get; set; }
+        public virtual ICollection<Towar> Towary { get; set; }
+    }
+
+    //new v.2
+    [Table("Towary")]
+    public class Towar
+    {
+        [Key]
+        public int ID_Towaru { get; set; }
+        [Required]
+        public int ID_produktu { get; set; }
+        [Required]
+        public int ID_sklepu { get; set; }
+        [Required]
+        public DateTime Data_waznosci { get; set; }
+        [Required]
+        public decimal Ilosc { get; set; }
+        [Required]
+        public double Cena { get; set; }
+
+        [ForeignKey("ID_produktu")]
+        public virtual Produkt Produkt { get; set; }
+
+        [ForeignKey("ID_sklepu")]
+        public virtual Sklep Sklep { get; set; }
     }
 
     //new
@@ -163,10 +192,11 @@ namespace projekt_gosp.Models
         [Key] 
         public int ID_promocji { get; set; }
         public int ID_sklepu { get; set; }
-        public Nullable<int> ID_produktu { get; set; }
+        public Nullable<int> ID_towaru { get; set; }		//v.3  zamiana z id produktu
         public Nullable<int> ID_kategorii { get; set; }
         public string Opis { get; set; }
         public decimal Obnizka { get; set; }
+        public decimal cena_promo { get; set; }	//v.3  dodana cena promocyjna
 
         //new
         public string imagePath { get; set; } 
@@ -174,12 +204,27 @@ namespace projekt_gosp.Models
         [ForeignKey("ID_kategorii")]
         public virtual Kategoria Kategoria { get; set; }
 
-        [ForeignKey("ID_produktu")]
-        public virtual Produkt Produkt { get; set; }
+        [ForeignKey("ID_towaru")] //v.3  zmiana z id_produktu
+        public virtual Towar Towar { get; set; }
 
         [ForeignKey("ID_sklepu")]
         public virtual Sklep Sklep { get; set; }
     }
+
+    //v.3 nowa tabela z terminami waznosci
+    [Table("TowarTermin")]
+    public class TowarTermin
+    {
+        [Key]
+        public int ID_TowarTermin { get; set; }
+        [Required]
+        public DateTime Data_waznosci { get; set; }
+
+        public int ID_Towaru { get; set; }
+        [ForeignKey("ID_Towaru")]
+        public virtual Towar Towar { get; set; }
+    }
+
 
     [Table("Sklepy")]
     public class Sklep
@@ -198,6 +243,7 @@ namespace projekt_gosp.Models
 
         public virtual ICollection<Promocja> Promocje { get; set; }
         public virtual ICollection<Zamowienie> Zamowienia { get; set; }
+        public virtual ICollection<Towar> Towary { get; set; }
     }
 
     [Table("Zamowienia")]
@@ -207,21 +253,38 @@ namespace projekt_gosp.Models
         public int ID_zamowienia { get; set; }
         public int ID_klienta { get; set; }
         public int ID_sklepu { get; set; }
-        public int ID_platnosci { get; set; }
+        //public int ID_platnosci { get; set; }
+        [Column(TypeName = "datetime2")]
         public System.DateTime Data_zam { get; set; }
+        [Column(TypeName = "datetime2")]
         public System.DateTime Data_real_od { get; set; }
+        [Column(TypeName = "datetime2")]
         public System.DateTime Data_real_do { get; set; }
         public string Informacja { get; set; }
+
+        public bool czyPotwierdzonePrzezKlienta { get; set; }
+        public bool statusZamowienia { get; set; }
+        public double kwotaZamowienia { get; set; }
 
         [ForeignKey("ID_klienta")]
         public virtual Uzytkownik Klient { get; set; }
 
-        [ForeignKey("ID_platnosci")]
-        public virtual Metoda_platnosci Metoda_platnosci { get; set; }
+        //[ForeignKey("ID_platnosci")]
+        //public virtual Metoda_platnosci Metoda_platnosci { get; set; }
 
         public virtual ICollection<Pozycja_zamowienia> Pozycje_zamowienia { get; set; }
 
         [ForeignKey("ID_sklepu")]
         public virtual Sklep Sklep { get; set; }
+    }
+
+    public class CartModel
+    {
+        [Key]
+        public int Id { get; set; }
+        public int ShopId { get; set; }
+        public string UserName { get; set; }
+        public int ID_towaru { get; set; }
+        public decimal Ilosc { get; set; }
     }
 }

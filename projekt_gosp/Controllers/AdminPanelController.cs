@@ -13,8 +13,6 @@ namespace projekt_gosp.Controllers
     public class AdminPanelController : Controller
     {
         private db context = new db();
-        //
-        // GET: /AdminPanel/
 
         public ActionResult page(int id = 1)
         {
@@ -65,7 +63,6 @@ namespace projekt_gosp.Controllers
             return View();
         }
         
-        // GET: /Panel/add_item
         [HttpGet]
         public ActionResult addItem()
         {
@@ -78,7 +75,6 @@ namespace projekt_gosp.Controllers
             return View();
         }
 
-        // POST: /Panel/add_item
         [HttpPost]
         public ActionResult addItem(Produkt item)
         {
@@ -105,7 +101,7 @@ namespace projekt_gosp.Controllers
                 context.Produkty.Add(item);
                 context.SaveChanges();
 
-                return RedirectToAction("id", "items", new { id = item.ID_produktu });
+                return RedirectToAction("globalid", "items", new { id = item.ID_produktu });
             }
 
             ViewBag.categories = (from p in context.Kategorie
@@ -117,7 +113,6 @@ namespace projekt_gosp.Controllers
             return View();
         }
         
-        // GET: /Panel/edit_item
         [HttpGet]
         public ActionResult editItem(int id = 0)
         {
@@ -147,7 +142,6 @@ namespace projekt_gosp.Controllers
             return View(item);
         }
 
-        // POST:  /Panel/edit_item
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult editItem(Produkt editedItem, int id = 0, bool removeFile = false)
@@ -160,7 +154,6 @@ namespace projekt_gosp.Controllers
             if (ModelState.IsValid)
             {
 
-                // get event info from db
                 var itemToEdit = (from p in context.Produkty
                                   where p.ID_produktu == id
                                   select p).FirstOrDefault();
@@ -200,13 +193,12 @@ namespace projekt_gosp.Controllers
                 }
 
                 context.SaveChanges();
-                return RedirectToAction("id", "items", new { id = itemToEdit.ID_produktu });
+                return RedirectToAction("globalid", "items", new { id = itemToEdit.ID_produktu });
             }
 
             return Json(new { error = "all fields are required" });
         }
 
-        // GET:  /Panel/remove_item
         [HttpGet]
         public ActionResult removeItem(int id = 0)
         {

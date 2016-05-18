@@ -1,0 +1,62 @@
+﻿@model projekt_gosp.Models.Produkt
+
+
+@using (Html.BeginForm("addItem", "sellerpanel", FormMethod.Post,
+            new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Dodaj produkt</legend>
+
+
+
+        <div>
+            <h2>@ViewBag.error</h2>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nazwa)
+            @Html.TextBoxFor(model => model.Nazwa, new { @class = "form-control", @readonly="true"})
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Opis)
+            @Html.TextAreaFor(model => model.Opis, new { @class = "form-control", @readonly = "true" })
+        </div>
+
+        <div class="form-group">
+            <p><b>Kategoria produktu</b></p>
+            @Html.TextBoxFor(model => model.Kategoria.NameToDisplay, new { @class = "form-control", @readonly = "true" })
+        </div>
+
+        <div class="form-group">
+            <p><b>Cena za @Model.RodzajCeny.opis </b></p>
+            @Html.TextBoxFor(model => model.Cena, new { @class = "form-control"})
+            @Html.ValidationMessageFor(model => model.Cena)
+        </div>
+
+        <div class="form-group">
+            <p><b>Termin waznosci</b></p>
+            <input name="expiryDate" type="text" id="datepicker">
+        </div>
+
+        <div class="form-group">
+            <p><b>Ile @Model.RodzajCeny.opis</b></p>
+            <input name="count" type="number">
+        </div>
+
+        <div class="form-group">
+            <input class="btn btn-default" type="submit" value="Dodaj produkt do sklepu">
+            <a class="btn btn-default" href="/sellerpanel/globalproductlist">Anuluj</a>
+        </div>
+
+    </fieldset>
+}
+
+<link href="/Content/styles.css" rel="stylesheet">
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>

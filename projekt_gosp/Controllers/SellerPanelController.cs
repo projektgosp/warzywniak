@@ -1,10 +1,12 @@
 ﻿using projekt_gosp.Models;
+using projekt_gosp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
+using System.Threading;
 
 namespace projekt_gosp.Controllers
 {
@@ -15,7 +17,182 @@ namespace projekt_gosp.Controllers
         //
         // GET: /ShopPanel/
 
-        public ActionResult Index()
+        public ActionResult page(int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            var items = (from p in context.Towary
+                         where p.ID_sklepu == shopid
+                         select p).ToList();
+
+            int itemsCount = items.Count();
+
+            List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
+
+            ViewBag.pagesCount = calculatedPagination[0];
+            ViewBag.startPage = calculatedPagination[1];
+            ViewBag.activePage = calculatedPagination[2];
+            ViewBag.endPage = calculatedPagination[3];
+
+            return View("index",items);
+        }
+
+        [HttpGet]
+        public ActionResult addItemToShop(int page = 1)
+        {
+            if (page < 1)
+            {
+                page = 1;
+            }
+
+            int itemsCount = context.Produkty.Count();
+
+            List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
+
+            ViewBag.pagesCount = calculatedPagination[0];
+            ViewBag.startPage = calculatedPagination[1];
+            ViewBag.activePage = calculatedPagination[2];
+            ViewBag.endPage = calculatedPagination[3];
+
+            var products = (from p in context.Produkty
+                            select p).ToList();
+
+            return View("globalProductList", products);
+        }
+
+        [HttpGet]
+        public ActionResult addItem(int id = 0)
+        {
+            if (id != 0)
+            {
+                var item = (from p in context.Produkty
+                            where p.ID_produktu == id
+                            select p).FirstOrDefault();
+
+                if (item != null)
+                {
+                    return View(item);
+                }
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        public ActionResult addItem(Produkt product, DateTime expiryDate = default(DateTime), int count = -1, int id = 0)
+        {
+            if (ModelState.IsValid && expiryDate != default(DateTime) && count > 0 && id > 0) 
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                if(shopid < 0)
+                {
+                    return View("Error");
+                }
+
+                var prod = (from p in context.Produkty
+                               where p.ID_produktu == id
+                               select p).FirstOrDefault();
+                if (prod == null)
+                {
+                    return View("Error");
+                }
+
+                Towar t = new Towar
+                {
+                    Data_waznosci = expiryDate,
+                    ID_produktu = id,
+                    ID_sklepu = shopid,
+                    Ilosc = count,
+                    Cena = product.Cena
+                };
+
+                context.Towary.Add(t);
+                context.SaveChanges();
+
+                return RedirectToAction("addItemToShop", "sellerpanel");
+            }
+
+            ViewBag.error = "Wszystkie pola sa wymagane";
+            var item = (from p in context.Produkty
+                        where p.ID_produktu == product.ID_produktu
+                        select p).FirstOrDefault();
+
+            return View(item);
+        }
+
+        //edit towaru, nie produktu!!
+        [HttpGet]
+        public ActionResult editItem(int id = 0)
+        {
+            if (id != 0)
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                var item = (from p in context.Towary
+                            where p.ID_Towaru == id && p.ID_sklepu == shopid
+                            select p).FirstOrDefault();
+
+                if (item != null)
+                {
+                    return View(item);
+                }
+            }
+
+            return View("Error");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult editItem(Towar item, int id = 0)
+        {
+            if (id <= 0)
+            {
+                return Json(new { error = "item doesn't exist" });
+            }
+
+            if (ModelState.IsValid)
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                var itemToEdit = (from p in context.Towary
+                                  where p.ID_Towaru == id && p.ID_sklepu == shopid
+                                  select p).FirstOrDefault();
+                if (itemToEdit == null)
+                {
+                    return Json(new { error = "item doesn't exist" });
+                }
+
+                itemToEdit.Ilosc = item.Ilosc;
+                itemToEdit.Cena = item.Cena;
+                itemToEdit.Data_waznosci = item.Data_waznosci;
+
+
+                context.SaveChanges();
+                return RedirectToAction("page", "sellerpanel");
+            }
+
+            return Json(new { error = "all fields are required" });
+        }
+
+        [HttpGet]
+        public ActionResult removeItem(int id = 0)
+        {
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            var item = (from p in context.Towary
+                        where p.ID_Towaru == id && p.ID_sklepu == shopid
+                        select p).FirstOrDefault();
+
+            if (item != null)
+            {
+                context.Towary.Remove(item);
+                context.SaveChanges();
+            }
+            return RedirectToAction("page");
+        }
+
+        public ActionResult settings()
         {
             var user = (from p in context.Uzytkownicy
                         where p.ID_klienta == WebSecurity.CurrentUserId
@@ -87,7 +264,95 @@ namespace projekt_gosp.Controllers
             return Json(new { success = "1", content = newemail }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult ShopOrders()
+        {
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            List<Zamowienie> orders = (from p in context.Zamowienia
+                                       where p.ID_sklepu == shopid && p.czyPotwierdzonePrzezKlienta == true
+                                       orderby p.ID_zamowienia descending
+                                       select p).ToList();
+            return View(orders);
+        }
 
+        public ActionResult ChangeOrderStatus(int id = 0)
+        {
+            if (id < 1)
+            {
+                return HttpNotFound();
+            }
+
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+            var order = (from p in context.Zamowienia
+                         where p.ID_zamowienia == id && p.ID_sklepu == shopid
+                         select p).FirstOrDefault();
+            if (order.statusZamowienia == false)
+            {
+                order.statusZamowienia = true;
+                string clientPhoneNumber = order.Klient.Nr_tel;
+                string shopAddress = "ulica " + order.Sklep.Adres.Ulica + " " + order.Sklep.Adres.Nr_budynku;
+                string orderValue = order.kwotaZamowienia.ToString();
+
+                //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
+                //DZIALAC - DZIALA
+                //sendSmsToClientThread(clientPhoneNumber, shopAddress, orderValue);
+            }
+
+            context.SaveChanges();
+
+            return Json(new { success = "1" });
+        }
+
+        private void sendSmsToClientThread(string phoneNumber, string shopAddress, string orderValue)
+        {
+            additionalModels.smsOrderIsReady e = new additionalModels.smsOrderIsReady
+            {
+                phoneNumber = phoneNumber,
+                orderValue = orderValue,
+                shopAddress = shopAddress
+            };
+            Thread t = new Thread(SendSmsToClient);
+            t.Start(e);
+        }
+
+        private void SendSmsToClient(Object obj)
+        {
+            additionalModels.smsOrderIsReady sms = (additionalModels.smsOrderIsReady)obj;
+
+            string message = "Witaj! Twoje zamówienie na kwote w wysokości " + sms.orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + sms.shopAddress;
+
+            try
+            {
+                SMSApi.Api.Client client = new SMSApi.Api.Client("rwiktorek@wp.pl");
+                client.SetPasswordHash("931bd0e1cc9baae10e9ff6ca7002e834");
+
+                var smsApi = new SMSApi.Api.SMSFactory(client);
+
+                var result =
+                    smsApi.ActionSend()
+                        .SetText(message)
+                        .SetTo(sms.phoneNumber)
+                        //.SetSender("e-Warzywko") //Pole nadawcy lub typ wiadomość 'ECO', '2Way'
+                        .Execute();
+            }
+            catch (SMSApi.Api.ActionException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.ClientException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.HostException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.ProxyException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -23,6 +23,10 @@ namespace projekt_gosp.Controllers
             ViewBag.email = user.Email;
 
             ViewBag.address = user.Adres;
+            if (ViewBag.address == null)
+            {
+                ViewBag.address = new Adres();
+            }
 
             return View();
         }
@@ -77,6 +81,26 @@ namespace projekt_gosp.Controllers
             context.SaveChanges();
 
             return Json(new { success = "1"}, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public int GetMyPoints()
+        {
+            var user = (from p in context.Uzytkownicy
+                        where p.ID_klienta == WebSecurity.CurrentUserId
+                        select p).FirstOrDefault();
+
+            return user.Punkty;
+        }
+
+        [HttpGet]
+        public ActionResult OrderHistory()
+        {
+            List<Zamowienie> orders = (from p in context.Zamowienia
+                          where p.ID_klienta == WebSecurity.CurrentUserId && p.czyPotwierdzonePrzezKlienta == true
+                          orderby p.ID_zamowienia descending
+                          select p).ToList();
+            return View(orders);
         }
 
         protected override void Dispose(bool disposing)

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using projekt_gosp.Models;
 using projekt_gosp.Helpers;
+using WebMatrix.WebData;
 
 namespace projekt_gosp.Controllers
 {
@@ -16,12 +17,15 @@ namespace projekt_gosp.Controllers
 
         public ActionResult Index()
         {
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             var promotions = (from p in context.Promocje
-                          select p).ToList();
+                              where p.ID_sklepu == shopid
+                              select p).ToList();
 
 
-            var newItems = (from p in context.Produkty
-                            orderby p.Data_dodania descending
+            var newItems = (from p in context.Towary
+                            where p.ID_sklepu == shopid && p.Ilosc > 0
+                            orderby p.ID_Towaru descending
                             select p).Take(6).ToList();
 
             ViewBag.newItems = newItems;
@@ -29,8 +33,8 @@ namespace projekt_gosp.Controllers
             return View(promotions);
         }
 
-        [HttpGet]
-        public ActionResult selectShop()
+        [OutputCache(Duration = int.MaxValue)]
+        private List<additionalModels.shopDisplayModel> getShopList()
         {
             var shops = (from p in context.Sklepy
                          select p).ToList();
@@ -48,13 +52,60 @@ namespace projekt_gosp.Controllers
                     postalCode = shop.Adres.Kod_pocztowy,
                     street = shop.Adres.Ulica,
                     streetNumber = shop.Adres.Nr_budynku,
-                    flatNumber = shop.Adres.Nr_lokalu
+                    flatNumber = shop.Adres.Nr_lokalu,
+                    isSelected = false
                 });
             }
 
-            return View(shopsList);
+            return shopsList;
         }
 
+
+        public ActionResult selectShop(int id = 0)
+        {
+            if (id > 0 && !User.IsInRole("admin") && !User.IsInRole("shop"))
+            {
+                var shop = (from p in context.Sklepy
+                            where p.ID_sklepu == id
+                            select p).FirstOrDefault();
+                if (shop != null)
+                {
+                    if (WebSecurity.IsAuthenticated)
+                    {
+                        var user = (from p in context.Uzytkownicy
+                                    where p.ID_klienta == WebSecurity.CurrentUserId
+                                    select p).FirstOrDefault();
+
+                        user.selectedShopId = id;
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        Session["shopid"] = id;
+                    }
+
+                    return Json(new { success = "1" });
+                }
+            }
+
+            return View("error");
+        }
+
+        public ActionResult getSelectedShop()
+        {
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+
+            var shops = getShopList();
+
+            var selectedShop = shops.Find(x => x.shopID == shopid);
+            if (selectedShop != null)
+            {
+                selectedShop.isSelected = true;
+            }
+            return PartialView(shops);
+        }
+
+        [OutputCache(Duration = int.MaxValue)]
         public ActionResult categories()
         {
             var categories = (from p in context.Kategorie

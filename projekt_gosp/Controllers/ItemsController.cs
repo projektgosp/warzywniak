@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using projekt_gosp.Models;
 using projekt_gosp.Helpers;
+using WebMatrix.WebData;
 
 namespace projekt_gosp.Controllers
 {
@@ -19,8 +20,22 @@ namespace projekt_gosp.Controllers
             return View();
         }
 
+        //id towaru
         [HttpGet]
         public ActionResult id(int id = 0)
+        {
+            Towar product = context.Towary.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        //id produktu
+        [Authorize(Roles = "admin, shop")]
+        [HttpGet]
+        public ActionResult globalid(int id = 0)
         {
             Produkt product = context.Produkty.Find(id);
             if (product == null)
@@ -54,33 +69,109 @@ namespace projekt_gosp.Controllers
                 return View("itemsList");
             }
 
-            int itemsCount = cat.Produkty.Count();
+            if(User.IsInRole("admin"))
+            {
+                int itemsCount = cat.Produkty.Count();
+                List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
 
-            List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
+                ViewBag.pagesCount = calculatedPagination[0];
+                ViewBag.startPage = calculatedPagination[1];
+                ViewBag.activePage = calculatedPagination[2];
+                ViewBag.endPage = calculatedPagination[3];
+                ViewBag.categoryName = category;
 
-            ViewBag.pagesCount = calculatedPagination[0];
-            ViewBag.startPage = calculatedPagination[1];
-            ViewBag.activePage = calculatedPagination[2];
-            ViewBag.endPage = calculatedPagination[3];
+                var items = (from p in context.Produkty
+                             orderby p.ID_produktu descending
+                             where p.Kategoria.NameToLink == category
+                             select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
+                return View("globalitemsList", items);
+            }
+            else
+            {
 
-            var items = (from p in context.Produkty
-                         orderby p.ID_produktu descending
-                         where p.Kategoria.NameToLink == category
-                         select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
 
-            ViewBag.categoryName = category;
-            return View("itemsList", items);
+
+                if (shopid == 0)
+                {
+                    return View("error");
+                }
+
+                var catItems = (from p in context.Towary
+                                orderby p.ID_Towaru descending
+                                where p.Produkt.Kategoria.NameToLink == category && p.ID_sklepu == shopid && p.Ilosc > 0
+                                select p).ToList();
+
+                int itemsCount = catItems.Count();
+                List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
+
+                ViewBag.pagesCount = calculatedPagination[0];
+                ViewBag.startPage = calculatedPagination[1];
+                ViewBag.activePage = calculatedPagination[2];
+                ViewBag.endPage = calculatedPagination[3];
+                ViewBag.categoryName = category;
+
+                var items = catItems.Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
+                return View("itemsList", items);
+            }
+
         }
 
+        [HttpGet]
+        public ActionResult promotion()
+        {
+
+            var car = context.Promocje;
+
+
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+
+
+                if (shopid == 0)
+                {
+                    return View("error");
+                }
+
+                var catItems = (from p in context.Promocje
+                                where p.ID_sklepu == shopid && p.Towar.Ilosc > 0
+                                select p).ToList();
+
+                int itemsCount = catItems.Count();
+                List<int> calculatedPagination = pagination.calculatePagination(1, itemsCount);
+
+                ViewBag.pagesCount = calculatedPagination[0];
+                ViewBag.startPage = calculatedPagination[1];
+                ViewBag.activePage = calculatedPagination[2];
+                ViewBag.endPage = calculatedPagination[3];
+                ViewBag.categoryName = "Promocje";
+
+                var items = catItems;
+                return View(items);
+           
+
+        }
 
         public ActionResult SearchItem(string pattern)
         {
-            var products = (from p in context.Produkty
-                            where p.Nazwa.ToLower().Contains(pattern.ToLower()) ||
-                                  p.Opis.ToLower().Contains(pattern.ToLower())
-                            select p).ToList();
+            if (User.IsInRole("admin"))
+            {
+                var products = (from p in context.Produkty
+                                where p.Nazwa.ToLower().Contains(pattern.ToLower()) ||
+                                      p.Opis.ToLower().Contains(pattern.ToLower())
+                                select p).ToList();
 
-            return View(products);
+                return View("globalsearchitem", products);
+            }
+            else
+            {
+                int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+                var products = (from p in context.Towary
+                                where (p.Produkt.Nazwa.ToLower().Contains(pattern.ToLower()) ||
+                                      p.Produkt.Opis.ToLower().Contains(pattern.ToLower())) && p.ID_sklepu == shopid
+                                select p).ToList();
+
+                return View("searchitem", products);
+            }
         }
 
         protected override void Dispose(bool disposing)

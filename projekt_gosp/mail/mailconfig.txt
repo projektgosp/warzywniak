@@ -1,0 +1,8 @@
+# adres email
+projektzig@gmail.com
+# haslo
+dariuszcaban
+# host
+smtp.gmail.com
+# port
+587
