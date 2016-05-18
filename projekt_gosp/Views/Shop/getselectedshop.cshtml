@@ -13,11 +13,11 @@
                 {
                     if(@shop.isSelected)
                     {
-                        @Html.Raw("<option value=\"" + @shop.shopID + "\" selected>" + @shop.shopID)
+                        @Html.Raw("<option value=\"" + @shop.shopID + "\" selected>" + @shop.street + " " + @shop.streetNumber)
                     }
                     else
                     {
-                        @Html.Raw("<option value=\"" + @shop.shopID+ "\">" + @shop.shopID)
+                        @Html.Raw("<option value=\"" + @shop.shopID + "\">" + @shop.street + " " + @shop.streetNumber)
                     }
                 }
             </select>
