@@ -47,21 +47,21 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Shop name</a>
+                <a class="navbar-brand" href="/">e-Warzywko</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
                 <div class="navbar-left btn-group">
                     <form class="navbar-form navbar-right" action="/items/searchitem/" method="get" accept-charset="UTF-8">
@@ -74,56 +74,58 @@
                     @{ Html.RenderAction("getSelectedShop", "Shop"); }
                 </div>
 
-                    @if (Request.IsAuthenticated)
-                    {
-                        <div class="navbar-btn navbar-right" onclick="showCartData()"> 
-                            <div id="cd-cart-trigger">
-                                <a class="cd-img-replace" href="#0">
-	                                <input name="getCart" id="getCart" type="submit" value="Koszyk"/>
-                                </a>
-                            </div>
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="navbar-btn navbar-right" onclick="showCartData()">
+                        <div id="cd-cart-trigger">
+                            <a class="cd-img-replace" href="#0">
+                                <input name="getCart" id="getCart" type="submit" value="Koszyk" />
+                            </a>
                         </div>
-                        <div class="navbar-btn navbar-right btn-group">
-                            @if (Roles.IsUserInRole("admin"))
+                    </div>
+                    <div class="navbar-btn navbar-right btn-group">
+                        @if (Roles.IsUserInRole("admin"))
+                        {
+                            <a class="btn btn-default" href="/adminpanel/">Panel Admina</a>
+                            <a class="btn btn-info" href="/account/registershop">Załóż sklep</a>
+                        }
+                        else if (Roles.IsUserInRole("shop"))
+                        {
+                            <a class="btn btn-primary" href="/sellerpanel/">Panel Twojego sklepu</a>
+                        }
+                        else if (Roles.IsUserInRole("customer"))
+                        {
+                            <a class="btn btn-primary" href="/userpanel/">Ustawienia konta</a>
+                        }
+                        <a href="/account/logout" class="btn btn-default">Wyloguj</a>
+                    </div>
+                    <div class="navbar-btn navbar-right">
+
+
+
+                        <span style=" color:#808080; font-size:20px" class="pull-right">
+                            Jesteś zalogowany jako:&nbsp; <font color=#FF6600>@User.Identity.Name &nbsp;</font>
+                            @if (Roles.IsUserInRole("customer"))
                             {
-                                <a class="btn btn-default" href="/adminpanel/">Panel Admina</a>
-                                <a class="btn btn-info" href="/account/registershop">Załóż sklep</a>
+                                <span style=" color:#808080; font-size:20px" class="pull-right">@Html.Action("GetMyPoints", "UserPanel") pkt. &nbsp;</span>
                             }
-                            else if (Roles.IsUserInRole("shop"))
-                            {
-                                <a class="btn btn-primary" href="/sellerpanel/">Panel Twojego sklepu</a>
-                            }
-                            else if (Roles.IsUserInRole("customer"))
-                            {
-                                <a class="btn btn-primary" href="/userpanel/">Ustawienia konta</a>
-                            }
-                            <a href="/account/logout" class="btn btn-default">Wyloguj</a>
-                        </div>
-                        <div class="navbar-btn navbar-right">
-                         
-                                
-                            
-                            <span style=" color:#808080; font-size:20px" class="pull-right">
-                                Jesteś zalogowany jako:&nbsp; <font color=#FF6600>@User.Identity.Name &nbsp;</font>
-                                @if (Roles.IsUserInRole("customer"))
-                                {
-                                    <span style=" color:#808080; font-size:20px" class="pull-right">@Html.Action("GetMyPoints", "UserPanel") pkt. &nbsp;</span>
-                                }
-                            </span>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="navbar-btn navbar-right btn-group">
-                            <a class="btn btn-info" href="/account/login">Zaloguj</a>
-                            <a class="btn btn-info" href="/account/register">Zarejestruj</a>
-                        </div>
-                    }
-                </div>
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="navbar-btn navbar-right btn-group">
+                        <a class="btn btn-info" href="/account/login">Zaloguj</a>
+                        <a class="btn btn-info" href="/account/register">Zarejestruj</a>
+                    </div>
+                }
+            </div>
+
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
     </nav>
+
     <!-- Page Content -->
     <div class="container">
         <div class="row">
