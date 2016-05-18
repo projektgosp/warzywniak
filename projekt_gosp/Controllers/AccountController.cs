@@ -114,6 +114,9 @@ namespace shop_online.Controllers
                         string confirmToken = WebSecurity.CreateUserAndAccount(user.username, user.password, new
                         {
                             Email = user.email,
+                            Nr_tel = user.phonenumber,
+                            Imie = user.name,
+                            Nazwisko = user.surname
                         }, true);
 
                         string callbackUrl = CreateConfirmUrl(user.username, confirmToken);

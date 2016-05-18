@@ -98,6 +98,7 @@ namespace projekt_gosp.Controllers
         {
             List<Zamowienie> orders = (from p in context.Zamowienia
                           where p.ID_klienta == WebSecurity.CurrentUserId && p.czyPotwierdzonePrzezKlienta == true
+                          orderby p.ID_zamowienia descending
                           select p).ToList();
             return View(orders);
         }

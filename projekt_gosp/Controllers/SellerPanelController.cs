@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebMatrix.WebData;
+using System.Threading;
 
 namespace projekt_gosp.Controllers
 {
@@ -269,6 +270,7 @@ namespace projekt_gosp.Controllers
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             List<Zamowienie> orders = (from p in context.Zamowienia
                                        where p.ID_sklepu == shopid && p.czyPotwierdzonePrzezKlienta == true
+                                       orderby p.ID_zamowienia descending
                                        select p).ToList();
             return View(orders);
         }
@@ -288,9 +290,12 @@ namespace projekt_gosp.Controllers
             {
                 order.statusZamowienia = true;
                 string clientPhoneNumber = order.Klient.Nr_tel;
-                string shopAddress = " ulica: " + order.Sklep.Adres.Ulica + " " + order.Sklep.Adres.Nr_budynku + ", " + order.Sklep.Adres.Miasto;
+                string shopAddress = "ulica " + order.Sklep.Adres.Ulica + " " + order.Sklep.Adres.Nr_budynku;
                 string orderValue = order.kwotaZamowienia.ToString();
-                SendSmsToClient(clientPhoneNumber, shopAddress, orderValue);
+
+                //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
+                //DZIALAC - DZIALA
+                //sendSmsToClientThread(clientPhoneNumber, shopAddress, orderValue);
             }
 
             context.SaveChanges();
@@ -298,12 +303,55 @@ namespace projekt_gosp.Controllers
             return Json(new { success = "1" });
         }
 
-        private void SendSmsToClient(string phoneNumber, string shopAddress, string orderValue)
+        private void sendSmsToClientThread(string phoneNumber, string shopAddress, string orderValue)
         {
-            string message = "Witaj! Twoje zamówienie na kwote w wysokości " + orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe od odbioru. Zapraszamy po odbiór pod adresem: " + shopAddress;
-            /*
-             * todo
-             */
+            additionalModels.smsOrderIsReady e = new additionalModels.smsOrderIsReady
+            {
+                phoneNumber = phoneNumber,
+                orderValue = orderValue,
+                shopAddress = shopAddress
+            };
+            Thread t = new Thread(SendSmsToClient);
+            t.Start(e);
+        }
+
+        private void SendSmsToClient(Object obj)
+        {
+            additionalModels.smsOrderIsReady sms = (additionalModels.smsOrderIsReady)obj;
+
+            string message = "Witaj! Twoje zamówienie na kwote w wysokości " + sms.orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + sms.shopAddress;
+
+            try
+            {
+                SMSApi.Api.Client client = new SMSApi.Api.Client("rwiktorek@wp.pl");
+                client.SetPasswordHash("931bd0e1cc9baae10e9ff6ca7002e834");
+
+                var smsApi = new SMSApi.Api.SMSFactory(client);
+
+                var result =
+                    smsApi.ActionSend()
+                        .SetText(message)
+                        .SetTo(sms.phoneNumber)
+                        //.SetSender("e-Warzywko") //Pole nadawcy lub typ wiadomość 'ECO', '2Way'
+                        .Execute();
+            }
+            catch (SMSApi.Api.ActionException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.ClientException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.HostException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.ProxyException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+
         }
 
         protected override void Dispose(bool disposing)
