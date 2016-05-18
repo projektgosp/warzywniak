@@ -71,11 +71,14 @@ else
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             success: function (data) {
-                alert("produkt został dodany na promocje");
-                showCartData();
+                if(data["success"] == true) {
+                    alert("produkt został dodany na promocje");
+                } else {
+                    alert("wystąpił błąd podczas dodawania promocji");
+                }
             },
             error: function () {
-                alert("error");
+                alert("wystąpił błąd podczas dodawania promocji");
             }
         });
     }

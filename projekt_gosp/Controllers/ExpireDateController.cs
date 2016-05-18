@@ -38,6 +38,10 @@ namespace projekt_gosp.Controllers
         [HttpPost]
         public ActionResult AddPromotion(Promo promo)
         {
+            if (promo == null || promo.id == 0)
+            {
+                return Json(new { success = false });
+            }
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
 
             Towar towar = context.Towary.Find(promo.id);
@@ -65,8 +69,12 @@ namespace projekt_gosp.Controllers
             return Json(new { success = true });
         }
 
-        public ActionResult Products(int id)
+        public ActionResult Products(int id = 0)
         {
+            if(id == 0)
+            {
+                return View("error");
+            }
             int shopId = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             var expireDate = DateTime.Now.Date.AddDays(id);
             var products = (from b in context.Towary
