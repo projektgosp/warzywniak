@@ -124,11 +124,10 @@ namespace projekt_gosp.Models
             public string body { get; set; }
         }
 
-        public class smsOrderIsReady
+        public class sms
         {
             public string phoneNumber { get; set; }
-            public string shopAddress { get; set; }
-            public string orderValue { get; set; }
+            public string message { get; set; }
         }
     }
 }

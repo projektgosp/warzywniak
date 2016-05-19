@@ -111,6 +111,18 @@ namespace projekt_gosp.Controllers
                 var body = String.Format("zamowienie zostalo zlozone blablabla");
                 RemoveItemsFromCart();
                 GlobalMethods.SendMailThread(user.Email, subject, body);
+
+                string clientPhoneNumber = order.Klient.Nr_tel;
+                string orderValue = order.kwotaZamowienia.ToString();
+
+                string message = "Witaj! Twoje zamówienie w sklepie e-Warzywko na kwote w wysokości " + orderValue + " zł zostało przyjęte do realizacji.";
+
+
+                //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
+                //DZIALAC - DZIALA
+                //GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
+
+
             }
             catch
             {
