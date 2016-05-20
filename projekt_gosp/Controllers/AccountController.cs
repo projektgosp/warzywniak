@@ -318,12 +318,12 @@ namespace shop_online.Controllers
                 if (username == "")
                 {
                     error = true;
-                    ViewBag.error += "username field cannot be empty</br>";
+                    ViewBag.error += "pole nazwa nie może być puste</br>";
                 }
                 if (email == "")
                 {
                     error = true;
-                    ViewBag.error += "email field cannot be empty";
+                    ViewBag.error += "pole email nie może być puste";
                 }
 
                 if (error == true)
@@ -338,7 +338,7 @@ namespace shop_online.Controllers
                 var user = usr.FirstOrDefault();
                 if (user == null)
                 {
-                    ViewBag.error = "This email address is not associated with given username";
+                    ViewBag.error = "Ten email nie pasuje do podanej nazwy użytkownika";
                     return View();
                 }
                 else
@@ -350,12 +350,12 @@ namespace shop_online.Controllers
                         new { token = passwordResetToken },
                         protocol: Request.Url.Scheme);
 
-                    var subject = "Beer shop: reseting your password";
-                    var body = String.Format("Hello {0}, please click the following link to reset your password: <a href=\"{1}\">Reset</a>. </br> If you didn't request the password reset just ignore this email!", username, callbackUrl);
+                    var subject = "e-Warzywko: resetowanie hasła";
+                    var body = String.Format("Witaj {0}, proszę kliknąć w link aby zresetować hasło: <a href=\"{1}\">Resetuj</a>. </br> Jeśli nie zleciłeś zmiany hasła, zignoruj tą wiadomość!", username, callbackUrl);
 
                     GlobalMethods.SendMailThread(email, subject, body);
 
-                    ViewBag.msg = "Password reset link has been sent to your email address";
+                    ViewBag.msg = "Link do zmiany hasła został wysłany na twój adres email";
                     return View();
                 }
             }
@@ -384,17 +384,17 @@ namespace shop_online.Controllers
                 }
                 if (password == "")
                 {
-                    ViewBag.error = "password field is required";
+                    ViewBag.error = "pole hasło jest wymagane";
                     return View();
                 }
 
                 if (WebSecurity.ResetPassword(token, password))
                 {
-                    ViewBag.msg = "password has been reseted. You can login now";
+                    ViewBag.msg = "Hasło zostało zresetowane! Teraz możesz się zalogować";
                 }
                 else
                 {
-                    ViewBag.msg = "something went wrong";
+                    ViewBag.msg = "Ups! Coś poszło nie tak...";
                 }
                 return View();
             }
