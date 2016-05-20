@@ -299,6 +299,108 @@ namespace shop_online.Controllers
             return callbackUrl;
         }
 
+        [HttpGet]
+        public ActionResult forgotPassword()
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Shop");
+        }
+
+        [HttpPost]
+        public ActionResult forgotPassword(string username = "", string email = "")
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                bool error = false;
+                if (username == "")
+                {
+                    error = true;
+                    ViewBag.error += "username field cannot be empty</br>";
+                }
+                if (email == "")
+                {
+                    error = true;
+                    ViewBag.error += "email field cannot be empty";
+                }
+
+                if (error == true)
+                {
+                    return View();
+                }
+
+                var usr = from p in context.Uzytkownicy
+                          where p.Email == email && p.accountName == username
+                          select p;
+
+                var user = usr.FirstOrDefault();
+                if (user == null)
+                {
+                    ViewBag.error = "This email address is not associated with given username";
+                    return View();
+                }
+                else
+                {
+                    string passwordResetToken = WebSecurity.GeneratePasswordResetToken(username);
+
+                    var callbackUrl = Url.Action(
+                        "confirmResetPassword", "Account",
+                        new { token = passwordResetToken },
+                        protocol: Request.Url.Scheme);
+
+                    var subject = "Beer shop: reseting your password";
+                    var body = String.Format("Hello {0}, please click the following link to reset your password: <a href=\"{1}\">Reset</a>. </br> If you didn't request the password reset just ignore this email!", username, callbackUrl);
+
+                    GlobalMethods.SendMailThread(email, subject, body);
+
+                    ViewBag.msg = "Password reset link has been sent to your email address";
+                    return View();
+                }
+            }
+            return RedirectToAction("Index", "shop");
+        }
+
+        [HttpGet]
+        public ActionResult confirmResetPassword(string token = "")
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                ViewBag.token = token;
+                return View();
+            }
+            return RedirectToAction("Index", "shop");
+        }
+
+        [HttpPost]
+        public ActionResult confirmResetPassword(string token = "", string password = "")
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                if (token == "")
+                {
+                    return RedirectToAction("login", "account");
+                }
+                if (password == "")
+                {
+                    ViewBag.error = "password field is required";
+                    return View();
+                }
+
+                if (WebSecurity.ResetPassword(token, password))
+                {
+                    ViewBag.msg = "password has been reseted. You can login now";
+                }
+                else
+                {
+                    ViewBag.msg = "something went wrong";
+                }
+                return View();
+            }
+            return RedirectToAction("Index", "shop");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

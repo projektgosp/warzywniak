@@ -513,6 +513,8 @@
     <Content Include="Views\Order\notEnoughPoints.cshtml" />
     <Content Include="Views\UserPanel\OrderHistory.cshtml" />
     <Content Include="Views\SellerPanel\shoporders.cshtml" />
+    <Content Include="Views\Account\confirmResetPassword.cshtml" />
+    <Content Include="Views\Account\forgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
