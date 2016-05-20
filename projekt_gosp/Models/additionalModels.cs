@@ -28,7 +28,7 @@ namespace projekt_gosp.Models
             public string username { get; set; }
 
             [Required(ErrorMessage = "Pole haslo jest wymagane")]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string password { get; set; }
@@ -36,7 +36,7 @@ namespace projekt_gosp.Models
             [Required(ErrorMessage = "Pole haslo jest wymagane")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("password", ErrorMessage = "Hasła nie zgadzają się.")]
             public string confirmPassword { get; set; }
 
             [Required(ErrorMessage = "Pole adres email jest wymagane")]
@@ -48,7 +48,7 @@ namespace projekt_gosp.Models
             [Required(ErrorMessage = "Pole nr telefonu jest wymagane")]
             [Display(Name = "Nr telefonu")]
             [DataType(DataType.PhoneNumber)]
-            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Zły nr telefonu")]
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Niepoprawny numer telefonu.")]
             public string phonenumber { get; set; }
 
             [Required(ErrorMessage="Pole imie jest wymagane")]
@@ -65,14 +65,14 @@ namespace projekt_gosp.Models
             public string username { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("password", ErrorMessage = "Hasła nie zgadzają się.")]
             public string confirmPassword { get; set; }
 
             [Required]

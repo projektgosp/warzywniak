@@ -201,7 +201,7 @@
             $("#currentpw").val("");
             $("#newpw").val("");
             $("#newpwagain").val("");
-            alert("password has been changed");
+            alert("Hasło zostało zmienione!");
         } else {
             alert(data["error"]);
         }
@@ -212,7 +212,7 @@
             $("#currentemail").val(data["content"]);
             $("#newemail").val("");
             $("#newemailagain").val("");
-            alert("email has been changed");
+            alert("Adres e-mail został zmieniony!");
         } else {
             alert(data["error"]);
         }
@@ -220,7 +220,7 @@
 
     function addressChangeCallback(data) {
         if (data["success"] == "1") {
-            alert("address has been changed");
+            alert("Adres został zmieniony!");
         } else {
             alert(data["error"]);
         }
@@ -228,7 +228,7 @@
 
     function phoneChangeCallback(data) {
         if (data["success"] == "1") {
-            alert("phone number has been changed");
+            alert("Numer telefonu został zmieniony!");
         } else {
             alert(data["error"]);
         }
@@ -261,22 +261,22 @@
         var new2 = $('#newpwagain').val();
 
         if (current == null || current == "" || typeof current == 'undefined') {
-            alert('Current password field is required');
+            alert('Pole aktualne hasło jest wymagane.');
             return false;
         }
 
         if (new1 == null || new1 == "" || typeof new1 == 'undefined') {
-            alert('New password field is required');
+            alert('Pole nowe hasło jest wymagane.');
             return false;
         }
 
         if (new2 == null || new2 == "" || typeof new2 == 'undefined') {
-            alert('New password again field is required');
+            alert('Powtórzenie nowego hasła jest wymagane.');
             return false;
         }
 
         if (new1 != new2) {
-            alert('New passwords don\'t match');
+            alert('Nowe hasła się nie zgadzają.');
             return false;
         }
         return true;
@@ -287,17 +287,17 @@
         var email2 = $('#newemailagain').val();
 
         if (email == null || email == "" || typeof email == 'undefined') {
-            alert('New email field is required');
+            alert('Pole nowy adres e-mail jest wymagane.');
             return false;
         }
 
         if (email2 == null || email2 == "" || typeof email2 == 'undefined') {
-            alert('New email again field is required');
+            alert('Powtórzenie nowego adresu e-mail jest wymagane.');
             return false;
         }
 
         if (email != email2) {
-            alert('New emails don\'t match');
+            alert('Nowe adresy się nie zgadzają.');
             return false;
         }
         return true;

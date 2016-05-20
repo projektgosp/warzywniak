@@ -116,7 +116,7 @@ namespace projekt_gosp.Controllers
                 return RedirectToAction("addItemToShop", "sellerpanel");
             }
 
-            ViewBag.error = "Wszystkie pola sa wymagane";
+            ViewBag.error = "Wszystkie pola sa wymagane!";
             var item = (from p in context.Produkty
                         where p.ID_produktu == product.ID_produktu
                         select p).FirstOrDefault();
@@ -150,7 +150,7 @@ namespace projekt_gosp.Controllers
         {
             if (id <= 0)
             {
-                return Json(new { error = "item doesn't exist" });
+                return Json(new { error = "Brak wyników wyszukiwania" });
             }
 
             if (ModelState.IsValid)
@@ -161,7 +161,7 @@ namespace projekt_gosp.Controllers
                                   select p).FirstOrDefault();
                 if (itemToEdit == null)
                 {
-                    return Json(new { error = "item doesn't exist" });
+                    return Json(new { error = "Brak wyników wyszukiwania" });
                 }
 
                 itemToEdit.Ilosc = item.Ilosc;
@@ -173,7 +173,7 @@ namespace projekt_gosp.Controllers
                 return RedirectToAction("page", "sellerpanel");
             }
 
-            return Json(new { error = "all fields are required" });
+            return Json(new { error = "Wszystkie pola są wymagane!" });
         }
 
         [HttpGet]
@@ -245,7 +245,7 @@ namespace projekt_gosp.Controllers
         {
             if (newemail == "")
             {
-                return Json(new { success = "0", error = "Email field can not be empty" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = "0", error = "Pole e-mail nie może być puste" }, JsonRequestBehavior.AllowGet);
             }
 
             var user = (from p in context.Uzytkownicy
@@ -294,7 +294,7 @@ namespace projekt_gosp.Controllers
                 string shopAddress = "ulica " + order.Sklep.Adres.Ulica + " " + order.Sklep.Adres.Nr_budynku;
                 string orderValue = order.kwotaZamowienia.ToString();
 
-                string message = "Witaj! Twoje zamówienie na kwote w wysokości " + orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + shopAddress;
+                string message = "Witaj! Twoje zamówienie na kwotę w wysokości " + orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + shopAddress;
 
 
                 //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY

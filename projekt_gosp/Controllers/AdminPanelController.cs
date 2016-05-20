@@ -148,7 +148,7 @@ namespace projekt_gosp.Controllers
         {
             if (id <= 0)
             {
-                return Json(new { error = "item doesn't exist" });
+                return Json(new { error = "Brak wyników wyszukiwania" });
             }
 
             if (ModelState.IsValid)
@@ -160,7 +160,7 @@ namespace projekt_gosp.Controllers
 
                 if (itemToEdit == null)
                 {
-                    return Json(new { error = "item doesn't exist" });
+                    return Json(new { error = "Brak wyników wyszukiwania" });
                 }
 
                 itemToEdit.Nazwa = editedItem.Nazwa;
@@ -196,7 +196,7 @@ namespace projekt_gosp.Controllers
                 return RedirectToAction("globalid", "items", new { id = itemToEdit.ID_produktu });
             }
 
-            return Json(new { error = "all fields are required" });
+            return Json(new { error = "Wszystkie pola są wymagane." });
         }
 
         [HttpGet]

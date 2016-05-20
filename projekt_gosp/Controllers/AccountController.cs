@@ -62,16 +62,16 @@ namespace shop_online.Controllers
                         {
                             if (!WebSecurity.IsConfirmed(user.username))
                             {
-                                ViewBag.error = "check your email to confirm your account";
+                                ViewBag.error = "Sprawdź e-mail, aby aktywować konto.";
                             }
                             else
                             {
-                                ViewBag.error = "username or/and password is incorrect";
+                                ViewBag.error = "Nazwa użytkownika lub hasło jest błędne!";
                             }
                         }
                         else
                         {
-                            ViewBag.error = "username or/and password is incorrect";
+                            ViewBag.error = "Nazwa użytkownika lub hasło jest błędne!";
                         }
                     }
 
@@ -121,13 +121,13 @@ namespace shop_online.Controllers
 
                         string callbackUrl = CreateConfirmUrl(user.username, confirmToken);
 
-                        var subject = "Welcome to grocery shop";
-                        var body = String.Format("Hello {0}, please confirm your registration by clicking the following link: <a href=\"{1}\">Confirm</a>", user.username, callbackUrl);
+                        var subject = "Witamy w e-Warzywko";
+                        var body = String.Format("Witaj {0}, potwierdź chęć rejestracji poprzez kliknięcie w link: <a href=\"{1}\">Potwierdź</a>", user.username, callbackUrl);
 
                         GlobalMethods.SendMailThread(user.email, subject, body);
 
-                        ViewBag.error = "Thank you for registering. A validation e-mail has been sent to your e-mail address : " + user.email +
-                            " Please check your email and use the enclosed link to finish registration.";
+                        ViewBag.error = "Dziękujemy za rejestrację. Wiadomość potwierdzająca została wysłana na podany adres e-mail: " + user.email +
+                            " Prosimy o sprawdzenie skrzynki e-mailowej w celu ukończenia rejestracji.";
                         ViewBag.username = "";
                         ViewBag.email = "";
 
@@ -243,7 +243,7 @@ namespace shop_online.Controllers
                 {
                     var loginUrl = Url.Action(
                         "login", "Account");
-                    ViewBag.msg = string.Format("Your account has been already activated!</br> Click here to login into your account : <a href='{0}'>Login</a>", loginUrl);
+                    ViewBag.msg = string.Format("Twoje konto jest już aktywne!</br> Wciśnij ten przycik, aby się na nie zalogować : <a href='{0}'>Login</a>", loginUrl);
                 }
                 else
                 {
@@ -251,11 +251,11 @@ namespace shop_online.Controllers
                     {
                         var loginUrl = Url.Action(
                             "login", "Account");
-                        ViewBag.msg = string.Format("Your account has been activated!</br> Click here to login into your account : <a href='{0}'>Login</a>", loginUrl);
+                        ViewBag.msg = string.Format("Twoje konto jest już aktywne!</br> Wciśnij ten przycik, aby się na nie zalogować <a href='{0}'>Login</a>", loginUrl);
                     }
                     else
                     {
-                        ViewBag.msg = "There was problem while confirming your account.";
+                        ViewBag.msg = "Wystąpił problem podczas aktywacji Twojego konta.";
                     }
                 }
                 return View();
