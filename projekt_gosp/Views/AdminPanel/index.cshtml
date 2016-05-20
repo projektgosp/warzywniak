@@ -7,8 +7,9 @@
 
 <div class="row">
     <div class="row btn-group">
-        <button class="btn btn-success" onclick="addItem()">Add new product</button>
-        <button class="btn btn-success" onclick="addCategory()">Add new category</button>
+        <button class="btn btn-success" onclick="addItem()">Dodaj nowy produkt</button>
+        <button class="btn btn-success" onclick="addCategory()">Dodaj nową kategorie</button>
+        <button class="btn btn-success" onclick="addShop()">Dodaj nowy sklep</button>
     </div>
 </div>
 
@@ -78,6 +79,10 @@ else
 
         function addCategory() {
             window.location = '/adminpanel/addCategory';
+        }
+
+        function addShop() {
+            window.location = '/account/registershop/';
         }
 
 </script>

@@ -118,7 +118,7 @@ namespace projekt_gosp.Controllers
 
             ViewBag.error = "Wszystkie pola sa wymagane";
             var item = (from p in context.Produkty
-                        where p.ID_produktu == product.ID_produktu
+                        where p.ID_produktu == id
                         select p).FirstOrDefault();
 
             return View(item);

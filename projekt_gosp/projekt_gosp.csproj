@@ -483,7 +483,6 @@
     <Content Include="Views\UserPanel\index.cshtml" />
     <Content Include="Views\SellerPanel\index.cshtml" />
     <Content Include="Views\AdminPanel\index.cshtml" />
-    <Content Include="Views\Shop\selectShop.cshtml" />
     <Content Include="Views\Items\globalid.cshtml" />
     <Content Include="Views\Items\SearchItem.cshtml" />
     <Content Include="Views\AdminPanel\addCategory.cshtml" />
