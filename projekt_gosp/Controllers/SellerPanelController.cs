@@ -307,6 +307,47 @@ namespace projekt_gosp.Controllers
             return Json(new { success = "1" });
         }
 
+        public ActionResult removeconfirmedorder(int id = 0, string reason = "")
+        {
+            if (reason == "" || id == 0)
+            {
+                return Json(new { success = false });
+            }
+
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+
+            Zamowienie order = (from p in context.Zamowienia
+                                where p.ID_zamowienia == id && p.ID_sklepu == shopid
+                                select p).FirstOrDefault();
+
+            if (order == null)
+            {
+                return Json(new { success = false });
+            }
+
+            foreach (var orderItem in order.Pozycje_zamowienia)
+            {
+                orderItem.Towar.Ilosc += orderItem.Ilosc;
+                //context.Pozycje_zamowienia.Remove(orderItem);
+            }
+
+            //order.Pozycje_zamowienia.ToList()
+
+            string phoneNumber = order.Klient.Nr_tel;
+            string orderValue = order.kwotaZamowienia.ToString();
+            string message = "Witaj! Niestety, ale Twoje zamówienie w sklepie e-Warzywko na kwotę w wysokości " + orderValue + " zł zostało usunięte. Powod: " + reason;
+
+            //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
+            //DZIALAC - DZIALA
+            //GlobalMethods.SendSmsToClientThread(phoneNumber, message);
+
+            context.Zamowienia.Remove(order);
+
+            context.SaveChanges();
+
+            return Json(new { success = true });
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
