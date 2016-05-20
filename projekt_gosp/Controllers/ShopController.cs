@@ -37,7 +37,6 @@ namespace projekt_gosp.Controllers
             return View(promotions);
         }
 
-        [OutputCache(Duration = int.MaxValue)]
         private List<additionalModels.shopDisplayModel> getShopList()
         {
             var shops = (from p in context.Sklepy
@@ -109,7 +108,6 @@ namespace projekt_gosp.Controllers
             return PartialView(shops);
         }
 
-        [OutputCache(Duration = int.MaxValue)]
         public ActionResult categories()
         {
             var categories = (from p in context.Kategorie

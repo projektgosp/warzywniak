@@ -11,44 +11,44 @@ namespace projekt_gosp.Models
     {
         public class loginModel
         {
-            [Required]
-            [Display(Name = "Username")]
+            [Required(ErrorMessage = "Pole Nazwa uzytkownika jest wymagane")]
+            [Display(Name = "Nazwa uzytkownika")]
             public string username { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole Haslo jest wymagane")]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Haslo")]
             public string password { get; set; }
         }
 
         public class registerModel
         {
-            [Required(ErrorMessage = "Pole nazwa uzytkownika jest wymagane")]
-            [Display(Name = "User name")]
+            [Required(ErrorMessage = "Pole Nazwa Uzytkownika jest wymagane")]
+            [Display(Name = "Nazwa Uzytkownika")]
             public string username { get; set; }
 
             [Required(ErrorMessage = "Pole haslo jest wymagane")]
-            [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Minimalna długość hasła to 6 znaków", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Hasło")]
             public string password { get; set; }
 
             [Required(ErrorMessage = "Pole haslo jest wymagane")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("password", ErrorMessage = "Hasła nie zgadzają się.")]
+            [Display(Name = "Potwierdź hasło")]
+            [Compare("password", ErrorMessage = "Podane hasła są różne")]
             public string confirmPassword { get; set; }
 
             [Required(ErrorMessage = "Pole adres email jest wymagane")]
             [DataType(DataType.EmailAddress)]
-            [Display(Name = "Your email address")]
+            [Display(Name = "Twoj adres email")]
             //[EmailAddress]
             public string email { get; set; }
 
             [Required(ErrorMessage = "Pole nr telefonu jest wymagane")]
             [Display(Name = "Nr telefonu")]
             [DataType(DataType.PhoneNumber)]
-            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Niepoprawny numer telefonu.")]
+            [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Zły nr telefonu")]
             public string phonenumber { get; set; }
 
             [Required(ErrorMessage="Pole imie jest wymagane")]
@@ -60,35 +60,43 @@ namespace projekt_gosp.Models
 
         public class registerShopModel
         {
-            [Required]
-            [Display(Name = "User name")]
+            [Required(ErrorMessage = "Pole Nazwa Uzytkownika jest wymagane")]
+            [Display(Name = "Nazwa Uzytkownika")]
             public string username { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "{0} musi mieć co najmniej {2} znaków.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Pole Haslo jest wymagane")]
+            [StringLength(100, ErrorMessage = "Minimalna długość hasła to 6 znaków", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Haslo")]
             public string password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("password", ErrorMessage = "Hasła nie zgadzają się.")]
+            [Display(Name = "Potwierdź hasło")]
+            [Compare("password", ErrorMessage = "Podane hasła są różne")]
             public string confirmPassword { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole adres email jest wymagane")]
             [DataType(DataType.EmailAddress)]
-            [Display(Name = "Your email address")]
+            [Display(Name = "Twoj adres email")]
             //[EmailAddress]
             public string email { get; set; }
 
             //dodac validatory
+            [Required(ErrorMessage = "Pole Imie jest wymagane")]
             public string name { get; set; }
+            [Required(ErrorMessage = "Pole Nazwisko jest wymagane")]
             public string surname { get; set; }
+            [Required(ErrorMessage = "Pole Telefon prywatny jest wymagane")]
             public string privatePhoneNumber { get; set; }
+            [Required(ErrorMessage = "Pole Telefon firmowy jest wymagane")]
             public string shopPhoneNumber { get; set; }
+            [Required(ErrorMessage = "Pole Miasto jest wymagane")]
             public string city { get; set; }
+            [Required(ErrorMessage = "Pole Kod Pocztowy jest wymagane")]
             public string postalCode { get; set; }
+            [Required(ErrorMessage = "Pole Ulica jest wymagane")]
             public string street { get; set; }
+            [Required(ErrorMessage = "Pole Numer budynku jest wymagane")]
             public string streetNumber { get; set; }
             public Nullable<int> flatNumber { get; set; }
         }

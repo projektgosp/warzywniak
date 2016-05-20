@@ -41,6 +41,7 @@ namespace projekt_gosp.Controllers
         [HttpGet]
         public ActionResult addCategory()
         {
+            ViewBag.msg = "";
             return View();
         }
 
@@ -56,6 +57,8 @@ namespace projekt_gosp.Controllers
                     NameToLink = nameToLink,
                     NameToDisplay = name
                 });
+
+                ViewBag.msg = "Dodano kategorie: " + name;
 
                 context.SaveChanges();
             }
