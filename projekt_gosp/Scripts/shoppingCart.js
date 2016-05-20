@@ -58,8 +58,10 @@ var addToCart = function () {
 
     var count = $("#count").val();
 
-    console.log(typeof id);
-    console.log(count);
+    if (count <= 0) {
+        alert("Ilość musi być dodatnia.");
+        return;
+    }
 
     var actionUrl = "/cart/info";
 
@@ -85,6 +87,12 @@ var addToCart = function () {
 
 var addPromotionToCart = function (id) {
     var count = $("#count-" + id.toString()).val();
+
+    if (count <= 0) {
+        alert("Cena musi być dodatnia.");
+        return;
+    }
+
     $.ajax({
         url: "/cart/info",
         type: 'POST',
@@ -106,6 +114,10 @@ var addPromotionToCart = function (id) {
 
 var addProductToCart = function (id) {
     var count = $("#count-" + id.toString()).val();
+    if (count <= 0) {
+        alert("Cena musi być dodatnia.");
+        return;
+    }
     $.ajax({
         url: "/cart/info",
         type: 'POST',
