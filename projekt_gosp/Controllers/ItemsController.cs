@@ -82,7 +82,7 @@ namespace projekt_gosp.Controllers
 
                 var items = (from p in context.Produkty
                              orderby p.ID_produktu descending
-                             where p.Kategoria.NameToLink == category
+                             where p.Kategoria.NameToLink == category && p.isDeleted == false
                              select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
                 return View("globalitemsList", items);
             }
