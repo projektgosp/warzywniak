@@ -22,7 +22,7 @@ namespace projekt_gosp.Controllers
                 page = 1;
             }
 
-            int itemsCount = context.Produkty.Count();
+            int itemsCount = context.Produkty.Where(p => p.isDeleted == false).Count();
 
             List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
 
@@ -32,6 +32,7 @@ namespace projekt_gosp.Controllers
             ViewBag.endPage = calculatedPagination[3];
 
             var items = (from p in context.Produkty
+                         where p.isDeleted == false
                          orderby p.ID_produktu descending
                          select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
 
@@ -127,7 +128,7 @@ namespace projekt_gosp.Controllers
             ViewBag.attachedImage = false;
 
             var item = (from p in context.Produkty
-                        where p.ID_produktu == id
+                        where p.ID_produktu == id && p.isDeleted == false
                         select p).FirstOrDefault();
 
             if (item == null)
@@ -158,7 +159,7 @@ namespace projekt_gosp.Controllers
             {
 
                 var itemToEdit = (from p in context.Produkty
-                                  where p.ID_produktu == id
+                                  where p.ID_produktu == id && p.isDeleted == false
                                   select p).FirstOrDefault();
 
                 if (itemToEdit == null)
@@ -216,11 +217,11 @@ namespace projekt_gosp.Controllers
                     fileHelper.deletefile(item.fullSizePath);
                 }
 
-                context.Produkty.Remove(item);
+                item.isDeleted = true;
 
                 context.SaveChanges();
             }
-            return RedirectToAction("index");
+            return RedirectToAction("page");
         }
         
 

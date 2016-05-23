@@ -26,7 +26,7 @@ namespace projekt_gosp.Controllers
 
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             var items = (from p in context.Towary
-                         where p.ID_sklepu == shopid
+                         where p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                          select p).ToList();
 
             int itemsCount = items.Count();
@@ -49,7 +49,7 @@ namespace projekt_gosp.Controllers
                 page = 1;
             }
 
-            int itemsCount = context.Produkty.Count();
+            int itemsCount = context.Produkty.Where(p => p.isDeleted == false).Count();
 
             List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
 
@@ -59,7 +59,9 @@ namespace projekt_gosp.Controllers
             ViewBag.endPage = calculatedPagination[3];
 
             var products = (from p in context.Produkty
-                            select p).ToList();
+                            where p.isDeleted == false
+                            orderby p.ID_produktu descending
+                            select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
 
             return View("globalProductList", products);
         }
@@ -94,7 +96,7 @@ namespace projekt_gosp.Controllers
                 }
 
                 var prod = (from p in context.Produkty
-                               where p.ID_produktu == id
+                               where p.ID_produktu == id && p.isDeleted == false
                                select p).FirstOrDefault();
                 if (prod == null)
                 {
@@ -132,7 +134,7 @@ namespace projekt_gosp.Controllers
             {
                 int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
                 var item = (from p in context.Towary
-                            where p.ID_Towaru == id && p.ID_sklepu == shopid
+                            where p.ID_Towaru == id && p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                             select p).FirstOrDefault();
 
                 if (item != null)
@@ -157,7 +159,7 @@ namespace projekt_gosp.Controllers
             {
                 int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
                 var itemToEdit = (from p in context.Towary
-                                  where p.ID_Towaru == id && p.ID_sklepu == shopid
+                                  where p.ID_Towaru == id && p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                                   select p).FirstOrDefault();
                 if (itemToEdit == null)
                 {
@@ -186,7 +188,7 @@ namespace projekt_gosp.Controllers
 
             if (item != null)
             {
-                context.Towary.Remove(item);
+                item.isDeleted = true;
                 context.SaveChanges();
             }
             return RedirectToAction("page");
@@ -299,7 +301,7 @@ namespace projekt_gosp.Controllers
 
                 //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
                 //DZIALAC - DZIALA
-                //GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
+                GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
             }
 
             context.SaveChanges();
@@ -339,7 +341,7 @@ namespace projekt_gosp.Controllers
 
             //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
             //DZIALAC - DZIALA
-            //GlobalMethods.SendSmsToClientThread(phoneNumber, message);
+            GlobalMethods.SendSmsToClientThread(phoneNumber, message);
 
             context.Zamowienia.Remove(order);
 

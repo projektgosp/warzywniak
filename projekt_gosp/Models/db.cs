@@ -147,11 +147,12 @@ namespace projekt_gosp.Models
         public string thumbPath { get; set; }
         //new
         public int ID_RodzajuCeny { get; set; }
+
+        public bool isDeleted { get; set; }
+
         //new
-        [Required(ErrorMessage = "Pole Rodzaj Ceny jest wymagane")]
         [ForeignKey("ID_RodzajuCeny")]
         public virtual RodzajCeny RodzajCeny { get; set; }
-        [Required(ErrorMessage = "Pole Kategoria jest wymagane")]
         [ForeignKey("ID_kategorii")]
         public virtual Kategoria Kategoria { get; set; }
 
@@ -177,6 +178,8 @@ namespace projekt_gosp.Models
         [Required(ErrorMessage = "Pole Cena jest wymagane")]
         [Range(0, Double.MaxValue, ErrorMessage = "Cena nie moze byc ujemna")]
         public double Cena { get; set; }
+
+        public bool isDeleted { get; set; }
 
         [ForeignKey("ID_produktu")]
         public virtual Produkt Produkt { get; set; }

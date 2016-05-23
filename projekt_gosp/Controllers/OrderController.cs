@@ -124,7 +124,7 @@ namespace projekt_gosp.Controllers
 
                 //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
                 //DZIALAC - DZIALA
-                //GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
+                GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
 
 
             }

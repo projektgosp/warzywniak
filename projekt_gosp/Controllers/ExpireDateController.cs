@@ -24,7 +24,7 @@ namespace projekt_gosp.Controllers
             var expireDate = DateTime.Now.Date.AddDays(7);
             var products = (from b in context.Towary
                             where b.Data_waznosci <= expireDate &&
-                                b.ID_sklepu == shopId 
+                                b.ID_sklepu == shopId  && b.isDeleted == false
                             select b).ToList();
 
             return View(products);
@@ -79,7 +79,7 @@ namespace projekt_gosp.Controllers
             var expireDate = DateTime.Now.Date.AddDays(id);
             var products = (from b in context.Towary
                             where b.Data_waznosci <= expireDate &&
-                                b.ID_sklepu == shopId && b.Ilosc > 0
+                                b.ID_sklepu == shopId && b.Ilosc > 0 && b.isDeleted == false
                             select b).ToList();
 
             return View(products);
