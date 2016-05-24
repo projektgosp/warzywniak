@@ -121,12 +121,7 @@ namespace projekt_gosp.Controllers
 
                 string message = "Witaj! Twoje zamówienie w sklepie e-Warzywko na kwotę w wysokości " + orderValue + " zł zostało przyjęte do realizacji.";
 
-
-                //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
-                //DZIALAC - DZIALA
                 GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
-
-
             }
             catch
             {

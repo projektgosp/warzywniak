@@ -120,8 +120,8 @@ namespace projekt_gosp.Helpers
                 phoneNumber = phoneNumber,
                 message = message
             };
-            Thread t = new Thread(SendSmsToClient);
-            t.Start(e);
+            //Thread t = new Thread(SendSmsToClient);
+            //t.Start(e);
         }
 
         private static void SendSmsToClient(Object obj)

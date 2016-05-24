@@ -298,9 +298,6 @@ namespace projekt_gosp.Controllers
 
                 string message = "Witaj! Twoje zamówienie na kwotę w wysokości " + orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + shopAddress;
 
-
-                //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
-                //DZIALAC - DZIALA
                 GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
             }
 
@@ -339,8 +336,6 @@ namespace projekt_gosp.Controllers
             string orderValue = order.kwotaZamowienia.ToString();
             string message = "Witaj! Niestety, ale Twoje zamówienie w sklepie e-Warzywko na kwotę w wysokości " + orderValue + " zł zostało usunięte. Powod: " + reason;
 
-            //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
-            //DZIALAC - DZIALA
             GlobalMethods.SendSmsToClientThread(phoneNumber, message);
 
             context.Zamowienia.Remove(order);
