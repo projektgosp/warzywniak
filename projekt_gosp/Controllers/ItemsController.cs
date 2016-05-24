@@ -71,7 +71,7 @@ namespace projekt_gosp.Controllers
 
             if(User.IsInRole("admin"))
             {
-                int itemsCount = cat.Produkty.Count();
+                int itemsCount = cat.Produkty.Where(p => p.isDeleted == false).Count();
                 List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
 
                 ViewBag.pagesCount = calculatedPagination[0];
@@ -82,7 +82,7 @@ namespace projekt_gosp.Controllers
 
                 var items = (from p in context.Produkty
                              orderby p.ID_produktu descending
-                             where p.Kategoria.NameToLink == category
+                             where p.Kategoria.NameToLink == category && p.isDeleted == false
                              select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
                 return View("globalitemsList", items);
             }
@@ -99,7 +99,7 @@ namespace projekt_gosp.Controllers
 
                 var catItems = (from p in context.Towary
                                 orderby p.ID_Towaru descending
-                                where p.Produkt.Kategoria.NameToLink == category && p.ID_sklepu == shopid && p.Ilosc > 0
+                                where p.Produkt.Kategoria.NameToLink == category && p.ID_sklepu == shopid && p.Ilosc > 0 && p.isDeleted == false && p.Produkt.isDeleted == false
                                 select p).ToList();
 
                 int itemsCount = catItems.Count();
@@ -156,8 +156,8 @@ namespace projekt_gosp.Controllers
             if (User.IsInRole("admin"))
             {
                 var products = (from p in context.Produkty
-                                where p.Nazwa.ToLower().Contains(pattern.ToLower()) ||
-                                      p.Opis.ToLower().Contains(pattern.ToLower())
+                                where (p.Nazwa.ToLower().Contains(pattern.ToLower()) ||
+                                      p.Opis.ToLower().Contains(pattern.ToLower()) ) && p.isDeleted == false
                                 select p).ToList();
 
                 return View("globalsearchitem", products);
@@ -167,7 +167,7 @@ namespace projekt_gosp.Controllers
                 int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
                 var products = (from p in context.Towary
                                 where (p.Produkt.Nazwa.ToLower().Contains(pattern.ToLower()) ||
-                                      p.Produkt.Opis.ToLower().Contains(pattern.ToLower())) && p.ID_sklepu == shopid
+                                      p.Produkt.Opis.ToLower().Contains(pattern.ToLower())) && p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                                 select p).ToList();
 
                 return View("searchitem", products);

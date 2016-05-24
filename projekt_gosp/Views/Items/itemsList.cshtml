@@ -4,18 +4,8 @@
     ViewBag.Title = @ViewBag.categoryName;
 }
 
-<div class="popup">
-    <div class="bg"></div>
-    <div class="container">
-        <input type="button" class="close" value="x" />
-        <div class="content">
-            <span style="text-align:center;font-size:20px">Produkt dodano pomyślnie!</span>
-        </div>
-    </div>
-</div>
-
 <div class="row">
-    <span class="lead">Products:</span>
+    <span class="lead">Produkty:</span>
     <hr>
 </div>
 
@@ -37,16 +27,22 @@
                         }
                     </a>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-5 shop-item-cell"><span><a href="/items/id/@item.ID_Towaru">@item.Produkt.Nazwa</a></span></div>
-                <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">Price: @item.Cena zł</div>
-                @if(WebSecurity.IsAuthenticated)
+                <div class="col-lg-4 col-md-4 col-sm-4 shop-item-cell"><span><a href="/items/id/@item.ID_Towaru">@item.Produkt.Nazwa</a></span></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Cena: @item.Cena zł/@item.Produkt.RodzajCeny.opis</div>
+                @if(Roles.IsUserInRole("customer"))
                 { 
-                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Quantity:<br><input value="1" id="count-@item.ID_Towaru" class="form-control" type="number"></div>
+                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Ilość:<br><input value="1" id="count-@item.ID_Towaru" class="form-control" type="number"></div>
                 <div class="col-lg-1 col-md-1 col-sm-1 shop-item-cell">
-                    <button class="btn btn-success addToCart" onclick="addProductToCart(@item.ID_Towaru)">Add to cart</button>
+                    <button class="btn btn-success addToCart" onclick="addProductToCart(@item.ID_Towaru)">Dodaj do koszyka</button>
                 </div>
                 }
             </div>
+        </div>
+        <div class="row">
+            <h5>Data ważności</h5>
+            <h6>@item.Data_waznosci</h6>
+            <h5>Ilość</h5>
+            <h6>@item.Ilosc</h6>
         </div>
         <hr>
     }

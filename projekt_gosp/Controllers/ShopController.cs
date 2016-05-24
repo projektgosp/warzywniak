@@ -17,6 +17,10 @@ namespace projekt_gosp.Controllers
 
         public ActionResult Index()
         {
+            if(User.IsInRole("admin"))
+            {
+                return RedirectToAction("page", "AdminPanel");
+            }
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             var promotions = (from p in context.Promocje
                               where p.ID_sklepu == shopid
@@ -24,7 +28,7 @@ namespace projekt_gosp.Controllers
 
 
             var newItems = (from p in context.Towary
-                            where p.ID_sklepu == shopid && p.Ilosc > 0
+                            where p.ID_sklepu == shopid && p.Ilosc > 0 && p.isDeleted == false && p.Produkt.isDeleted == false
                             orderby p.ID_Towaru descending
                             select p).Take(6).ToList();
 
@@ -33,7 +37,6 @@ namespace projekt_gosp.Controllers
             return View(promotions);
         }
 
-        [OutputCache(Duration = int.MaxValue)]
         private List<additionalModels.shopDisplayModel> getShopList()
         {
             var shops = (from p in context.Sklepy
@@ -105,7 +108,6 @@ namespace projekt_gosp.Controllers
             return PartialView(shops);
         }
 
-        [OutputCache(Duration = int.MaxValue)]
         public ActionResult categories()
         {
             var categories = (from p in context.Kategorie

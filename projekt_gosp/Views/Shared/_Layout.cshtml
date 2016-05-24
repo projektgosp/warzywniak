@@ -85,7 +85,6 @@
                         @if (Roles.IsUserInRole("admin"))
                         {
                             <a class="btn btn-default" href="/adminpanel/">Panel Admina</a>
-                            <a class="btn btn-info" href="/account/registershop">Załóż sklep</a>
                         }
                         else if (Roles.IsUserInRole("shop"))
                         {
@@ -131,7 +130,10 @@
                 <p class="lead">Kategorie</p>
                 <div class="list-group categories">
                     @{ Html.RenderAction("categories", "Shop"); }
-                    <a href="/items/promotion"  class="list-group-item">Promocje</a>
+                    @if (!Roles.IsUserInRole("admin"))
+                    {
+                        <a href="/items/promotion"  class="list-group-item">Promocje</a>
+                    }
                 </div>
             </div>
             <div class="col-md-9" id="shopContent">

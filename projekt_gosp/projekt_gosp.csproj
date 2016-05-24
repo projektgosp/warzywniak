@@ -213,6 +213,10 @@
     <Compile Include="Helpers\fileHelper.cs" />
     <Compile Include="Helpers\GlobalMethods.cs" />
     <Compile Include="Helpers\pagination.cs" />
+    <Compile Include="Migrations\201605231904226_smsmssm2.cs" />
+    <Compile Include="Migrations\201605231904226_smsmssm2.Designer.cs">
+      <DependentUpon>201605231904226_smsmssm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\additionalModels.cs" />
     <Compile Include="Models\db.cs" />
@@ -405,8 +409,10 @@
     <Content Include="Media\remove.png" />
     <Content Include="Media\uploads\20160417-181948030.jpg" />
     <Content Include="Media\uploads\20160417-181948030_thumb.jpg" />
-    <Content Include="Media\uploads\20160417-182115602.jpg" />
-    <Content Include="Media\uploads\20160417-182115602_thumb.jpg" />
+    <Content Include="Media\uploads\20160518-163355947.jpg" />
+    <Content Include="Media\uploads\20160518-163355947_thumb.jpg" />
+    <Content Include="Media\uploads\20160520-031311742.jpeg" />
+    <Content Include="Media\uploads\20160520-031311742_thumb.jpeg" />
     <Content Include="Promotions\test.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -441,6 +447,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\Default Settings %282%29.pubxml" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -483,7 +490,6 @@
     <Content Include="Views\UserPanel\index.cshtml" />
     <Content Include="Views\SellerPanel\index.cshtml" />
     <Content Include="Views\AdminPanel\index.cshtml" />
-    <Content Include="Views\Shop\selectShop.cshtml" />
     <Content Include="Views\Items\globalid.cshtml" />
     <Content Include="Views\Items\SearchItem.cshtml" />
     <Content Include="Views\AdminPanel\addCategory.cshtml" />
@@ -513,6 +519,8 @@
     <Content Include="Views\Order\notEnoughPoints.cshtml" />
     <Content Include="Views\UserPanel\OrderHistory.cshtml" />
     <Content Include="Views\SellerPanel\shoporders.cshtml" />
+    <Content Include="Views\Account\confirmResetPassword.cshtml" />
+    <Content Include="Views\Account\forgotPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -520,6 +528,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605231904226_smsmssm2.resx">
+      <DependentUpon>201605231904226_smsmssm2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

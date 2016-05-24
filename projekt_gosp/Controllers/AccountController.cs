@@ -62,16 +62,16 @@ namespace shop_online.Controllers
                         {
                             if (!WebSecurity.IsConfirmed(user.username))
                             {
-                                ViewBag.error = "check your email to confirm your account";
+                                ViewBag.error = "Sprawdź e-mail, aby aktywować konto.";
                             }
                             else
                             {
-                                ViewBag.error = "username or/and password is incorrect";
+                                ViewBag.error = "Nazwa użytkownika lub hasło jest błędne!";
                             }
                         }
                         else
                         {
-                            ViewBag.error = "username or/and password is incorrect";
+                            ViewBag.error = "Nazwa użytkownika lub hasło jest błędne!";
                         }
                     }
 
@@ -121,13 +121,13 @@ namespace shop_online.Controllers
 
                         string callbackUrl = CreateConfirmUrl(user.username, confirmToken);
 
-                        var subject = "Welcome to grocery shop";
-                        var body = String.Format("Hello {0}, please confirm your registration by clicking the following link: <a href=\"{1}\">Confirm</a>", user.username, callbackUrl);
+                        var subject = "Witamy w e-Warzywko";
+                        var body = String.Format("Witaj {0}, potwierdź chęć rejestracji poprzez kliknięcie w link: <a href=\"{1}\">Potwierdź</a>", user.username, callbackUrl);
 
                         GlobalMethods.SendMailThread(user.email, subject, body);
 
-                        ViewBag.error = "Thank you for registering. A validation e-mail has been sent to your e-mail address : " + user.email +
-                            " Please check your email and use the enclosed link to finish registration.";
+                        ViewBag.error = "Dziękujemy za rejestrację. Wiadomość potwierdzająca została wysłana na podany adres e-mail: " + user.email +
+                            " Prosimy o sprawdzenie skrzynki e-mailowej w celu ukończenia rejestracji.";
                         ViewBag.username = "";
                         ViewBag.email = "";
 
@@ -243,7 +243,7 @@ namespace shop_online.Controllers
                 {
                     var loginUrl = Url.Action(
                         "login", "Account");
-                    ViewBag.msg = string.Format("Your account has been already activated!</br> Click here to login into your account : <a href='{0}'>Login</a>", loginUrl);
+                    ViewBag.msg = string.Format("Twoje konto jest już aktywne!</br> Wciśnij ten przycik, aby się na nie zalogować : <a href='{0}'>Login</a>", loginUrl);
                 }
                 else
                 {
@@ -251,11 +251,11 @@ namespace shop_online.Controllers
                     {
                         var loginUrl = Url.Action(
                             "login", "Account");
-                        ViewBag.msg = string.Format("Your account has been activated!</br> Click here to login into your account : <a href='{0}'>Login</a>", loginUrl);
+                        ViewBag.msg = string.Format("Twoje konto jest już aktywne!</br> Wciśnij ten przycik, aby się na nie zalogować <a href='{0}'>Login</a>", loginUrl);
                     }
                     else
                     {
-                        ViewBag.msg = "There was problem while confirming your account.";
+                        ViewBag.msg = "Wystąpił problem podczas aktywacji Twojego konta.";
                     }
                 }
                 return View();
@@ -297,6 +297,108 @@ namespace shop_online.Controllers
                protocol: Request.Url.Scheme);
 
             return callbackUrl;
+        }
+
+        [HttpGet]
+        public ActionResult forgotPassword()
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Shop");
+        }
+
+        [HttpPost]
+        public ActionResult forgotPassword(string username = "", string email = "")
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                bool error = false;
+                if (username == "")
+                {
+                    error = true;
+                    ViewBag.error += "pole nazwa nie może być puste</br>";
+                }
+                if (email == "")
+                {
+                    error = true;
+                    ViewBag.error += "pole email nie może być puste";
+                }
+
+                if (error == true)
+                {
+                    return View();
+                }
+
+                var usr = from p in context.Uzytkownicy
+                          where p.Email == email && p.accountName == username
+                          select p;
+
+                var user = usr.FirstOrDefault();
+                if (user == null)
+                {
+                    ViewBag.error = "Ten email nie pasuje do podanej nazwy użytkownika";
+                    return View();
+                }
+                else
+                {
+                    string passwordResetToken = WebSecurity.GeneratePasswordResetToken(username);
+
+                    var callbackUrl = Url.Action(
+                        "confirmResetPassword", "Account",
+                        new { token = passwordResetToken },
+                        protocol: Request.Url.Scheme);
+
+                    var subject = "e-Warzywko: resetowanie hasła";
+                    var body = String.Format("Witaj {0}, proszę kliknąć w link aby zresetować hasło: <a href=\"{1}\">Resetuj</a>. </br> Jeśli nie zleciłeś zmiany hasła, zignoruj tą wiadomość!", username, callbackUrl);
+
+                    GlobalMethods.SendMailThread(email, subject, body);
+
+                    ViewBag.msg = "Link do zmiany hasła został wysłany na twój adres email";
+                    return View();
+                }
+            }
+            return RedirectToAction("Index", "shop");
+        }
+
+        [HttpGet]
+        public ActionResult confirmResetPassword(string token = "")
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                ViewBag.token = token;
+                return View();
+            }
+            return RedirectToAction("Index", "shop");
+        }
+
+        [HttpPost]
+        public ActionResult confirmResetPassword(string token = "", string password = "")
+        {
+            if (WebSecurity.IsAuthenticated == false)
+            {
+                if (token == "")
+                {
+                    return RedirectToAction("login", "account");
+                }
+                if (password == "")
+                {
+                    ViewBag.error = "pole hasło jest wymagane";
+                    return View();
+                }
+
+                if (WebSecurity.ResetPassword(token, password))
+                {
+                    ViewBag.msg = "Hasło zostało zresetowane! Teraz możesz się zalogować";
+                }
+                else
+                {
+                    ViewBag.msg = "Ups! Coś poszło nie tak...";
+                }
+                return View();
+            }
+            return RedirectToAction("Index", "shop");
         }
 
         protected override void Dispose(bool disposing)

@@ -108,6 +108,8 @@ namespace projekt_gosp.Models
         public int ID_pozycji { get; set; }
         public int ID_zamowienia { get; set; }
         public int ID_Towaru { get; set; }
+
+        [Range(0,Double.MaxValue)]
         public decimal Ilosc { get; set; }
 
         [ForeignKey("ID_Towaru")]
@@ -123,17 +125,19 @@ namespace projekt_gosp.Models
         [Key] 
         public int ID_produktu { get; set; }
         public int ID_kategorii { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Pole Nazwa jest wymagane")]
         [Display(Name = "Nazwa produktu")]
         public string Nazwa { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Pole Cena jest wymagane")]
         [Display(Name = "Cena produktu")]
+        [Range(0, Double.MaxValue, ErrorMessage = "Cena nie moze byc ujemna")]
         public double Cena { get; set; }
 
         //new
         public DateTime Data_dodania { get; set; }
         //new
-        [Required]
+        [Required(ErrorMessage = "Pole Opis jest wymagane")]
         public string Opis { get; set; }
         //new
         public bool attachedImage { get; set; }
@@ -143,10 +147,12 @@ namespace projekt_gosp.Models
         public string thumbPath { get; set; }
         //new
         public int ID_RodzajuCeny { get; set; }
+
+        public bool isDeleted { get; set; }
+
         //new
         [ForeignKey("ID_RodzajuCeny")]
         public virtual RodzajCeny RodzajCeny { get; set; }
-
         [ForeignKey("ID_kategorii")]
         public virtual Kategoria Kategoria { get; set; }
 
@@ -166,10 +172,14 @@ namespace projekt_gosp.Models
         public int ID_sklepu { get; set; }
         [Required]
         public DateTime Data_waznosci { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Pole Ilosc jest wymagane")]
+        [Range(0, Double.MaxValue,ErrorMessage="Ilosc nie moze byc ujemna")]
         public decimal Ilosc { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Pole Cena jest wymagane")]
+        [Range(0, Double.MaxValue, ErrorMessage = "Cena nie moze byc ujemna")]
         public double Cena { get; set; }
+
+        public bool isDeleted { get; set; }
 
         [ForeignKey("ID_produktu")]
         public virtual Produkt Produkt { get; set; }

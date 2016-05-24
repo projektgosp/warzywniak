@@ -62,7 +62,7 @@ namespace projekt_gosp.Helpers
             t.Start(e);
         }
 
-        public static void SendMail(Object parameter)
+        private static void SendMail(Object parameter)
         {
 
             additionalModels.emailContent emailContent = (additionalModels.emailContent)parameter;
@@ -111,6 +111,55 @@ namespace projekt_gosp.Helpers
                     Debug.Write(e.Message);
                 }
             }
+        }
+
+        public static void SendSmsToClientThread(string phoneNumber, string message)
+        {
+            additionalModels.sms e = new additionalModels.sms
+            {
+                phoneNumber = phoneNumber,
+                message = message
+            };
+            //Thread t = new Thread(SendSmsToClient);
+            //t.Start(e);
+        }
+
+        private static void SendSmsToClient(Object obj)
+        {
+            additionalModels.sms sms = (additionalModels.sms)obj;
+
+            try
+            {
+                SMSApi.Api.Client client = new SMSApi.Api.Client("rwiktorek@wp.pl");
+                client.SetPasswordHash("931bd0e1cc9baae10e9ff6ca7002e834");
+
+                var smsApi = new SMSApi.Api.SMSFactory(client);
+
+                var result =
+                    smsApi.ActionSend()
+                        .SetText(sms.message)
+                        .SetTo(sms.phoneNumber)
+                        .SetSender("ECO")
+                        //.SetSender("e-Warzywko") //Pole nadawcy lub typ wiadomość 'ECO', '2Way'
+                        .Execute();
+            }
+            catch (SMSApi.Api.ActionException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.ClientException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.HostException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+            catch (SMSApi.Api.ProxyException e)
+            {
+                System.Console.WriteLine(e.Message);
+            }
+
         }
     }
 }

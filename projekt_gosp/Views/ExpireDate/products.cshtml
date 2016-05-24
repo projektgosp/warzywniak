@@ -72,13 +72,13 @@ else
             dataType: "json",
             success: function (data) {
                 if(data["success"] == true) {
-                    alert("produkt został dodany na promocje");
+                    alert("Produkt posiada teraz promocyjną cenę.");
                 } else {
-                    alert("wystąpił błąd podczas dodawania promocji");
+                    alert("Wystąpił błąd podczas dodawania promocji.");
                 }
             },
             error: function () {
-                alert("wystąpił błąd podczas dodawania promocji");
+                alert("Wystąpił błąd podczas dodawania promocji.");
             }
         });
     }

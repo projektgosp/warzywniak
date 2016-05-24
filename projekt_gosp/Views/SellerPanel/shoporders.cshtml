@@ -14,6 +14,8 @@
                 <div><strong>Status zamówienia: </strong> Zamówienie w trakcie realizacji</div>
                 <div><strong>Naciśnij poniższy przycisk, aby zmienić statu zamówienia na zrealizowane</strong></div>
                 <button class="btn btn-danger" onclick="changeStatus(@order.ID_zamowienia)">Zamówienie gotowe do odbioru</button>
+                <div><strong>Naciśnij poniższy przycisk, aby usunąc zamówienie</strong></div>
+                <button class="btn btn-danger" onclick="deleteOrder(@order.ID_zamowienia)">Usuń</button>
             }
 
             <div><strong>Data zamówienia: </strong>@order.Data_zam</div>
@@ -67,10 +69,35 @@ else
             },
             success: function (data) {
                 if(data["success"] == 1) {
+                    alert("Status został zmieniony");
                     location.reload();
                 }
             }
         });
+    }
+
+    function deleteOrder(id) {
+        var reason = prompt("Podaj powód usunięcia zamówienia", "");
+        if (reason != null && reason != "") {
+            $.ajax({
+                type: "POST",
+                url: "/sellerpanel/removeconfirmedorder?id=" + id + "&reason=" + reason,
+                error: function () {
+                },
+                success: function (data) {
+                    if(data["success"] == 1) {
+                        alert("Zamówienie zostało usunięte");
+                        location.reload();
+                    }
+                    else {
+                        alert("wystąpił nieznany błąd. Odśwież stronę i spróbuj ponownie");
+                    }
+                }
+            });
+        }
+        else {
+            alert("Aby usunąc musisz podać powód!");
+        }
     }
 
 </script>

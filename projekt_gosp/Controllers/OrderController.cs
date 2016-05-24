@@ -27,7 +27,7 @@ namespace projekt_gosp.Controllers
             }
 
             List<additionalModels.OrderModel> ViewOrder = GetOrderModelFromCart(itemsFromCart);
-
+            ViewOrder.RemoveAll(x => x.quantity < 0);
             double totalSum = CalculateItemsPrice(ViewOrder);
 
             var order = new Zamowienie()
@@ -37,7 +37,6 @@ namespace projekt_gosp.Controllers
                 ID_klienta = WebSecurity.CurrentUserId,
                 ID_sklepu = shopId,
                 kwotaZamowienia = totalSum
-
             };
 
             context.Zamowienia.Add(order);
@@ -45,13 +44,18 @@ namespace projekt_gosp.Controllers
 
             foreach (var item in ViewOrder)
             {
-                context.Pozycje_zamowienia.Add(new Pozycja_zamowienia()
+                if (item.quantity > 0)
                 {
-                    ID_Towaru = item.merchendiseId,
-                    ID_zamowienia = order.ID_zamowienia,
-                    Ilosc = item.quantity
-                });
+                    context.Pozycje_zamowienia.Add(new Pozycja_zamowienia()
+                    {
+                        ID_Towaru = item.merchendiseId,
+                        ID_zamowienia = order.ID_zamowienia,
+                        Ilosc = item.quantity
+                    });
+                }
             }
+
+            order.kwotaZamowienia = totalSum;
 
             context.SaveChanges();
 
@@ -74,7 +78,7 @@ namespace projekt_gosp.Controllers
 
             foreach(var item in order.Pozycje_zamowienia)
             {
-                if (item.Towar.Ilosc - item.Ilosc >= 0)
+                if (item.Towar.Ilosc - item.Ilosc >= 0 && item.Ilosc > 0)
                 {
                     item.Towar.Ilosc -= item.Ilosc;
                 }
@@ -108,9 +112,16 @@ namespace projekt_gosp.Controllers
 
 
                 var subject = "Grocery shop - zamowienie";
-                var body = String.Format("zamowienie zostalo zlozone blablabla");
+                var body = String.Format("Zamówienie zostało złożone.");
                 RemoveItemsFromCart();
                 GlobalMethods.SendMailThread(user.Email, subject, body);
+
+                string clientPhoneNumber = order.Klient.Nr_tel;
+                string orderValue = order.kwotaZamowienia.ToString();
+
+                string message = "Witaj! Twoje zamówienie w sklepie e-Warzywko na kwotę w wysokości " + orderValue + " zł zostało przyjęte do realizacji.";
+
+                GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
             }
             catch
             {

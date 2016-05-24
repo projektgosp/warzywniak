@@ -26,7 +26,7 @@ namespace projekt_gosp.Controllers
 
             int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
             var items = (from p in context.Towary
-                         where p.ID_sklepu == shopid
+                         where p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                          select p).ToList();
 
             int itemsCount = items.Count();
@@ -49,7 +49,7 @@ namespace projekt_gosp.Controllers
                 page = 1;
             }
 
-            int itemsCount = context.Produkty.Count();
+            int itemsCount = context.Produkty.Where(p => p.isDeleted == false).Count();
 
             List<int> calculatedPagination = pagination.calculatePagination(page, itemsCount);
 
@@ -59,7 +59,9 @@ namespace projekt_gosp.Controllers
             ViewBag.endPage = calculatedPagination[3];
 
             var products = (from p in context.Produkty
-                            select p).ToList();
+                            where p.isDeleted == false
+                            orderby p.ID_produktu descending
+                            select p).Skip((page - 1) * pagination.pageSize).Take(pagination.pageSize).ToList();
 
             return View("globalProductList", products);
         }
@@ -94,7 +96,7 @@ namespace projekt_gosp.Controllers
                 }
 
                 var prod = (from p in context.Produkty
-                               where p.ID_produktu == id
+                               where p.ID_produktu == id && p.isDeleted == false
                                select p).FirstOrDefault();
                 if (prod == null)
                 {
@@ -116,9 +118,9 @@ namespace projekt_gosp.Controllers
                 return RedirectToAction("addItemToShop", "sellerpanel");
             }
 
-            ViewBag.error = "Wszystkie pola sa wymagane";
+            ViewBag.error = "Wszystkie pola sa wymagane!";
             var item = (from p in context.Produkty
-                        where p.ID_produktu == product.ID_produktu
+                        where p.ID_produktu == id
                         select p).FirstOrDefault();
 
             return View(item);
@@ -132,7 +134,7 @@ namespace projekt_gosp.Controllers
             {
                 int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
                 var item = (from p in context.Towary
-                            where p.ID_Towaru == id && p.ID_sklepu == shopid
+                            where p.ID_Towaru == id && p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                             select p).FirstOrDefault();
 
                 if (item != null)
@@ -150,18 +152,18 @@ namespace projekt_gosp.Controllers
         {
             if (id <= 0)
             {
-                return Json(new { error = "item doesn't exist" });
+                return Json(new { error = "Brak wyników wyszukiwania" });
             }
 
             if (ModelState.IsValid)
             {
                 int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
                 var itemToEdit = (from p in context.Towary
-                                  where p.ID_Towaru == id && p.ID_sklepu == shopid
+                                  where p.ID_Towaru == id && p.ID_sklepu == shopid && p.isDeleted == false && p.Produkt.isDeleted == false
                                   select p).FirstOrDefault();
                 if (itemToEdit == null)
                 {
-                    return Json(new { error = "item doesn't exist" });
+                    return Json(new { error = "Brak wyników wyszukiwania" });
                 }
 
                 itemToEdit.Ilosc = item.Ilosc;
@@ -173,7 +175,7 @@ namespace projekt_gosp.Controllers
                 return RedirectToAction("page", "sellerpanel");
             }
 
-            return Json(new { error = "all fields are required" });
+            return Json(new { error = "Wszystkie pola są wymagane!" });
         }
 
         [HttpGet]
@@ -186,7 +188,7 @@ namespace projekt_gosp.Controllers
 
             if (item != null)
             {
-                context.Towary.Remove(item);
+                item.isDeleted = true;
                 context.SaveChanges();
             }
             return RedirectToAction("page");
@@ -245,7 +247,7 @@ namespace projekt_gosp.Controllers
         {
             if (newemail == "")
             {
-                return Json(new { success = "0", error = "Email field can not be empty" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = "0", error = "Pole e-mail nie może być puste" }, JsonRequestBehavior.AllowGet);
             }
 
             var user = (from p in context.Uzytkownicy
@@ -289,13 +291,14 @@ namespace projekt_gosp.Controllers
             if (order.statusZamowienia == false)
             {
                 order.statusZamowienia = true;
+
                 string clientPhoneNumber = order.Klient.Nr_tel;
                 string shopAddress = "ulica " + order.Sklep.Adres.Ulica + " " + order.Sklep.Adres.Nr_budynku;
                 string orderValue = order.kwotaZamowienia.ToString();
 
-                //NIE RUSZAC BO LIMITY DARMOWYCH SMSOW MAMY
-                //DZIALAC - DZIALA
-                //sendSmsToClientThread(clientPhoneNumber, shopAddress, orderValue);
+                string message = "Witaj! Twoje zamówienie na kwotę w wysokości " + orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + shopAddress;
+
+                GlobalMethods.SendSmsToClientThread(clientPhoneNumber, message);
             }
 
             context.SaveChanges();
@@ -303,55 +306,43 @@ namespace projekt_gosp.Controllers
             return Json(new { success = "1" });
         }
 
-        private void sendSmsToClientThread(string phoneNumber, string shopAddress, string orderValue)
+        public ActionResult removeconfirmedorder(int id = 0, string reason = "")
         {
-            additionalModels.smsOrderIsReady e = new additionalModels.smsOrderIsReady
+            if (reason == "" || id == 0)
             {
-                phoneNumber = phoneNumber,
-                orderValue = orderValue,
-                shopAddress = shopAddress
-            };
-            Thread t = new Thread(SendSmsToClient);
-            t.Start(e);
-        }
-
-        private void SendSmsToClient(Object obj)
-        {
-            additionalModels.smsOrderIsReady sms = (additionalModels.smsOrderIsReady)obj;
-
-            string message = "Witaj! Twoje zamówienie na kwote w wysokości " + sms.orderValue + " zł wykonane w sklepie e-Warzywko jest już gotowe do odbioru. Zapraszamy po odbiór pod adresem: " + sms.shopAddress;
-
-            try
-            {
-                SMSApi.Api.Client client = new SMSApi.Api.Client("rwiktorek@wp.pl");
-                client.SetPasswordHash("931bd0e1cc9baae10e9ff6ca7002e834");
-
-                var smsApi = new SMSApi.Api.SMSFactory(client);
-
-                var result =
-                    smsApi.ActionSend()
-                        .SetText(message)
-                        .SetTo(sms.phoneNumber)
-                        //.SetSender("e-Warzywko") //Pole nadawcy lub typ wiadomość 'ECO', '2Way'
-                        .Execute();
-            }
-            catch (SMSApi.Api.ActionException e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
-            catch (SMSApi.Api.ClientException e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
-            catch (SMSApi.Api.HostException e)
-            {
-                System.Console.WriteLine(e.Message);
-            }
-            catch (SMSApi.Api.ProxyException e)
-            {
-                System.Console.WriteLine(e.Message);
+                return Json(new { success = false });
             }
 
+            int shopid = GlobalMethods.GetShopId(WebSecurity.CurrentUserId, context, WebSecurity.IsAuthenticated, Session);
+
+            Zamowienie order = (from p in context.Zamowienia
+                                where p.ID_zamowienia == id && p.ID_sklepu == shopid
+                                select p).FirstOrDefault();
+
+            if (order == null)
+            {
+                return Json(new { success = false });
+            }
+
+            foreach (var orderItem in order.Pozycje_zamowienia)
+            {
+                orderItem.Towar.Ilosc += orderItem.Ilosc;
+                //context.Pozycje_zamowienia.Remove(orderItem);
+            }
+
+            //order.Pozycje_zamowienia.ToList()
+
+            string phoneNumber = order.Klient.Nr_tel;
+            string orderValue = order.kwotaZamowienia.ToString();
+            string message = "Witaj! Niestety, ale Twoje zamówienie w sklepie e-Warzywko na kwotę w wysokości " + orderValue + " zł zostało usunięte. Powod: " + reason;
+
+            GlobalMethods.SendSmsToClientThread(phoneNumber, message);
+
+            context.Zamowienia.Remove(order);
+
+            context.SaveChanges();
+
+            return Json(new { success = true });
         }
 
         protected override void Dispose(bool disposing)

@@ -39,7 +39,7 @@ namespace projekt_gosp.Controllers
 
             if (currentpw == "" || newpw == "")
             {
-                return Json(new { success = "0", error = "All fields are required" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = "0", error = "Wszystkie pola są wymagane!" }, JsonRequestBehavior.AllowGet);
             }
 
             if (WebSecurity.ChangePassword(username, currentpw, newpw))
@@ -48,7 +48,7 @@ namespace projekt_gosp.Controllers
             }
             else
             {
-                return Json(new { success = "0", error = "Given password is wrong" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = "0", error = "Podane hasło jest nieprawidłowe!" }, JsonRequestBehavior.AllowGet);
             }
         }
 
@@ -58,7 +58,7 @@ namespace projekt_gosp.Controllers
         {
             if (newemail == "")
             {
-                return Json(new { success = "0", error = "Email field can not be empty" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = "0", error = "Pole e-mail nie może być puste!" }, JsonRequestBehavior.AllowGet);
             }
 
             var user = (from p in context.Uzytkownicy
