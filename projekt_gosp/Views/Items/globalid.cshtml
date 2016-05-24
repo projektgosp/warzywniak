@@ -12,5 +12,9 @@
 
 <center><div><h2>@Model.Nazwa</h2></div></center>
 <a class="product-image-link" href="@Model.fullSizePath" data-lightbox="product-set"><img class="product-image thumbFix" src="@Model.thumbPath" alt="@Model.Nazwa" style="max-width: 300px;max-height:300px" /></a>
-
+<div>
+    <h4>Szczegóły</h4>
+    <h6>@Model.Opis</h6>
+    <b>@Model.Cena zł/@Model.RodzajCeny.opis</b>
+</div>
 

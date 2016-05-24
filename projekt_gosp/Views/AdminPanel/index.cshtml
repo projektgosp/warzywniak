@@ -14,7 +14,7 @@
 </div>
 
 <div class="row">
-    <span class="lead">Products:</span>
+    <span class="lead">Produkty:</span>
     <hr>
 </div>
 
@@ -37,10 +37,10 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 shop-item-cell"><span><a href="/items/globalid/@item.ID_produktu">@item.Nazwa</a></span></div>
-                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Price: @item.Cena zł</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">Cena: @item.Cena zł/@item.RodzajCeny.opis</div>
                 <div class="col-lg-3 col-md-3 col-sm-3 shop-item-cell btn-group-vertical" role="group">
-                    <button class="btn btn-success" onclick="editItem(@item.ID_produktu)" style="width:100%"><span class="glyphicon glyphicon-edit">Edit</span></button>
-                    <button class="btn btn-danger" onclick="removeItem(@item.ID_produktu)" style="width:100%"><span class="glyphicon glyphicon-remove">Remove</span></button>
+                    <button class="btn btn-success" onclick="editItem(@item.ID_produktu)" style="width:100%"><span class="glyphicon glyphicon-edit">Edytuj</span></button>
+                    <button class="btn btn-danger" onclick="removeItem(@item.ID_produktu)" style="width:100%"><span class="glyphicon glyphicon-remove">Usuń</span></button>
                 </div>
 
             </div>
