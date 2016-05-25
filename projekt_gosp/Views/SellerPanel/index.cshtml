@@ -3,7 +3,7 @@
 <div class="row">
     <div class="row btn-group">
         <button class="btn btn-success" onclick="addItem()">Dodaj nowy produkt do sklepu</button>
-        <button class="btn btn-success" onclick="checkExpire()">Sprawdź date ważności </button>
+        <button class="btn btn-success" onclick="checkExpire()">Sprawdź datę ważności </button>
         <button class="btn btn-success" onclick="settings()">Ustawienia sklepu</button>
         <button class="btn btn-success" onclick="orders()">Zamówienia</button>
     </div>
@@ -35,8 +35,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 shop-item-cell"><span><a href="/items/id/@item.ID_Towaru">@item.Produkt.Nazwa</a></span></div>
                 <div class="col-lg-2 col-md-2 col-sm-2 shop-item-cell">
                     <div>Cena: @item.Cena zł za @item.Produkt.RodzajCeny.opis</div>
-                    <div>Data waznosci: @item.Data_waznosci</div>
-                    <div>Ilosc: @item.Ilosc @item.Produkt.RodzajCeny.opis</div>
+                    <div>Data ważności: @item.Data_waznosci</div>
+                    <div>Ilość: @item.Ilosc @item.Produkt.RodzajCeny.opis</div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 shop-item-cell btn-group-vertical" role="group">
                     <button class="btn btn-success" onclick="editItem(@item.ID_Towaru)" style="width:100%"><span class="glyphicon glyphicon-edit">Edytuj</span></button>

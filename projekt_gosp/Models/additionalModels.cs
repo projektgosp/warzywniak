@@ -51,7 +51,7 @@ namespace projekt_gosp.Models
             [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$", ErrorMessage = "Zły nr telefonu")]
             public string phonenumber { get; set; }
 
-            [Required(ErrorMessage="Pole imie jest wymagane")]
+            [Required(ErrorMessage="Pole imię jest wymagane")]
             public string name { get; set; }
 
             [Required(ErrorMessage = "Pole nazwisko jest wymagane")]
